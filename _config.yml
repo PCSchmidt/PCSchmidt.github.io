@@ -1,11 +1,11 @@
-title: John Doe # your name (or website title) here
-logo: "/images/logo.png?raw=true" # your photo (or logo) here
+title: Chris Schmidt # your name (or website title) here
+logo: "/images/me3.jpg?raw=true" # your photo (or logo) here
 description: > # your text below (remove <br> elements if you don't need line breaks)
-  First description 
+  Recent recipient of master's degree in applied mathematics. Interested in and growing skills in data analytics, engineering, and science.  
   <br><br>
-  Second description 
+  Husband, father, brother, son. omnem gloriam Dei 
   <br><br>
-  <a href="https://www.linkedin.com/in/example/">View My LinkedIn Profile</a> 
+  <a href="https://https://www.linkedin.com/in/chris-schmidt-94526a10//in/example/">View My LinkedIn Profile</a> 
   
 theme: jekyll-theme-minimal
 google_analytics: UA-000000-0 # your Google Analytics tracking ID here

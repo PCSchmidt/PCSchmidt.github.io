@@ -1,4 +1,3 @@
-title: Chris Schmidt
 logo: "/images/MyImage.jpg?raw=true"
 description: > 
   Applied mathematician with a master's degree in Applied Mathematics.
@@ -14,6 +13,14 @@ google_analytics: 199901983 # your Google Analytics tracking ID here
 github:
   is_project_page: false
 
-# Remove the "Hosted on GitHub Pages" text
-footer:
-  hide: true
+# Custom CSS to override theme styles
+sass:
+  style: compressed
+
+# Custom CSS
+custom_css: |
+  .wrapper { max-width: 960px; }
+  body { color: #333; }
+  a { color: #333; }
+  a:hover { color: #000; }
+  h1, h2, h3, h4, h5, h6 { color: #333; }

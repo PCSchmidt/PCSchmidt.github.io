@@ -1,51 +1,49 @@
-## Developer Portfolio Landing Page Template
+# Chris Schmidt's Portfolio
 
-### Introduction
+## Welcome to my GitHub Pages Portfolio
 
-Use this template if you need a quick developer / data science portfolio! Based on a Minimal Jekyll theme for GitHub Pages.
+This repository contains the source code for my personal portfolio website, hosted on GitHub Pages. The site showcases my projects, skills, and professional background in applied mathematics, data analytics, engineering, and scientific computing.
 
-<img src="images/demo.gif?raw=true"/>
+### Site Contents
 
-### Installation
+- **Home Page**: An overview of my professional profile and featured projects.
+- **GitHub Projects**: Highlights of my key projects hosted on GitHub, including:
+  - Advanced Stock Prediction App
+  - Markov Chain Simulator
+  - Lotka-Volterra Simulator
+- **RPubs Projects**: Links to my data analysis and visualization projects on RPubs.
+- **Skills**: A list of my technical skills and areas of expertise.
+- **Education**: Information about my educational background.
+- **Contact**: How to get in touch with me for professional inquiries.
 
-See full step by step tutorial [on Medium](https://medium.com/@evanca/set-up-your-portfolio-website-in-less-than-10-minutes-with-github-pages-d0efa8ff56fd).
-___
+### Technologies Used
 
-You can use the editor on GitHub to maintain and preview the content for your website in Markdown files.
+- GitHub Pages
+- Jekyll (Minimal theme)
+- HTML/CSS
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Viewing the Site
 
-### Markdown
+You can view the live site at: https://pcschmidt.github.io/
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Local Development
 
-```markdown
-Syntax highlighted code block
+To run this site locally:
 
-# Header 1
-## Header 2
-### Header 3
+1. Clone this repository
+2. Install Jekyll and Ruby dependencies
+3. Run `bundle exec jekyll serve` in the repository directory
+4. Open `http://localhost:4000` in your browser
 
-- Bulleted
-- List
+### Updating the Site
 
-1. Numbered
-2. List
+To update the site content, modify the relevant files:
 
-**Bold** and _Italic_ and `Code` text
+- `index.html`: Main content of the home page
+- `_config.yml`: Site configuration and personal details
 
-[Link](url) and ![Image](src)
-```
+After pushing changes to the `main` branch, GitHub Pages will automatically rebuild and deploy the site.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+---
 
-### Roadmap
-
-See the [open issues](https://github.com/evanca/machine-learning_optimizing-app-offers-with-starbucks/issues) for a list of proposed features (and known issues).
-___
-
-### References
-
-[1] Jekyll theme "Minimal" for GitHub Pages: https://github.com/pages-themes/minimal (CC0 1.0 Universal License)
-<br>[2] Dummy photo via: https://pixabay.com/photos/man-male-adult-person-caucasian-1209494/ (Pixabay License)
-<br>[3] Dummy thumbnail image created by rawpixel.com: https://www.freepik.com/free-vector/set-elements-infographic_2807573.htm (Standard Freepik License)
+Thank you for visiting my portfolio repository!

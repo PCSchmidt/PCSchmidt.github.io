@@ -2,34 +2,40 @@
 
 ---
 
-### Category Name 1 
+### GitHub Projects
 
-[Project 1 Title](/sample_page)
+[Advanced Stock Prediction App](https://pcschmidt.github.io/advanced-stock-prediction-app/)
 <img src="images/dummy_thumbnail.jpg?raw=true"/>
 
 ---
-[Project 2 Title](/pdf/sample_presentation.pdf)
+[Markov Chain Simulator](https://pcschmidt.github.io/markov-chain-simulator/)
 <img src="images/dummy_thumbnail.jpg?raw=true"/>
 
 ---
-[Project 3 Title](http://example.com/)
+[Lotka-Volterra Simulator](https://pcschmidt.github.io/lotka-volterra-simulator/)
 <img src="images/dummy_thumbnail.jpg?raw=true"/>
 
 ---
 
-### Category Name 2
+### RPubs Projects
 
-- [Project 1 Title](http://example.com/)
-- [Project 2 Title](http://example.com/)
-- [Project 3 Title](http://example.com/)
-- [Project 4 Title](http://example.com/)
-- [Project 5 Title](http://example.com/)
+- [Project 1](https://rpubs.com/ChrisSchmidt/project1)
+- [Project 2](https://rpubs.com/ChrisSchmidt/project2)
+- [Project 3](https://rpubs.com/ChrisSchmidt/project3)
+- [View all RPubs projects](https://rpubs.com/ChrisSchmidt)
+
+---
+
+### Other Projects
+
+[Sample Project](/sample_page)
+<img src="images/dummy_thumbnail.jpg?raw=true"/>
+
+---
+[Sample Presentation](/pdf/sample_presentation.pdf)
+<img src="images/dummy_thumbnail.jpg?raw=true"/>
 
 ---
 
-
-
-
----
 <p style="font-size:11px">Page template forked from <a href="https://github.com/evanca/quick-portfolio">evanca</a></p>
-<!-- Remove above link if you don't want to attibute -->
+<!-- Remove above link if you don't want to attribute -->

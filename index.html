@@ -3,13 +3,17 @@ layout: default
 ---
 
 <style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
   .banner {
     background-color: black;
     color: white;
-    padding: 30px;
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 30px;
+    padding: 20px;
+    font-size: 24px;
     width: 100%;
     position: fixed;
     top: 0;
@@ -17,40 +21,39 @@ layout: default
     z-index: 1000;
     display: flex;
     justify-content: space-between;
-    align-items: center;
   }
   .banner-left, .banner-right {
-    width: 50%;
-  }
-  .banner-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 48%;
+    text-align: center;
   }
   .content {
-    margin-top: 180px; /* Adjust based on banner height */
     display: flex;
     justify-content: space-between;
+    margin-top: 80px; /* Adjusted based on banner height */
+    padding: 20px;
   }
   .left-column, .right-column {
     width: 48%;
+  }
+  .headshot {
+    max-width: 275px; /* Adjusted size */
+    display: block;
+    margin: 20px auto;
   }
   .project-image {
     max-width: 100%;
     height: auto;
     margin-bottom: 20px;
   }
-  .headshot {
-    max-width: 150px;
-    border-radius: 50%;
-    margin-top: 10px;
-  }
   a {
-    color: black;
+    color: #0066cc;
     text-decoration: none;
   }
   a:hover {
     text-decoration: underline;
+  }
+  h3 {
+    margin-top: 30px;
   }
 </style>
 
@@ -61,10 +64,9 @@ layout: default
 
 <div class="content">
   <div class="left-column">
+    <img src="images/MyImage.jpg" alt="Chris Schmidt" class="headshot">
     <h3>About Me</h3>
-    <br>Welcome to my portfolio! I'm Chris Schmidt, a passionate professional with expertise in applied mathematics, data analytics, and scientific computing. My diverse background allows me to approach problems from multiple angles, combining analytical skills with a deep understanding of various disciplines.
-      <br>Omnem gloriam Dei.
-    </p>
+    <p>Welcome to my portfolio! I'm Chris Schmidt, a passionate professional with expertise in applied mathematics, data analytics, and scientific computing. My diverse background allows me to approach problems from multiple angles, combining analytical skills with a deep understanding of various disciplines.</p>
 
     <h3>Skills</h3>
     <ul>
@@ -86,7 +88,6 @@ layout: default
   </div>
 
   <div class="right-column">
-    <h1>THIS SITE IS UNDER CONSTRUCTION</h1>
     <h3>GitHub Projects</h3>
 
     <p><a href="https://pcschmidt.github.io/advanced-stock-prediction-app/">Advanced Stock Prediction App</a></p>

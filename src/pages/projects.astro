@@ -4,46 +4,52 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const projects = [
   {
-    title: 'LLM-Powered RAG Pipeline with Evaluation Framework',
+    title: 'Generative AI Journal Summarizer (RAG)',
     description:
-      'Production-grade retrieval-augmented generation system built for document Q&A. Features dense retrieval with FAISS, cross-encoder reranking, and a comprehensive evaluation harness measuring faithfulness, answer relevance, and groundedness using RAGAS.',
+      'RAG-powered summarization application for journal entries and longer documents. Focused on building grounded summaries with retrieval context instead of purely generative responses.',
     problem:
-      'Enterprise knowledge bases grow to millions of documents; point-in-time LLM fine-tuning cannot keep pace with updates, and hallucinated answers erode user trust.',
+      'Naive summarization often drops important context or invents details. For real usage, summaries need to stay anchored to source material while still being concise and readable.',
     approach:
-      'Designed a modular pipeline: document ingestion → chunking with overlap-aware splitting → dense embedding (text-embedding-3-small) → FAISS index → top-k retrieval → cross-encoder reranking → GPT-4o generation with explicit citation prompts. Built offline and online eval layers to continuously track answer quality.',
+      'Built a retrieval-first pipeline that chunks source content, indexes it for semantic lookup, then composes prompts with retrieved context before generation. Structured the implementation so retrieval, prompting, and summarization logic can evolve independently as quality work continues.',
     impact:
-      'Achieved ~40% reduction in hallucination rate vs. naive RAG baseline. p95 end-to-end latency under 800ms at batch size 1.',
-    tags: ['LangChain', 'OpenAI', 'FAISS', 'Python', 'FastAPI', 'RAGAS'],
-    status: 'placeholder' as const,
-    metrics: ['~40% ↓ hallucination rate', 'p95 < 800ms', 'RAGAS eval suite'],
+      'Delivered a practical working baseline for grounded document summarization with a clear path for adding stronger evaluation, source attribution, and production hardening.',
+    tags: ['Python', 'RAG', 'LangChain', 'NLP'],
+    status: 'featured' as const,
+    metrics: ['Retrieval-grounded summaries', 'Modular RAG pipeline', 'Extensible evaluation path'],
+    github: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer',
+    demo: 'https://generative-ai-journal-summarizer.vercel.app',
+    evidence: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/tree/main/evidence/reliability-2026-04-12-final-confirmed',
+    guide: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/blob/main/DEMO_GUIDE.md',
   },
   {
-    title: 'MLOps Training Pipeline — Registry to Production',
+    title: 'LearnOnTheGo — Prompt/PDF to Audio Lectures',
     description:
-      'Full ML lifecycle automation: experiment tracking, model registry with approval gates, CI-gated evaluation, containerized serving, and statistical drift monitoring. Demonstrates engineering discipline applied to ML.',
+      'Full-stack AI application that generates audio lecture content from user prompts or uploaded PDFs, blending product UX with generative model workflows.',
     problem:
-      'Ad-hoc notebooks and manual deployment lead to reproducibility failures, slow iteration, and silent model degradation in production.',
+      'Learners often have useful content but limited time to read. They need a way to transform raw notes and documents into listenable study material.',
     approach:
-      'Implemented an MLflow-backed experiment store, a Makefile-driven training pipeline with reproducible seeds and dependency hashing, automated evaluation gates in GitHub Actions (fail the CI if F1 drops > 2%), Docker-packaged model server, and a Prometheus + Grafana stack for distribution shift alerting.',
+      'Implemented an app flow that accepts prompt/file inputs, processes source text, and routes output into AI-assisted generation suitable for audio-first consumption. Prioritized modular boundaries between ingestion, generation, and output formatting so features can be iterated quickly.',
     impact:
-      'Reduced model deployment time from hours to minutes. Automated drift detection enables same-day retraining triggers.',
-    tags: ['MLflow', 'Docker', 'GitHub Actions', 'Prometheus', 'Grafana', 'Scikit-learn'],
-    status: 'placeholder' as const,
-    metrics: ['Deploy time: hours → minutes', 'CI-gated eval gates', 'Automated drift alerts'],
+      'Demonstrates end-to-end AI product delivery beyond notebook experimentation, including real user inputs and a clear path to deployment-ready application behavior.',
+    tags: ['Full Stack', 'Generative AI', 'Audio', 'Document Processing'],
+    status: 'featured' as const,
+    metrics: ['Prompt + PDF ingestion', 'AI-generated lecture content', 'App-level architecture'],
+    github: 'https://github.com/PCSchmidt/learnonthego',
   },
   {
-    title: 'Neural Time Series Anomaly Detector',
+    title: 'SkillSwap MVP (TypeScript Full-Stack App)',
     description:
-      'Transformer-based anomaly detection model for multivariate time series, with precision-recall operating point tuning to minimize alert fatigue on imbalanced industrial sensor streams.',
+      'TypeScript MVP full-stack product focused on practical feature delivery, user interaction flows, and iterative product engineering.',
     problem:
-      'Sensor data from industrial systems has an extreme class imbalance (~1:50 normal-to-anomaly); naive classifiers achieve high accuracy by predicting no anomalies, creating silent risk.',
+      'Early-stage product ideas need rapid implementation cycles while still keeping a maintainable codebase and coherent architecture.',
     approach:
-      'Used a patch-based Transformer encoder with positional embeddings over rolling windows. Trained with focal loss and applied threshold calibration using Precision@k on held-out data. Compared against LSTM and isolation forest baselines with rigorous train/val/test temporal splits to prevent leakage.',
+      'Built an MVP in TypeScript with reusable components and incremental feature slices, optimizing for speed of iteration while preserving clean extension points for future production hardening.',
     impact:
-      'Demonstrated statistically significant improvement in Precision@k over baselines, with configurable alert thresholds enabling tradeoff tuning for different risk tolerances.',
-    tags: ['PyTorch', 'Transformers', 'NumPy', 'Pandas', 'Weights & Biases'],
-    status: 'placeholder' as const,
-    metrics: ['Precision@k improvement', 'Handles 1:50 imbalance', 'Temporal train/test split'],
+      'Provides direct evidence of full-stack delivery capability alongside AI work, highlighting ownership across application layers and roadmap-driven development.',
+    tags: ['TypeScript', 'Full Stack', 'MVP', 'Product Engineering'],
+    status: 'in-progress' as const,
+    metrics: ['Live MVP repository', 'Feature-iteration workflow', 'Scaffold for expansion'],
+    github: 'https://github.com/PCSchmidt/skillswapappmvp',
   },
   {
     title: 'Production Inference Optimization Study',
@@ -56,7 +62,7 @@ const projects = [
     impact:
       'Achieved 3× throughput improvement and ~60% cost reduction on CPU vs. naive PyTorch baseline, with acceptable accuracy degradation (< 0.5% on retrieval benchmarks).',
     tags: ['ONNX', 'PyTorch', 'Triton', 'Sentence Transformers', 'Benchmarking'],
-    status: 'placeholder' as const,
+    status: 'in-progress' as const,
     metrics: ['3× throughput improvement', '~60% cost reduction (CPU)', '< 0.5% accuracy loss'],
   },
   {
@@ -83,9 +89,8 @@ const projects = [
       <h1 class="section-title">Projects</h1>
       <p class="section-intro">
         Flagship ML/AI projects structured as case studies. Each entry describes the engineering
-        problem, my approach, and measurable outcomes. Projects marked <strong>"Coming Soon"</strong> are in
-        active development or pending public release — the architecture and approach descriptions
-        reflect real design decisions, not speculation.
+        problem, my approach, and measurable outcomes. Projects marked <strong>"In Progress"</strong>
+        are actively being hardened with deeper evaluation, deployment polish, and expanded writeups.
       </p>
 
       <div class="projects-list">
@@ -98,6 +103,10 @@ const projects = [
                 tags={project.tags}
                 status={project.status}
                 metrics={project.metrics}
+                github={project.github}
+                demo={project.demo}
+                evidence={project.evidence}
+                guide={project.guide}
               >
                 <div class="case-study">
                   <div class="case-row">

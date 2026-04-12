@@ -81,10 +81,7 @@ The resume page links to `/resume/ChrisSchmidt_Resume.pdf`.
 
 To add it:
 
-1. Copy your resume PDF from:
-   `C:\Users\pchri\Documents\ChrisStuff\ChrisSchmidt_Resume.pdf`
-
-2. Place it at:
+1. Copy your resume PDF to:
    `public/resume/ChrisSchmidt_Resume.pdf`
 
 3. Commit and push:

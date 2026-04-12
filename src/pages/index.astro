@@ -1,0 +1,294 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const featuredProjects = [
+  {
+    title: 'LLM-Powered RAG Pipeline with Evaluation Framework',
+    description:
+      'End-to-end retrieval-augmented generation system with chunking strategies, reranking, and an offline/online evaluation harness measuring faithfulness, groundedness, and latency.',
+    tags: ['LangChain', 'OpenAI', 'FAISS', 'Python', 'FastAPI'],
+    status: 'placeholder' as const,
+    metrics: ['~40% reduction in hallucination rate', 'p95 latency < 800ms', 'RAGAS eval suite'],
+  },
+  {
+    title: 'MLOps Training Pipeline — Registry to Production',
+    description:
+      'Automated ML pipeline from experiment tracking through model registry, CI-gated evaluation, containerized deployment, and drift monitoring. Demonstrates production-ready MLOps practices.',
+    tags: ['MLflow', 'Docker', 'GitHub Actions', 'Prometheus', 'Scikit-learn'],
+    status: 'placeholder' as const,
+    metrics: ['Automated retraining triggers', 'A/B rollout support', 'Drift detection alerts'],
+  },
+  {
+    title: 'Neural Time Series Anomaly Detector',
+    description:
+      'Transformer-based anomaly detection model for multivariate time series with precision-recall tuning to minimize alert fatigue. Trained on imbalanced industrial sensor data.',
+    tags: ['PyTorch', 'Transformers', 'NumPy', 'Pandas', 'Weights & Biases'],
+    status: 'placeholder' as const,
+    metrics: ['Precision@k optimization', 'Handles class imbalance (1:50)', 'Rolling-window inference'],
+  },
+];
+---
+
+<Layout title="Chris Schmidt — ML Engineer & JHU AI Engineering MSE">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <p class="hero-eyebrow">Hi, I'm</p>
+          <h1 class="hero-name">Chris Schmidt</h1>
+          <p class="hero-tagline">Machine Learning Engineer | JHU AI Engineering (MSE)</p>
+          <p class="hero-bio">
+            I build machine learning systems that work in production — from data pipelines and model
+            training to deployment, monitoring, and continuous improvement. I'm currently pursuing a
+            Master of Science in Engineering in AI at Johns Hopkins University, deepening my
+            expertise in deep learning, NLP, and applied ML research.
+          </p>
+          <p class="hero-bio">
+            My work sits at the intersection of rigorous engineering and applied research: designing
+            scalable inference services, building evaluation frameworks, and shipping models that
+            create measurable impact.
+          </p>
+          <div class="hero-actions">
+            <a href="/projects" class="btn btn-primary">View Projects</a>
+            <a href="/resume" class="btn btn-outline">Resume</a>
+          </div>
+          <div class="hero-social">
+            <a
+              href="https://github.com/PCSchmidt"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/chris-schmidt-94526a10/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+            >
+              LinkedIn
+            </a>
+            <a href="mailto:placeholder@example.com" class="social-link">Email</a>
+          </div>
+        </div>
+        <div class="hero-image-wrap">
+          <img
+            src="/images/MyImage.jpg"
+            alt="Chris Schmidt"
+            class="hero-image"
+            width="260"
+            height="260"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About strip -->
+  <section class="about-strip">
+    <div class="container">
+      <div class="about-chips">
+        <div class="about-chip">
+          <span class="chip-icon">🎓</span>
+          <span>MSE AI Engineering — Johns Hopkins University</span>
+        </div>
+        <div class="about-chip">
+          <span class="chip-icon">⚙️</span>
+          <span>MLOps &amp; Production ML Systems</span>
+        </div>
+        <div class="about-chip">
+          <span class="chip-icon">🧠</span>
+          <span>NLP, LLMs &amp; Deep Learning</span>
+        </div>
+        <div class="about-chip">
+          <span class="chip-icon">📊</span>
+          <span>Applied ML Research</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Selected Projects -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Selected Projects</h2>
+      <p class="section-intro">
+        A snapshot of flagship ML/AI projects. Each entry is structured as a case study with
+        problem context, approach, and measurable outcomes.
+        <br />
+        <em style="font-size:0.85rem; color:#9ca3af;">
+          ✦ Projects marked "Coming Soon" are in active development or pending public release.
+        </em>
+      </p>
+      <div class="projects-grid">
+        {
+          featuredProjects.map((project) => (
+            <ProjectCard
+              title={project.title}
+              description={project.description}
+              tags={project.tags}
+              status={project.status}
+              metrics={project.metrics}
+            />
+          ))
+        }
+      </div>
+      <div class="projects-cta">
+        <a href="/projects" class="btn btn-outline">View All Projects →</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .hero {
+    padding: 5rem 0 3rem;
+    background: linear-gradient(to bottom, #ffffff, #f9fafb);
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .hero-inner {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-text {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e40af;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.35rem;
+  }
+
+  .hero-name {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-bio {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin-bottom: 0.75rem;
+    max-width: 520px;
+    line-height: 1.75;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-social {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+    transition: color 0.15s;
+  }
+
+  .social-link:hover {
+    color: #1e40af;
+  }
+
+  .hero-image-wrap {
+    flex-shrink: 0;
+  }
+
+  .hero-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    border: 4px solid #e5e7eb;
+    box-shadow: 0 4px 24px rgb(0 0 0 / 0.12);
+  }
+
+  /* About strip */
+  .about-strip {
+    background: #eff6ff;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid #bfdbfe;
+  }
+
+  .about-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .about-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #1e3a8a;
+    background: white;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid #bfdbfe;
+    white-space: nowrap;
+  }
+
+  .chip-icon {
+    font-size: 0.95rem;
+  }
+
+  /* Projects grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .projects-cta {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding: 3rem 0 2rem;
+    }
+    .hero-image {
+      width: 150px;
+      height: 150px;
+    }
+    .hero-inner {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+  }
+</style>

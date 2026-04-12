@@ -1,51 +1,131 @@
-## Developer Portfolio Landing Page Template
+# Chris Schmidt — Portfolio
 
-### Introduction
+**Machine Learning Engineer | JHU AI Engineering (MSE)**
 
-Use this template if you need a quick developer / data science portfolio! Based on a Minimal Jekyll theme for GitHub Pages.
+Personal portfolio site built with [Astro](https://astro.build/). Hosted on GitHub Pages at [pcschmidt.github.io](https://pcschmidt.github.io).
 
-<img src="images/demo.gif?raw=true"/>
+---
 
-### Installation
+## Local Development
 
-See full step by step tutorial [on Medium](https://medium.com/@evanca/set-up-your-portfolio-website-in-less-than-10-minutes-with-github-pages-d0efa8ff56fd).
-___
+### Prerequisites
 
-You can use the editor on GitHub to maintain and preview the content for your website in Markdown files.
+- [Node.js](https://nodejs.org/) v18 or later
+- npm (included with Node.js)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Install dependencies
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```bash
+npm install
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Start dev server
 
-### Roadmap
+```bash
+npm run dev
+```
 
-See the [open issues](https://github.com/evanca/machine-learning_optimizing-app-offers-with-starbucks/issues) for a list of proposed features (and known issues).
-___
+Open [http://localhost:4321](http://localhost:4321) in your browser. The dev server supports hot module replacement — changes are reflected immediately.
 
-### References
+### Build for production
 
-[1] Jekyll theme "Minimal" for GitHub Pages: https://github.com/pages-themes/minimal (CC0 1.0 Universal License)
-<br>[2] Dummy photo via: https://pixabay.com/photos/man-male-adult-person-caucasian-1209494/ (Pixabay License)
-<br>[3] Dummy thumbnail image created by rawpixel.com: https://www.freepik.com/free-vector/set-elements-infographic_2807573.htm (Standard Freepik License)
+```bash
+npm run build
+```
+
+Built files are output to `dist/`.
+
+### Preview production build locally
+
+```bash
+npm run preview
+```
+
+---
+
+## Project Structure
+
+```
+/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml        # GitHub Actions: build & deploy to Pages
+├── public/
+│   ├── images/
+│   │   └── MyImage.jpg       # Headshot
+│   └── resume/
+│       └── ChrisSchmidt_Resume.pdf
+├── src/
+│   ├── components/
+│   │   └── ProjectCard.astro
+│   ├── layouts/
+│   │   └── Layout.astro      # Shared page layout + nav/footer
+│   ├── pages/
+│   │   ├── index.astro       # Home
+│   │   ├── projects.astro    # Projects (case studies)
+│   │   └── resume.astro      # Resume + PDF embed
+│   └── styles/
+│       └── global.css
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## Deployment
+
+This site deploys automatically to GitHub Pages via **GitHub Actions** on every push to `master`.
+
+The workflow (`.github/workflows/deploy.yml`):
+1. Installs dependencies
+2. Builds the Astro site (`npm run build`)
+3. Deploys the `dist/` output via the GitHub Pages deployment action
+
+### First-time setup (GitHub Pages configuration)
+
+1. Go to **Settings → Pages** in your GitHub repository.
+2. Under **Source**, select **GitHub Actions**.
+3. Push to `master` — the site will build and deploy automatically.
+
+---
+
+## Customization
+
+### Updating projects
+
+Edit `src/pages/projects.astro` and the `projects` array in `src/pages/index.astro`. Each project entry contains:
+
+```ts
+{
+  title: string;
+  description: string;
+  problem: string;
+  approach: string;
+  impact: string;
+  tags: string[];
+  status: 'featured' | 'in-progress' | 'placeholder';
+  metrics: string[];
+  github?: string;   // optional GitHub link
+  demo?: string;     // optional demo link
+  paper?: string;    // optional paper/report link
+}
+```
+
+### Updating social links
+
+In `src/pages/index.astro`, find the `.hero-social` section and update the `href` values for GitHub, LinkedIn, and email.
+
+### Updating the resume
+
+Replace `public/resume/ChrisSchmidt_Resume.pdf` with an updated version. The path is referenced automatically by the Resume page.
+
+### Updating the headshot
+
+Replace `public/images/MyImage.jpg` with an updated photo.
+
+---
+
+## Legacy site
+
+The original Jekyll-based portfolio is preserved on the `legacy` branch for reference.

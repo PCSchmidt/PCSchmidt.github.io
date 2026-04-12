@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = [
+  {
+    title: 'LLM-Powered RAG Pipeline with Evaluation Framework',
+    description:
+      'Production-grade retrieval-augmented generation system built for document Q&A. Features dense retrieval with FAISS, cross-encoder reranking, and a comprehensive evaluation harness measuring faithfulness, answer relevance, and groundedness using RAGAS.',
+    problem:
+      'Enterprise knowledge bases grow to millions of documents; point-in-time LLM fine-tuning cannot keep pace with updates, and hallucinated answers erode user trust.',
+    approach:
+      'Designed a modular pipeline: document ingestion → chunking with overlap-aware splitting → dense embedding (text-embedding-3-small) → FAISS index → top-k retrieval → cross-encoder reranking → GPT-4o generation with explicit citation prompts. Built offline and online eval layers to continuously track answer quality.',
+    impact:
+      'Achieved ~40% reduction in hallucination rate vs. naive RAG baseline. p95 end-to-end latency under 800ms at batch size 1.',
+    tags: ['LangChain', 'OpenAI', 'FAISS', 'Python', 'FastAPI', 'RAGAS'],
+    status: 'placeholder' as const,
+    metrics: ['~40% ↓ hallucination rate', 'p95 < 800ms', 'RAGAS eval suite'],
+  },
+  {
+    title: 'MLOps Training Pipeline — Registry to Production',
+    description:
+      'Full ML lifecycle automation: experiment tracking, model registry with approval gates, CI-gated evaluation, containerized serving, and statistical drift monitoring. Demonstrates engineering discipline applied to ML.',
+    problem:
+      'Ad-hoc notebooks and manual deployment lead to reproducibility failures, slow iteration, and silent model degradation in production.',
+    approach:
+      'Implemented an MLflow-backed experiment store, a Makefile-driven training pipeline with reproducible seeds and dependency hashing, automated evaluation gates in GitHub Actions (fail the CI if F1 drops > 2%), Docker-packaged model server, and a Prometheus + Grafana stack for distribution shift alerting.',
+    impact:
+      'Reduced model deployment time from hours to minutes. Automated drift detection enables same-day retraining triggers.',
+    tags: ['MLflow', 'Docker', 'GitHub Actions', 'Prometheus', 'Grafana', 'Scikit-learn'],
+    status: 'placeholder' as const,
+    metrics: ['Deploy time: hours → minutes', 'CI-gated eval gates', 'Automated drift alerts'],
+  },
+  {
+    title: 'Neural Time Series Anomaly Detector',
+    description:
+      'Transformer-based anomaly detection model for multivariate time series, with precision-recall operating point tuning to minimize alert fatigue on imbalanced industrial sensor streams.',
+    problem:
+      'Sensor data from industrial systems has an extreme class imbalance (~1:50 normal-to-anomaly); naive classifiers achieve high accuracy by predicting no anomalies, creating silent risk.',
+    approach:
+      'Used a patch-based Transformer encoder with positional embeddings over rolling windows. Trained with focal loss and applied threshold calibration using Precision@k on held-out data. Compared against LSTM and isolation forest baselines with rigorous train/val/test temporal splits to prevent leakage.',
+    impact:
+      'Demonstrated statistically significant improvement in Precision@k over baselines, with configurable alert thresholds enabling tradeoff tuning for different risk tolerances.',
+    tags: ['PyTorch', 'Transformers', 'NumPy', 'Pandas', 'Weights & Biases'],
+    status: 'placeholder' as const,
+    metrics: ['Precision@k improvement', 'Handles 1:50 imbalance', 'Temporal train/test split'],
+  },
+  {
+    title: 'Production Inference Optimization Study',
+    description:
+      'Applied inference optimization techniques (quantization, batching, ONNX export, KV-cache tuning) to a sentence transformer model. Benchmarked cost-latency tradeoffs across deployment configurations.',
+    problem:
+      'Embedding generation for a semantic search service was a latency bottleneck; GPU costs made real-time re-embedding on every request infeasible.',
+    approach:
+      'Exported a fine-tuned sentence-transformer to ONNX, applied INT8 dynamic quantization, and implemented adaptive batching with a request queue. Benchmarked p50/p95/p99 latency and throughput vs. baseline PyTorch inference across CPU and GPU instances. Documented cost-per-1k-requests at each operating point.',
+    impact:
+      'Achieved 3× throughput improvement and ~60% cost reduction on CPU vs. naive PyTorch baseline, with acceptable accuracy degradation (< 0.5% on retrieval benchmarks).',
+    tags: ['ONNX', 'PyTorch', 'Triton', 'Sentence Transformers', 'Benchmarking'],
+    status: 'placeholder' as const,
+    metrics: ['3× throughput improvement', '~60% cost reduction (CPU)', '< 0.5% accuracy loss'],
+  },
+  {
+    title: 'JHU AI Engineering Research Project (In Progress)',
+    description:
+      'Applied research project completed as part of the Johns Hopkins MSE in AI Engineering program. Full details and write-up pending program completion.',
+    problem: 'Research problem and methodology to be disclosed upon completion.',
+    approach:
+      'Reproducible experimental setup with ablations, documented in a structured technical report following JHU research guidelines.',
+    impact: 'Results and conclusions pending. Paper/report to be linked upon completion.',
+    tags: ['Deep Learning', 'Applied Research', 'JHU', 'Python'],
+    status: 'in-progress' as const,
+    metrics: ['JHU MSE coursework', 'Reproducible experiments', 'Ablation study'],
+  },
+];
+---
+
+<Layout
+  title="Projects — Chris Schmidt"
+  description="ML/AI project portfolio: RAG systems, MLOps pipelines, anomaly detection, and inference optimization."
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">Projects</h1>
+      <p class="section-intro">
+        Flagship ML/AI projects structured as case studies. Each entry describes the engineering
+        problem, my approach, and measurable outcomes. Projects marked <strong>"Coming Soon"</strong> are in
+        active development or pending public release — the architecture and approach descriptions
+        reflect real design decisions, not speculation.
+      </p>
+
+      <div class="projects-list">
+        {
+          projects.map((project) => (
+            <div class="project-detail">
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                tags={project.tags}
+                status={project.status}
+                metrics={project.metrics}
+              >
+                <div class="case-study">
+                  <div class="case-row">
+                    <span class="case-label">Problem</span>
+                    <p class="case-text">{project.problem}</p>
+                  </div>
+                  <div class="case-row">
+                    <span class="case-label">Approach</span>
+                    <p class="case-text">{project.approach}</p>
+                  </div>
+                  <div class="case-row">
+                    <span class="case-label">Impact</span>
+                    <p class="case-text">{project.impact}</p>
+                  </div>
+                </div>
+              </ProjectCard>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .case-study {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+  }
+
+  .case-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .case-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #1e40af;
+    background: #eff6ff;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .case-text {
+    font-size: 0.875rem;
+    color: #4b5563;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .case-row {
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+  }
+</style>

@@ -1,0 +1,299 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const resumePdfPath = '/resume/ChrisSchmidt_Resume.pdf';
+---
+
+<Layout title="Résumé" description="Chris Schmidt's résumé — Machine Learning Engineer | JHU AI Engineering (MSE)">
+
+  <section class="resume-hero">
+    <div class="container">
+      <h1 class="page-title">Résumé</h1>
+      <div class="divider"></div>
+      <p class="page-subtitle">
+        Download my full résumé or browse highlights below.
+      </p>
+      <div class="resume-actions">
+        <a href={resumePdfPath} download class="btn btn-primary" id="resumeDownload">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PDF
+        </a>
+        <a href={resumePdfPath} target="_blank" rel="noopener" class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          View in Browser
+        </a>
+      </div>
+      <div class="resume-placeholder-notice">
+        <p>
+          <strong>⚠️ PDF not yet uploaded.</strong> To add the PDF, copy
+          <code>ChrisSchmidt_Resume.pdf</code> to <code>public/resume/ChrisSchmidt_Resume.pdf</code>
+          in the repository. The buttons above will then work automatically.
+          See <code>public/resume/README.txt</code> for details.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="resume-highlights">
+    <div class="container">
+      <div class="resume-grid">
+
+        <!-- Experience -->
+        <div class="resume-section">
+          <h2 class="resume-section-title">Experience</h2>
+          <div class="resume-items">
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <span class="resume-item-role">Machine Learning Engineer</span>
+                <span class="resume-item-date"><!-- Add dates --></span>
+              </div>
+              <div class="resume-item-org"><!-- Add company/organization --></div>
+              <p class="resume-item-desc text-muted">
+                <!-- Replace with actual experience. Example: Led development of production RAG pipeline serving N requests/day; reduced p95 latency from Xms to Yms via batched inference and caching. -->
+                <em>Add your experience here. Focus on impact metrics: latency improvements, cost reductions, model accuracy gains, and scale.</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="resume-section">
+          <h2 class="resume-section-title">Education</h2>
+          <div class="resume-items">
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <span class="resume-item-role">MSE — Artificial Intelligence Engineering</span>
+                <span class="resume-item-date">In Progress</span>
+              </div>
+              <div class="resume-item-org">Johns Hopkins University, Whiting School of Engineering</div>
+              <p class="resume-item-desc text-muted">
+                Coursework in machine learning systems, deep learning, probabilistic graphical models, and applied AI engineering.
+              </p>
+            </div>
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <span class="resume-item-role">MSc — Applied Mathematics</span>
+                <span class="resume-item-date"></span>
+              </div>
+              <div class="resume-item-org"><!-- Add institution --></div>
+              <p class="resume-item-desc text-muted">
+                Mathematical foundations: numerical methods, probability theory, stochastic processes, optimization.
+              </p>
+            </div>
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <span class="resume-item-role">BSc — Applied Mathematics, Political Science, History</span>
+                <span class="resume-item-date"></span>
+              </div>
+              <div class="resume-item-org"><!-- Add institution --></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="resume-section">
+          <h2 class="resume-section-title">Technical Skills</h2>
+          <div class="skills-table">
+            <div class="skills-row">
+              <span class="skills-label">Languages</span>
+              <span class="skills-value">Python, C++, Java, SQL, R</span>
+            </div>
+            <div class="skills-row">
+              <span class="skills-label">ML / DL</span>
+              <span class="skills-value">PyTorch, scikit-learn, HuggingFace Transformers, XGBoost, Prophet</span>
+            </div>
+            <div class="skills-row">
+              <span class="skills-label">LLM / RAG</span>
+              <span class="skills-value">LangChain, LlamaIndex, OpenAI API, FAISS, Chroma</span>
+            </div>
+            <div class="skills-row">
+              <span class="skills-label">Data / Viz</span>
+              <span class="skills-value">Pandas, NumPy, Plotly, Matplotlib, Seaborn</span>
+            </div>
+            <div class="skills-row">
+              <span class="skills-label">Infrastructure</span>
+              <span class="skills-value">FastAPI, Streamlit, Docker, GitHub Actions, AWS (S3, EC2)</span>
+            </div>
+            <div class="skills-row">
+              <span class="skills-label">Mathematics</span>
+              <span class="skills-value">Linear Algebra, Probability &amp; Statistics, Optimization, Numerical Methods</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected Projects -->
+        <div class="resume-section">
+          <h2 class="resume-section-title">Selected Projects</h2>
+          <div class="resume-items">
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <a href="/projects" class="resume-item-role">See Projects Page</a>
+              </div>
+              <p class="resume-item-desc text-muted">
+                Flagship projects include an ArXiv RAG research assistant (LangChain + FAISS + GPT-4),
+                a multi-model stock forecasting app (LSTM + Prophet + Optuna), and a YouTube NLP pipeline.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .resume-hero {
+    padding: 4rem 0 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .resume-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .resume-placeholder-notice {
+    background: rgba(210, 153, 34, 0.08);
+    border: 1px solid rgba(210, 153, 34, 0.4);
+    border-radius: var(--radius);
+    padding: 0.85rem 1.25rem;
+    max-width: 680px;
+  }
+
+  .resume-placeholder-notice p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+  }
+
+  .resume-placeholder-notice strong {
+    color: #e3b341;
+  }
+
+  .resume-placeholder-notice code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    background: var(--color-surface-2);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+  }
+
+  /* ===== Highlights ===== */
+  .resume-highlights {
+    padding: 3.5rem 0 5rem;
+  }
+
+  .resume-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    max-width: 780px;
+  }
+
+  .resume-section-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .resume-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .resume-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.2rem;
+  }
+
+  .resume-item-role {
+    font-weight: 600;
+    font-size: 0.975rem;
+    color: var(--color-text);
+  }
+
+  a.resume-item-role {
+    color: var(--color-accent);
+  }
+
+  .resume-item-date {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  .resume-item-org {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .resume-item-desc {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  /* ===== Skills Table ===== */
+  .skills-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .skills-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    font-size: 0.875rem;
+  }
+
+  .skills-label {
+    font-weight: 600;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .skills-value {
+    color: var(--color-text-muted);
+  }
+</style>

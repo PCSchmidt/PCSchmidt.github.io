@@ -1,0 +1,144 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = [
+  {
+    title: 'ArXiv Research Assistant (RAG)',
+    problem: 'Navigating thousands of new ML/AI papers published weekly on ArXiv is time-consuming, and keyword search lacks semantic understanding of nuanced research questions.',
+    approach: 'Designed and built a full RAG pipeline: paper ingestion via ArXiv API → chunking → OpenAI text-embedding-ada-002 → FAISS vector store → GPT-4 generation with citation grounding. Added a conversational Streamlit UI for interactive exploration.',
+    impact: 'End-to-end working prototype demonstrating practical LLM application design: retrieval quality tuning, prompt engineering, context window management, and citation faithfulness. Architecture supports swapping embedding models and vector DBs for cost/latency optimization.',
+    stack: ['Python', 'LangChain', 'FAISS', 'OpenAI GPT-4', 'text-embedding-ada-002', 'FastAPI', 'Streamlit', 'ArXiv API'],
+    repoUrl: 'https://github.com/PCSchmidt/arxiv-research-assistant',
+    demoUrl: 'https://pcschmidt.github.io/arxiv-research-assistant/',
+    featured: true,
+    badge: 'RAG / LLM',
+  },
+  {
+    title: 'Advanced Stock Prediction App',
+    problem: 'Equity price forecasting requires handling non-stationarity, regime shifts, and high noise-to-signal ratios. Naive ML models routinely underperform disciplined baselines.',
+    approach: 'Benchmarked LSTM (PyTorch), Facebook Prophet, and ARIMA against a rolling-window naive baseline. Automated feature engineering (technical indicators, lag features, rolling statistics) and hyperparameter optimization with Optuna. Applied proper walk-forward validation to prevent data leakage.',
+    impact: 'Quantified RMSE and MAE improvements of LSTM and Prophet over baselines on held-out test windows for multiple tickers. Demonstrated the importance of temporal validation discipline in financial time-series ML.',
+    stack: ['Python', 'PyTorch', 'Prophet', 'statsmodels', 'Optuna', 'Pandas', 'NumPy', 'Plotly'],
+    repoUrl: 'https://github.com/PCSchmidt/advanced-stock-prediction-app',
+    demoUrl: 'https://pcschmidt.github.io/advanced-stock-prediction-app/',
+    featured: true,
+    badge: 'Time-Series / Forecasting',
+  },
+  {
+    title: 'YouTube Transcript Analyzer',
+    problem: "Long-form video content is largely unsearchable and its insights are locked in unstructured speech. Analysts and researchers can't efficiently extract key themes or compare content across channels.",
+    approach: 'Built an NLP pipeline: YouTube Data API for transcript extraction → text preprocessing → LLM-powered multi-level summarization → structured key-point extraction, topic clustering, and sentiment scoring. Wrapped in a Streamlit application.',
+    impact: 'Demonstrates practical production NLP design decisions: API integration, streaming vs. batch processing tradeoffs, output structuring, and user-facing UI design — all relevant to content intelligence and enterprise knowledge management.',
+    stack: ['Python', 'YouTube Data API', 'OpenAI', 'LangChain', 'NLP', 'Streamlit', 'Pandas'],
+    repoUrl: 'https://github.com/PCSchmidt/youtube_app',
+    demoUrl: 'https://pcschmidt.github.io/youtube_app/',
+    badge: 'NLP / LLM Application',
+  },
+  {
+    title: 'Markov Chain Simulator',
+    problem: 'Markov models are foundational to a wide range of ML and probabilistic reasoning tasks, yet their dynamics are often hard to intuit without interactive visualization.',
+    approach: 'Implemented a configurable discrete-time Markov chain simulator in Python with user-defined state spaces and transition matrices. Built an interactive visualization layer (Plotly) showing stationary distributions and convergence behavior.',
+    impact: 'Demonstrates mastery of probabilistic modeling fundamentals directly applicable to HMMs, reinforcement learning, and stochastic optimization — a foundation for more complex ML work.',
+    stack: ['Python', 'NumPy', 'Plotly', 'Streamlit', 'Probability Theory'],
+    repoUrl: 'https://github.com/PCSchmidt/markov-chain-simulator',
+    demoUrl: 'https://pcschmidt.github.io/markov-chain-simulator/',
+    badge: 'Probabilistic Modeling',
+  },
+  {
+    title: 'Lotka-Volterra Simulator',
+    problem: 'Coupled nonlinear ODEs like predator-prey systems appear throughout scientific computing and are an important testbed for numerical methods and dynamic system intuition.',
+    approach: 'Implemented Lotka-Volterra dynamics with configurable initial conditions and parameters. Applied RK4 and scipy ODE solvers, built phase-plane plots, and created an interactive Streamlit parameter explorer to visualize stability regions.',
+    impact: 'Applied mathematics project demonstrating scientific computing proficiency (numerical ODE solving, phase-space analysis) directly relevant to dynamical systems, simulation, and physics-informed ML work at JHU.',
+    stack: ['Python', 'SciPy', 'NumPy', 'Matplotlib', 'Plotly', 'Streamlit'],
+    repoUrl: 'https://github.com/PCSchmidt/lotka-volterra-simulator',
+    demoUrl: 'https://pcschmidt.github.io/lotka-volterra-simulator/',
+    badge: 'Scientific Computing',
+  },
+  {
+    title: 'Drone Surveillance Simulation (C++ / Java)',
+    problem: 'Multi-agent coordination and pathfinding are core challenges in robotics and autonomous systems. Implementing these from scratch requires rigorous software engineering across different language ecosystems.',
+    approach: 'Built drone surveillance simulation systems independently in both C++ (with OpenGL visualization) and Java (with AWT/Swing), implementing grid-based path-planning, sensor cone simulation, and coverage optimization algorithms.',
+    impact: 'Demonstrates systems programming depth, algorithm implementation skills, and the ability to deliver equivalent functionality across multiple languages — directly relevant to robotics ML, embedded systems, and performance-critical inference.',
+    stack: ['C++', 'Java', 'OpenGL', 'Pathfinding Algorithms', 'OOP Design Patterns'],
+    repoUrl: 'https://github.com/PCSchmidt/DroneSurveillanceCpp',
+    badge: 'Systems / Algorithms',
+  },
+];
+---
+
+<Layout title="Projects" description="ML/AI portfolio projects by Chris Schmidt — RAG systems, time-series forecasting, NLP pipelines, and scientific computing.">
+
+  <section class="projects-hero">
+    <div class="container">
+      <h1 class="page-title">Projects</h1>
+      <div class="divider"></div>
+      <p class="page-subtitle">
+        A portfolio of applied ML/AI engineering work — from LLM-powered retrieval systems to time-series
+        forecasting pipelines and scientific computing tools. Projects are structured as case studies
+        with problem, approach, and impact to give a clear picture of engineering decisions, not just outputs.
+      </p>
+      <p class="placeholder-notice">
+        📌 <strong>Note:</strong> Project entries accurately describe existing work. Links and screenshots will be fully populated as individual project write-ups are finalized. Replace this notice once complete.
+      </p>
+    </div>
+  </section>
+
+  <section class="projects-list">
+    <div class="container">
+      <div class="projects-grid">
+        {projects.map(project => (
+          <ProjectCard {...project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .projects-hero {
+    padding: 4rem 0 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    max-width: 720px;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .placeholder-notice {
+    background: rgba(31, 111, 235, 0.08);
+    border: 1px solid var(--color-accent-subtle);
+    border-radius: var(--radius);
+    padding: 0.85rem 1.25rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    max-width: 720px;
+    margin-bottom: 0;
+  }
+
+  .placeholder-notice strong {
+    color: var(--color-accent);
+  }
+
+  .projects-list {
+    padding-top: 3rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

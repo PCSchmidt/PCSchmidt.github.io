@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const defaultApiBase = 'https://learnonthego-production.up.railway.app';
+const apiBaseFromEnv = import.meta.env.PUBLIC_LOTG_API_BASE_URL || defaultApiBase;
+---
+
+<Layout title="LearnOnTheGo | Owner Deployment" description="Owner-target LearnOnTheGo deployment shell on PCSchmidt.github.io.">
+  <main style="max-width: 920px; margin: 0 auto; padding: 2rem 1rem;">
+    <h1>LearnOnTheGo (Owner Target)</h1>
+    <p>
+      This route is the owner-target deployment shell for LearnOnTheGo. Runtime configuration is injected by
+      GitHub Pages deploy workflow.
+    </p>
+
+    <section style="margin-top: 1.25rem; padding: 1rem; border: 1px solid #d0d7de; border-radius: 8px;">
+      <h2 style="margin-top: 0;">Runtime Configuration</h2>
+      <p><strong>Build-time API base:</strong> <span id="lotg-build-api-base">{apiBaseFromEnv}</span></p>
+      <p><strong>Runtime API base:</strong> <span id="lotg-runtime-api-base">loading...</span></p>
+      <p><strong>Status:</strong> <span id="lotg-owner-status">initializing</span></p>
+    </section>
+
+    <section style="margin-top: 1rem; padding: 1rem; border: 1px solid #d0d7de; border-radius: 8px;">
+      <h2 style="margin-top: 0;">Quick Actions</h2>
+      <p>
+        <a href="https://learnonthego-bice.vercel.app" target="_blank" rel="noopener noreferrer">Open current production frontend (Vercel)</a>
+      </p>
+      <p>
+        <a href="https://learnonthego-production.up.railway.app/health" target="_blank" rel="noopener noreferrer">Open backend health endpoint (Railway)</a>
+      </p>
+    </section>
+  </main>
+
+  <script is:inline>
+    (function () {
+      const statusEl = document.getElementById('lotg-owner-status');
+      const runtimeApiEl = document.getElementById('lotg-runtime-api-base');
+
+      const params = new URLSearchParams(window.location.search);
+      const redirectPath = params.get('redirect');
+      if (redirectPath && redirectPath.startsWith('/learnonthego/')) {
+        window.history.replaceState(null, '', redirectPath + window.location.hash);
+      }
+
+      const runtimeConfig = window.__LOTG_CONFIG__ || {};
+      const runtimeApiBase = runtimeConfig.apiBaseUrl || '{apiBaseFromEnv}';
+      runtimeApiEl.textContent = runtimeApiBase;
+      statusEl.textContent = 'runtime config loaded';
+    })();
+  </script>
+  <script is:inline src="/learnonthego/runtime-config.js"></script>
+</Layout>

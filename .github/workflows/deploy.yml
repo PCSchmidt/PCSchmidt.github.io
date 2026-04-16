@@ -38,6 +38,19 @@ jobs:
       - name: Build with Astro
         run: npm run build
 
+      - name: Inject LearnOnTheGo runtime config
+        env:
+          LOTG_API_BASE_URL: ${{ vars.LOTG_API_BASE_URL }}
+        run: |
+          API_BASE_URL="${LOTG_API_BASE_URL:-https://learnonthego-production.up.railway.app}"
+          mkdir -p dist/learnonthego
+          cat > dist/learnonthego/runtime-config.js <<EOF
+          window.__LOTG_CONFIG__ = {
+            apiBaseUrl: "${API_BASE_URL}",
+            generatedAtUtc: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          };
+          EOF
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

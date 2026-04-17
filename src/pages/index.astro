@@ -28,14 +28,16 @@ const featuredProjects = [
     guide: 'https://github.com/PCSchmidt/learnonthego/blob/main/DEMO_GUIDE.md',
   },
   {
-    title: 'SkillSwap MVP (TypeScript Full-Stack App)',
+    title: 'SkillSwap — AI-Powered Skill Bartering Platform',
     description:
-      'MVP full-stack platform in TypeScript focused on practical product delivery, iterative roadmap execution, and transparent engineering scope.',
-    tags: ['TypeScript', 'Full Stack', 'MVP', 'Product Engineering'],
-    status: 'in-progress' as const,
-    metrics: ['Live MVP codebase', 'Iterative feature roadmap', 'Evidence-linked implementation plan'],
+      'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',
+    tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
+    status: 'featured' as const,
+    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier production deploy'],
     github: 'https://github.com/PCSchmidt/skillswapappmvp',
-    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/implementation_plan.md',
+    demo: 'https://skillswapappmvp.vercel.app',
+    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
+    guide: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/DEMO_GUIDE.md',
   },
 ];
 ---

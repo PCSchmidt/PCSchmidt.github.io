@@ -40,20 +40,22 @@ const projects = [
     guide: 'https://github.com/PCSchmidt/learnonthego/blob/main/DEMO_GUIDE.md',
   },
   {
-    title: 'SkillSwap MVP (TypeScript Full-Stack App)',
+    title: 'SkillSwap — AI-Powered Skill Bartering Platform',
     description:
-      'TypeScript MVP full-stack product focused on practical feature delivery, user interaction flows, and iterative product engineering with transparent execution planning.',
+      'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',
     problem:
-      'Early-stage product ideas need rapid implementation cycles while still keeping a maintainable codebase and coherent architecture.',
+      'Skill bartering platforms rely on keyword search and manual browsing, which misses relevant matches across categories (e.g., a React developer seeking woodworking and a carpenter wanting to learn coding).',
     approach:
-      'Built an MVP in TypeScript with reusable components and incremental feature slices, optimizing for speed of iteration while preserving clean extension points for future production hardening.',
+      'Built a three-tier architecture: Next.js 14 frontend on Vercel, Supabase (PostgreSQL + pgvector + RLS) for data/auth, and a FastAPI AI backend on Railway running sentence-transformers (all-MiniLM-L6-v2). Skills are embedded on creation and matched via cosine similarity with cross-category explanations.',
     impact:
-      'Provides direct evidence of full-stack delivery capability alongside AI work, highlighting ownership across application layers and roadmap-driven development.',
-    tags: ['TypeScript', 'Full Stack', 'MVP', 'Product Engineering'],
-    status: 'in-progress' as const,
-    metrics: ['Live MVP repository', 'Feature-iteration workflow', 'Evidence-linked implementation plan'],
+      'Deployed end-to-end with 23 routes, 10 skill categories, real-time messaging, trade proposals, ratings, and AI-powered match recommendations. Demonstrates full-stack ownership from auth flows to ML inference in production.',
+    tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
+    status: 'featured' as const,
+    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier production deploy'],
     github: 'https://github.com/PCSchmidt/skillswapappmvp',
-    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/implementation_plan.md',
+    demo: 'https://skillswapappmvp.vercel.app',
+    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
+    guide: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/DEMO_GUIDE.md',
   },
   {
     title: 'Production Inference Optimization Study',

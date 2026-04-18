@@ -100,15 +100,18 @@ Edit `src/pages/projects.astro` and the `projects` array in `src/pages/index.ast
 {
   title: string;
   description: string;
-  problem: string;
-  approach: string;
-  impact: string;
+  problem: string;       // projects.astro only
+  approach: string;      // projects.astro only
+  impact: string;        // projects.astro only
   tags: string[];
   status: 'featured' | 'in-progress' | 'placeholder';
   metrics: string[];
-  github?: string;   // optional GitHub link
-  demo?: string;     // optional demo link
-  paper?: string;    // optional paper/report link
+  github?: string;       // GitHub repo link
+  demo?: string;         // live demo link
+  evidence?: string;     // evidence artifacts link
+  guide?: string;        // demo guide link
+  paper?: string;        // PDF report link
+  notebook?: string;     // executable notebook link
 }
 ```
 

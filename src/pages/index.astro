@@ -4,6 +4,29 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const featuredProjects = [
   {
+    title: 'SkillSwap — AI-Powered Skill Bartering Platform',
+    description:
+      'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',
+    tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
+    status: 'featured' as const,
+    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier production deploy'],
+    github: 'https://github.com/PCSchmidt/skillswapappmvp',
+    demo: 'https://skillswapappmvp.vercel.app',
+    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
+    guide: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/DEMO_GUIDE.md',
+  },
+  {
+    title: 'Production Inference Optimization Study',
+    description:
+      'ONNX export, INT8 quantization, and adaptive batching applied to a production sentence-transformer. ~9× throughput improvement on CPU with 74% model size reduction and validated accuracy.',
+    tags: ['ONNX', 'PyTorch', 'Sentence Transformers', 'Benchmarking', 'Quantization'],
+    status: 'featured' as const,
+    metrics: ['~9× throughput (602 req/s)', '74% model size reduction', '2.9ms p50 latency'],
+    github: 'https://github.com/PCSchmidt/inference-optimization-study',
+    evidence: 'https://github.com/PCSchmidt/inference-optimization-study/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/DEMO_GUIDE.md',
+  },
+  {
     title: 'Generative AI Journal Summarizer (RAG)',
     description:
       'RAG-based summarization workflow for journal entries and long-form documents, focused on grounded summaries and cleaner retrieval quality as the corpus scales.',
@@ -27,18 +50,6 @@ const featuredProjects = [
     evidence: 'https://github.com/PCSchmidt/learnonthego/blob/main/README.md',
     guide: 'https://github.com/PCSchmidt/learnonthego/blob/main/DEMO_GUIDE.md',
   },
-  {
-    title: 'SkillSwap — AI-Powered Skill Bartering Platform',
-    description:
-      'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',
-    tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
-    status: 'featured' as const,
-    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier production deploy'],
-    github: 'https://github.com/PCSchmidt/skillswapappmvp',
-    demo: 'https://skillswapappmvp.vercel.app',
-    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
-    guide: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/DEMO_GUIDE.md',
-  },
 ];
 ---
 
@@ -50,17 +61,17 @@ const featuredProjects = [
         <div class="hero-text">
           <p class="hero-eyebrow">Hi, I'm</p>
           <h1 class="hero-name">Chris Schmidt</h1>
-          <p class="hero-tagline">Machine Learning Engineer | JHU AI Engineering (MSE)</p>
+          <p class="hero-tagline">Machine Learning Engineer | MS Applied Mathematics | JHU AI Engineering (MSE)</p>
           <p class="hero-bio">
             I build machine learning systems that work in production — from data pipelines and model
-            training to deployment, monitoring, and continuous improvement. I'm currently pursuing a
-            Master of Science in Engineering in AI at Johns Hopkins University, deepening my
-            expertise in deep learning, NLP, and applied ML research.
+            training to deployment, monitoring, and continuous improvement. With a Master's in
+            Applied Mathematics and a current MSE in AI Engineering at Johns Hopkins University,
+            I bring mathematical rigor to deep learning, optimization, and applied ML research.
           </p>
           <p class="hero-bio">
-            My work sits at the intersection of rigorous engineering and applied research: designing
-            scalable inference services, building evaluation frameworks, and shipping models that
-            create measurable impact.
+            My work sits at the intersection of applied mathematics and production engineering:
+            designing scalable inference services, optimizing model performance with quantization
+            and batching strategies, and shipping models that create measurable impact.
           </p>
           <div class="hero-actions">
             <a href="/projects" class="btn btn-primary">View Projects</a>
@@ -102,6 +113,10 @@ const featuredProjects = [
         <div class="about-chip">
           <span class="chip-icon">🎓</span>
           <span>MSE AI Engineering — Johns Hopkins University</span>
+        </div>
+        <div class="about-chip">
+          <span class="chip-icon">📐</span>
+          <span>MS Applied Mathematics</span>
         </div>
         <div class="about-chip">
           <span class="chip-icon">⚙️</span>

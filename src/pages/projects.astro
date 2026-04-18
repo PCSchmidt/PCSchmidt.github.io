@@ -60,16 +60,21 @@ const projects = [
   {
     title: 'Production Inference Optimization Study',
     description:
-      'Applied inference optimization techniques (quantization, batching, ONNX export, KV-cache tuning) to a sentence transformer model. Benchmarked cost-latency tradeoffs across deployment configurations.',
+      'Applied inference optimization techniques (ONNX export, INT8 quantization, adaptive batching) to SkillSwap\'s all-MiniLM-L6-v2 sentence transformer. Benchmarked cost-latency tradeoffs with p50/p95/p99 measurements across five deployment configurations. Fully tested with CI.',
     problem:
-      'Embedding generation for a semantic search service was a latency bottleneck; GPU costs made real-time re-embedding on every request infeasible.',
+      'Embedding generation for SkillSwap\'s semantic skill-matching needed cheaper, faster inference on CPU without sacrificing match quality or requiring GPU hardware.',
     approach:
-      'Exported a fine-tuned sentence-transformer to ONNX, applied INT8 dynamic quantization, and implemented adaptive batching with a request queue. Benchmarked p50/p95/p99 latency and throughput vs. baseline PyTorch inference across CPU and GPU instances. Documented cost-per-1k-requests at each operating point.',
+      'Exported the production sentence-transformer to ONNX via Hugging Face Optimum, applied INT8 dynamic quantization (88 MB → 23 MB, ~74% reduction), and swept batch sizes 1–64. Benchmarked p50/p95/p99 latency and throughput across PyTorch baseline, ONNX Runtime, and quantized ONNX configurations. Validated accuracy with cosine similarity against the PyTorch baseline.',
     impact:
-      'Achieved 3× throughput improvement and ~60% cost reduction on CPU vs. naive PyTorch baseline, with acceptable accuracy degradation (< 0.5% on retrieval benchmarks).',
-    tags: ['ONNX', 'PyTorch', 'Triton', 'Sentence Transformers', 'Benchmarking'],
-    status: 'in-progress' as const,
-    metrics: ['3× throughput improvement', '~60% cost reduction (CPU)', '< 0.5% accuracy loss'],
+      'ONNX + INT8 batch=32 achieved 2.9ms p50 latency and 602 req/s — a ~9× throughput improvement over PyTorch single inference. Model size reduced ~74%. Quantized embeddings maintained 0.962 mean cosine similarity vs. baseline. 17 passing tests with GitHub Actions CI.',
+    tags: ['ONNX', 'PyTorch', 'Sentence Transformers', 'Benchmarking', 'Quantization'],
+    status: 'featured' as const,
+    metrics: ['~9× throughput (602 req/s)', '74% model size reduction', '2.9ms p50 latency'],
+    github: 'https://github.com/PCSchmidt/inference-optimization-study',
+    evidence: 'https://github.com/PCSchmidt/inference-optimization-study/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/DEMO_GUIDE.md',
+    evidence: 'https://github.com/PCSchmidt/inference-optimization-study/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/DEMO_GUIDE.md',
   },
   {
     title: 'JHU AI Engineering Research Project (In Progress)',

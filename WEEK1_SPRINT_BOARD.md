@@ -12,6 +12,10 @@ Tier 1 (Work this week)
 1. `generative-ai-journal-summarizer` (Generative AI Product)
 2. `learnonthego` (AI app engineering workflow)
 3. `skillswapappmvp` (full-stack MVP)
+4. `inference-optimization-study` (ML Systems / Optimization) — ✅ COMPLETE + pushed
+5. `generative-modeling-study` (β-VAE Generative Models) — ✅ COMPLETE + pushed
+6. `rl-environment-study` (RL / Q-Learning / DQN) — ✅ COMPLETE + pushed
+7. `optimizer-deep-dive` (Optimization Theory + Neural Net from Scratch) — ✅ COMPLETE + pushed
 
 Tier 2 (Prepare, then promote)
 1. `generative-ai-budget-tracker`

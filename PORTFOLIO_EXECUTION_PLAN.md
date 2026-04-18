@@ -47,12 +47,16 @@ Do not wait for every project to be "perfect." Instead:
 Deliverable:
 - A one-page internal project roster with tier, role, and current status.
 
-### Current Tiered Shortlist (April 12, 2026)
+### Current Tiered Shortlist (Updated July 2026)
 
 Tier 1 (Primary portfolio focus now)
 - `generative-ai-journal-summarizer` — Role: Generative AI Product (RAG)
 - `learnonthego` — Role: AI Application Engineering (end-to-end flow)
 - `skillswapappmvp` — Role: Full-Stack MVP
+- `inference-optimization-study` — Role: ML Systems / Optimization Research
+- `generative-modeling-study` — Role: Deep Generative Models (β-VAE)
+- `rl-environment-study` — Role: RL / Decision-Making Systems
+- `optimizer-deep-dive` — Role: Optimization Theory + Neural Net from Scratch
 
 Tier 2 (Show as in-progress or add after hardening)
 - `generative-ai-budget-tracker` — Role: AI Product Feature Engineering
@@ -75,6 +79,7 @@ Tier 3 (Hold back for now)
 Selection notes
 - Tiering is based on non-fork repos, recency, portfolio differentiation, and ability to show engineering depth.
 - Promote from Tier 2 to Tier 1 only when repo has verified setup docs + evidence artifacts.
+- The four ML study repos (inference-optimization, generative-modeling, rl-environment, optimizer-deep-dive) are all Tier 1 with full test suites, CI, docs, and evidence artifacts.
 
 ## Phase 2: Project Completion Plan in Source Repos (Week 1 to Week 3)
 

@@ -73,8 +73,57 @@ const projects = [
     github: 'https://github.com/PCSchmidt/inference-optimization-study',
     evidence: 'https://github.com/PCSchmidt/inference-optimization-study/tree/main/evidence',
     guide: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/DEMO_GUIDE.md',
-    evidence: 'https://github.com/PCSchmidt/inference-optimization-study/tree/main/evidence',
-    guide: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/DEMO_GUIDE.md',
+  },
+  {
+    title: 'Generative Modeling Study (β-VAE)',
+    description:
+      'From-scratch β-VAE implementation in PyTorch for MNIST, with systematic β-sweep ablation (β = 0.1–10) studying the reconstruction–disentanglement tradeoff. 19 tests, CI, and exported evidence plots.',
+    problem:
+      'Standard VAEs balance reconstruction fidelity against latent space regularity via a single β hyperparameter, but the impact is hard to reason about without hands-on experimentation.',
+    approach:
+      'Built encoder/decoder with configurable latent dimensions, trained across 6 β values, and measured reconstruction loss, KL divergence, and sample quality. Exported latent space interpolations and reconstructions as evidence.',
+    impact:
+      'Clear demonstration of how β controls the reconstruction–disentanglement tradeoff. Low β (0.1) gives sharp reconstructions but tangled latents; high β (10) gives smooth latent space but blurry outputs. 19/19 tests passing.',
+    tags: ['PyTorch', 'Generative Models', 'VAE', 'Ablation Study', 'Python'],
+    status: 'featured' as const,
+    metrics: ['6 β-sweep configurations', '19 passing tests', 'Evidence PNGs exported'],
+    github: 'https://github.com/PCSchmidt/generative-modeling-study',
+    evidence: 'https://github.com/PCSchmidt/generative-modeling-study/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/DEMO_GUIDE.md',
+  },
+  {
+    title: 'RL Environment + Q-Learning Study',
+    description:
+      'Custom Windy Gridworld environment with tabular Q-learning and DQN agents, implemented from scratch using Gymnasium and PyTorch. 24 tests with CI.',
+    problem:
+      'Understanding RL requires building environments and agents from scratch — not just calling library APIs. How do tabular and deep RL methods compare on the same task?',
+    approach:
+      'Implemented WindyGridWorld (Gymnasium API), tabular ε-greedy Q-learning, and a DQN with experience replay and target network. Systematic comparison of convergence, sample efficiency, and solution quality.',
+    impact:
+      'Tabular Q-learning converges fast on small state spaces; DQN generalizes but needs replay buffer tuning. Full environment/agent separation following Gymnasium patterns. 24/24 tests passing.',
+    tags: ['Reinforcement Learning', 'PyTorch', 'Gymnasium', 'DQN', 'Q-Learning', 'Python'],
+    status: 'featured' as const,
+    metrics: ['24 passing tests', 'Tabular + Deep RL agents', 'Custom Gymnasium environment'],
+    github: 'https://github.com/PCSchmidt/rl-environment-study',
+    evidence: 'https://github.com/PCSchmidt/rl-environment-study/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/rl-environment-study/blob/main/DEMO_GUIDE.md',
+  },
+  {
+    title: 'Optimizer Deep Dive: From Gradient Descent to Adam',
+    description:
+      'Pure NumPy implementations of BGD, SGD+Momentum, and Adam optimizers with a from-scratch neural network (backpropagation) trained on MNIST. Includes loss landscape visualization and initialization sensitivity analysis. 29 tests with CI.',
+    problem:
+      'Most practitioners use optimizer libraries without understanding the math. How do BGD, momentum, and Adam actually differ in convergence behavior across different curvature regimes?',
+    approach:
+      'Implemented all three optimizers and a feedforward neural network with full backpropagation in pure NumPy. Benchmarked on Rosenbrock, ill-conditioned quadratics (κ=2–500), and MNIST classification. Visualized 3D loss landscapes and gradient norms.',
+    impact:
+      'Adam achieves ~93% MNIST accuracy vs SGD ~85%. Condition number study shows Adam effectively reduces effective κ. He initialization critical for ReLU networks. 29/29 tests passing, zero external ML dependencies.',
+    tags: ['NumPy', 'Optimization', 'Neural Networks', 'Backpropagation', 'MNIST', 'Python'],
+    status: 'featured' as const,
+    metrics: ['29 passing tests', '~93% MNIST accuracy (pure NumPy)', '3 optimizers from scratch'],
+    github: 'https://github.com/PCSchmidt/optimizer-deep-dive',
+    evidence: 'https://github.com/PCSchmidt/optimizer-deep-dive/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/DEMO_GUIDE.md',
   },
   {
     title: 'JHU AI Engineering Research Project (In Progress)',

@@ -398,49 +398,14 @@ User Query → Planner Agent (selects tools + reasoning strategy)
 }
 ```
 
-### 2.2 Fine-tuning + evaluation study
+### 2.2 Fine-tuning + evaluation study — ✅ DONE
 
-**Why this matters:** Every project currently uses LLMs through APIs only. No fine-tuning, no weight inspection, no training dynamics. For roles involving model customization, this is a filter.
-
-**This also connects to your math background** — LoRA is low-rank matrix approximation, which is applied linear algebra. The Optimizer Deep Dive already shows you understand gradient mechanics. Fine-tuning closes the loop.
-
-**Technical plan:**
-
-1. **Model:** `meta-llama/Llama-3.1-8B`, `mistralai/Mistral-7B-v0.3`, or `microsoft/Phi-3-small-8k-instruct`
-
-2. **Task** (pick one where improvement is measurable):
-   - Domain-specific summarization → measure ROUGE + faithfulness
-   - Structured data extraction → measure F1 on field accuracy
-   - Instruction following on a specific domain → measure helpfulness
-
-3. **Dataset curation:** HuggingFace datasets or curate from public domain. Document why this data, how cleaned, train/val/test splits. 1K–10K examples.
-
-4. **Training with LoRA/QLoRA:**
-   - Ablate: LoRA rank [4, 8, 16, 32], alpha [16, 32, 64], target modules, learning rate, quantization [none, 4-bit NF4, 8-bit]
-   - Use `peft` + `transformers` + `trl` (or `unsloth`)
-   - Log to Weights & Biases
-
-5. **Evaluation (critical):**
-   - Automated: ROUGE, BERTScore, task-specific F1/accuracy
-   - LLM-as-judge on a rubric
-   - Ablation table: how each hyperparameter affects quality
-   - Training curves: loss convergence, overfitting detection
-   - Before/after: same prompts, base vs fine-tuned, side-by-side
-   - Cost: training time, GPU hours
-
-6. **Math connection:** Why does low-rank adaptation work? (SVD, matrix approximation). How does rank relate to effective dimensionality? Why does alpha/rank ratio matter? This bridges the Optimizer Deep Dive to LLM internals.
-
-**Portfolio card draft:**
-```javascript
-{
-  title: "LLM Fine-Tuning & Evaluation Study",
-  description: "LoRA/QLoRA fine-tuning with systematic hyperparameter ablation, multi-metric evaluation, and training dynamics analysis. Connects low-rank adaptation theory to measured quality improvements.",
-  tags: ["Fine-Tuning", "LoRA", "LLM", "Evaluation", "PyTorch"],
-  status: 'featured',
-  metrics: ["X% quality improvement over base", "4 rank configs ablated", "Y eval metrics tracked"],
-  timeframe: "Q2 2026"
-}
-```
+**Completed:** GPT-2 (124M) + LoRA rank ablation on SAMSum dialogue summarization. CPU-only.
+- Repo: https://github.com/PCSchmidt/finetuning-study (commit dc53bba)
+- 5 src modules, 12 passing tests, CI, study notebook, DEMO_GUIDE
+- Ablation: rank [2,4,8,16] × alpha [8,16,32], ROUGE + BERTScore evaluation
+- Portfolio cards added to index.astro and projects.astro
+- Adapted plan for CPU-only constraint: GPT-2 124M instead of Llama 7B+
 
 ### 2.3 Multimodal project (stretch goal)
 
@@ -528,7 +493,7 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | P1 | SkillSwap AI integration / model assessment | Medium | Medium | 1.4 |
 | P1 | Verify all project card links | Low | Low | 1.5 ✅ |
 | P2 | **Agentic AI project** | **Critical** | **High** | **2.1 ✅** |
-| P2 | **Fine-tuning + evals study** | **High** | **High** | **2.2** |
+| P2 | **Fine-tuning + evals study** | **High** | **High** | **2.2** ✅ |
 | P3 | Multimodal project | Medium | High | 2.3 |
 | P3 | Visual design refresh | Low | Medium | 3.1 |
 | P4 | "Currently Exploring" section | Low | Low | 3.2 |

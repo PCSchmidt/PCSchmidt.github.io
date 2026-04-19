@@ -46,6 +46,18 @@ const featuredProjects = [
     notebook: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/notebooks/beta_vae_study.ipynb',
   },
   {
+    title: 'Parameter-Efficient Fine-Tuning Study (LoRA)',
+    description:
+      'Systematic LoRA rank ablation on GPT-2 for dialogue summarization. Trains rank [2,4,8,16] × alpha [8,16,32] adapters on SAMSum, evaluates with ROUGE + BERTScore, and shows diminishing returns beyond rank 8. CPU-only, fully reproducible.',
+    tags: ['LoRA', 'PEFT', 'Transformers', 'Fine-Tuning', 'Ablation Study'],
+    status: 'featured' as const,
+    timeframe: 'Apr 2026',
+    metrics: ['5 LoRA configurations ablated', '12 passing tests', '0.02% trainable params (rank 8)'],
+    github: 'https://github.com/PCSchmidt/finetuning-study',
+    guide: 'https://github.com/PCSchmidt/finetuning-study/blob/main/DEMO_GUIDE.md',
+    notebook: 'https://github.com/PCSchmidt/finetuning-study/blob/main/notebooks/finetuning_study.ipynb',
+  },
+  {
     title: 'SkillSwap — AI-Powered Skill Bartering Platform',
     description:
       'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',

@@ -4,19 +4,6 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const featuredProjects = [
   {
-    title: 'SkillSwap — AI-Powered Skill Bartering Platform',
-    description:
-      'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',
-    tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
-    status: 'featured' as const,
-    timeframe: 'May 2025 – Present',
-    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier architecture (Next.js + FastAPI + Supabase)'],
-    github: 'https://github.com/PCSchmidt/skillswapappmvp',
-    demo: 'https://skillswapappmvp.vercel.app',
-    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
-    guide: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/DEMO_GUIDE.md',
-  },
-  {
     title: 'Production Inference Optimization Study',
     description:
       'ONNX export, INT8 quantization, and adaptive batching applied to a production sentence-transformer. ~9× throughput improvement on CPU with 74% model size reduction and validated accuracy.',
@@ -31,30 +18,18 @@ const featuredProjects = [
     notebook: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/notebooks/inference_optimization_study.ipynb',
   },
   {
-    title: 'Generative AI Journal Summarizer',
+    title: 'Optimizer Deep Dive: GD to Adam',
     description:
-      'Multi-provider LLM gateway for journal entry analysis. Supports 17+ model configurations across Groq, HuggingFace, OpenAI, and Anthropic with session-based auth, BYOK token vault (AES-256), and rate limiting.',
-    tags: ['Python', 'FastAPI', 'LLM APIs', 'NLP'],
+      'Pure NumPy BGD, SGD+Momentum, Adam + neural net with backprop trained on MNIST. Loss landscape visualization and initialization sensitivity. 29 tests.',
+    tags: ['NumPy', 'Optimization', 'Neural Networks', 'Backpropagation'],
     status: 'featured' as const,
-    timeframe: 'Jul 2025 – Apr 2026',
-    metrics: ['17+ LLM model configs', 'Multi-provider routing (Groq, HF, OpenAI, Anthropic)', 'BYOK token vault with AES-256 encryption'],
-    github: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer',
-    demo: 'https://generative-ai-journal-summarizer.vercel.app',
-    evidence: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/tree/main/evidence/reliability-2026-04-12-final-confirmed',
-    guide: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/blob/main/DEMO_GUIDE.md',
-  },
-  {
-    title: 'LearnOnTheGo — Prompt/PDF to Audio Lectures',
-    description:
-      'Full-stack AI application that converts prompts and uploaded PDFs into audio lecture content using OpenRouter LLMs and ElevenLabs/Google TTS. FastAPI backend on Railway, React frontend on Vercel.',
-    tags: ['Full Stack', 'FastAPI', 'React', 'LLM', 'TTS'],
-    status: 'featured' as const,
-    timeframe: 'Jul 2025 – Present',
-    metrics: ['Prompt + PDF ingestion', 'Multi-provider LLM + TTS pipeline', 'FastAPI + React + Railway/Vercel'],
-    github: 'https://github.com/PCSchmidt/learnonthego',
-    demo: 'https://learnonthego-bice.vercel.app',
-    evidence: 'https://github.com/PCSchmidt/learnonthego/blob/main/README.md',
-    guide: 'https://github.com/PCSchmidt/learnonthego/blob/main/DEMO_GUIDE.md',
+    timeframe: 'Spring 2026',
+    metrics: ['29 passing tests', '~93% MNIST accuracy (pure NumPy)', '3 optimizers from scratch'],
+    github: 'https://github.com/PCSchmidt/optimizer-deep-dive',
+    evidence: 'https://github.com/PCSchmidt/optimizer-deep-dive/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/DEMO_GUIDE.md',
+    paper: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.pdf',
+    notebook: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.ipynb',
   },
   {
     title: 'Generative Modeling Study (β-VAE)',
@@ -71,72 +46,43 @@ const featuredProjects = [
     notebook: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/notebooks/beta_vae_study.ipynb',
   },
   {
-    title: 'RL Environment + Q-Learning Study',
+    title: 'SkillSwap — AI-Powered Skill Bartering Platform',
     description:
-      'Custom Windy Gridworld with tabular Q-learning and DQN agents from scratch using Gymnasium and PyTorch. 24 tests with CI.',
-    tags: ['Reinforcement Learning', 'PyTorch', 'Gymnasium', 'DQN'],
+      'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',
+    tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
     status: 'featured' as const,
-    timeframe: 'Spring 2026',
-    metrics: ['24 passing tests', 'Tabular + Deep RL agents', 'Custom Gymnasium environment'],
-    github: 'https://github.com/PCSchmidt/rl-environment-study',
-    evidence: 'https://github.com/PCSchmidt/rl-environment-study/tree/main/evidence',
-    guide: 'https://github.com/PCSchmidt/rl-environment-study/blob/main/DEMO_GUIDE.md',
-    paper: 'https://github.com/PCSchmidt/rl-environment-study/blob/main/notebooks/rl_study.pdf',
-    notebook: 'https://github.com/PCSchmidt/rl-environment-study/blob/main/notebooks/rl_study.ipynb',
-  },
-  {
-    title: 'Optimizer Deep Dive: GD to Adam',
-    description:
-      'Pure NumPy BGD, SGD+Momentum, Adam + neural net with backprop trained on MNIST. Loss landscape visualization and initialization sensitivity. 29 tests.',
-    tags: ['NumPy', 'Optimization', 'Neural Networks', 'Backpropagation'],
-    status: 'featured' as const,
-    timeframe: 'Spring 2026',
-    metrics: ['29 passing tests', '~93% MNIST accuracy (pure NumPy)', '3 optimizers from scratch'],
-    github: 'https://github.com/PCSchmidt/optimizer-deep-dive',
-    evidence: 'https://github.com/PCSchmidt/optimizer-deep-dive/tree/main/evidence',
-    guide: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/DEMO_GUIDE.md',
-    paper: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.pdf',
-    notebook: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.ipynb',
+    timeframe: 'May 2025 – Present',
+    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier architecture (Next.js + FastAPI + Supabase)'],
+    github: 'https://github.com/PCSchmidt/skillswapappmvp',
+    demo: 'https://skillswapappmvp.vercel.app',
+    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
+    guide: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/DEMO_GUIDE.md',
   },
 ];
 ---
 
-<Layout title="Chris Schmidt — ML Engineer & JHU AI Engineering MSE">
+<Layout title="Chris Schmidt — ML Engineer & AI Engineering (MSE)">
   <!-- Hero -->
   <section class="hero">
     <div class="container">
-      <div class="hero-inner">
+      <div class="hero-grid">
         <div class="hero-text">
-          <p class="hero-eyebrow">Hi, I'm</p>
-          <h1 class="hero-name">Chris Schmidt</h1>
-          <p class="hero-tagline">Machine Learning Engineer | MS Applied Mathematics | JHU AI Engineering (MSE)</p>
-          <p class="hero-bio">
-            Applied mathematician and AI engineering graduate student building toward production
-            ML systems. With a Master's in Applied Mathematics and a current MSE in AI Engineering
-            at Johns Hopkins University, I bring mathematical rigor to deep learning, optimization,
-            and applied ML research.
+          <h1>Chris Schmidt</h1>
+          <p class="hero-subtitle">Machine Learning Engineer</p>
+          <p class="hero-desc">
+            Building production ML systems and studying AI engineering at Johns Hopkins.
+            Background in applied mathematics and data engineering. Focused on inference optimization,
+            model evaluation, and the engineering practices that make ML work in production.
           </p>
-          <p class="hero-bio">
-            My projects demonstrate hands-on depth across the ML stack: from-scratch optimizer
-            implementations with convergence analysis, inference optimization benchmarks (9× throughput
-            via ONNX + INT8 quantization), generative modeling ablation studies, and full-stack
-            applications with semantic matching and multi-provider LLM integration.
-          </p>
-          <div class="hero-actions">
+          <div class="hero-cta">
             <a href="/projects" class="btn btn-primary">View Projects</a>
             <a href="/resume" class="btn btn-outline">Resume</a>
           </div>
-          <div class="hero-social">
-            <a
-              href="https://github.com/PCSchmidt"
-              class="social-link"
-            >
+          <div class="social-links">
+            <a href="https://github.com/PCSchmidt" class="social-link" target="_blank" rel="noopener">
               GitHub
             </a>
-            <a
-              href="https://www.linkedin.com/in/chris-schmidt-94526a10/"
-              class="social-link"
-            >
+            <a href="https://www.linkedin.com/in/pchristopherschmidt/" class="social-link" target="_blank" rel="noopener">
               LinkedIn
             </a>
             <a href="mailto:p.christopher.schmidt@gmail.com" class="social-link">Email</a>
@@ -169,7 +115,7 @@ const featuredProjects = [
         </div>
         <div class="about-chip">
           <span class="chip-icon">⚙️</span>
-          <span>MLOps &amp; Production ML Systems</span>
+          <span>Inference Optimization &amp; Deployment</span>
         </div>
         <div class="about-chip">
           <span class="chip-icon">🧠</span>
@@ -188,12 +134,8 @@ const featuredProjects = [
     <div class="container">
       <h2 class="section-title">Selected Projects</h2>
       <p class="section-intro">
-        A snapshot of flagship ML/AI projects. Each entry is structured as a case study with
+        Highlights from my ML/AI project portfolio — each structured as a case study with
         problem context, approach, and measurable outcomes.
-        <br />
-        <em style="font-size:0.85rem; color:#9ca3af;">
-          Projects marked "In Progress" are actively being hardened with deeper evaluation and deployment polish.
-        </em>
       </p>
       <div class="projects-grid">
         {
@@ -230,11 +172,10 @@ const featuredProjects = [
     border-bottom: 1px solid #e5e7eb;
   }
 
-  .hero-inner {
+  .hero-grid {
     display: flex;
     align-items: center;
     gap: 3rem;
-    flex-wrap: wrap;
   }
 
   .hero-text {
@@ -242,31 +183,14 @@ const featuredProjects = [
     min-width: 280px;
   }
 
-  .hero-eyebrow {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #1e40af;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.35rem;
-  }
-
-  .hero-name {
-    font-size: clamp(2.25rem, 5vw, 3.25rem);
-    font-weight: 800;
-    color: #0f172a;
-    line-height: 1.15;
-    margin-bottom: 0.5rem;
-  }
-
-  .hero-tagline {
+  .hero-subtitle {
     font-size: 1.05rem;
     font-weight: 600;
     color: #374151;
     margin-bottom: 1.25rem;
   }
 
-  .hero-bio {
+  .hero-desc {
     font-size: 0.95rem;
     color: #4b5563;
     margin-bottom: 0.75rem;
@@ -274,7 +198,7 @@ const featuredProjects = [
     line-height: 1.75;
   }
 
-  .hero-actions {
+  .hero-cta {
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
@@ -282,7 +206,7 @@ const featuredProjects = [
     margin-bottom: 1.25rem;
   }
 
-  .hero-social {
+  .social-links {
     display: flex;
     gap: 1.25rem;
     flex-wrap: wrap;
@@ -348,7 +272,7 @@ const featuredProjects = [
   /* Projects grid */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
@@ -358,6 +282,9 @@ const featuredProjects = [
   }
 
   @media (max-width: 640px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
     .hero {
       padding: 3rem 0 2rem;
     }
@@ -365,9 +292,10 @@ const featuredProjects = [
       width: 150px;
       height: 150px;
     }
-    .hero-inner {
+    .hero-grid {
       flex-direction: column-reverse;
       align-items: flex-start;
     }
   }
+</style>
 </style>

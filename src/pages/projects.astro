@@ -193,6 +193,11 @@ const projects = [
           ))
         }
       </div>
+
+      <div class="thinking-cta">
+        <p>For perspectives on AI engineering, evaluation methodology, and where the field is heading:</p>
+        <a href="/thinking" class="btn btn-outline">Read My Thinking Posts →</a>
+      </div>
     </div>
   </section>
 </Layout>
@@ -246,5 +251,20 @@ const projects = [
       flex-direction: column;
       gap: 0.35rem;
     }
+  }
+
+  .thinking-cta {
+    margin-top: 3rem;
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-accent-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid #bfdbfe;
+  }
+
+  .thinking-cta p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
   }
 </style>

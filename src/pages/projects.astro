@@ -6,17 +6,17 @@ const projects = [
   {
     title: 'Generative AI Journal Summarizer',
     description:
-      'Multi-provider LLM gateway for journal entry analysis. Supports 17+ model configurations across Groq, HuggingFace, OpenAI, and Anthropic with session-based auth, BYOK token vault (AES-256), and rate limiting.',
+      'Multi-provider LLM gateway with RAG pipeline for journal entry analysis. Embeds past entries with sentence-transformers + FAISS, retrieves longitudinal context to augment LLM prompts. Supports 17+ model configs across Groq, HuggingFace, OpenAI, and Anthropic with BYOK token vault (AES-256).',
     problem:
-      'Journal reflection benefits from summarization and insight extraction, but cloud LLM APIs differ in availability, cost, and quality. Users need flexible provider choice without vendor lock-in.',
+      'Journal analysis tools treat each entry in isolation, losing insight from patterns over time. Cloud LLM APIs also differ in availability and cost, requiring flexible provider routing.',
     approach:
-      'Built a FastAPI backend with multi-provider routing (Groq, HuggingFace, OpenAI, Anthropic), 17+ model configurations, session-based auth, and a BYOK token vault with AES-256 encryption. React Native frontend with a web deployment via Vercel.',
+      'Built a FastAPI backend with a RAG pipeline (sentence-transformers all-MiniLM-L6-v2, FAISS cosine search, prompt augmentation), multi-provider LLM routing, and a BYOK token vault. Evaluated retrieval with a 20-entry golden test set and automated metrics.',
     impact:
-      'Working multi-provider LLM gateway with live demo. Demonstrates API integration patterns, auth/encryption handling, and multi-model routing. Foundation for planned RAG extension.',
-    tags: ['Python', 'FastAPI', 'LLM APIs', 'NLP'],
+      'RAG retrieval achieves 0.80 precision@3 and 1.0 MRR on the eval set. Working multi-provider gateway with live demo, provider diagnostics, and reproducible eval harness.',
+    tags: ['Python', 'FastAPI', 'RAG', 'FAISS', 'sentence-transformers', 'LLM APIs'],
     status: 'featured' as const,
-    timeframe: 'Jul 2025 \u2013 Apr 2026',
-    metrics: ['17+ LLM model configs', 'Multi-provider routing (Groq, HF, OpenAI, Anthropic)', 'BYOK token vault with AES-256 encryption'],
+    timeframe: 'Jul 2025 \u2013 Present',
+    metrics: ['Retrieval: 0.80 precision@3, 1.0 MRR', '17+ LLM model configs across 8 providers', 'BYOK token vault with AES-256 encryption'],
     github: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer',
     demo: 'https://generative-ai-journal-summarizer.vercel.app',
     evidence: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/tree/main/evidence/reliability-2026-04-12-final-confirmed',

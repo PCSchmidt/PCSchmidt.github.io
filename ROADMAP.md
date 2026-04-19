@@ -49,7 +49,7 @@ These are not style issues — they are factual inaccuracies that will damage cr
 
 | Issue | Severity | Detail |
 |-------|----------|--------|
-| **Journal Summarizer labeled "RAG" — there is zero RAG** | **Critical** | `main.py` is a multi-provider LLM API gateway (Groq, HuggingFace, OpenAI, Anthropic, etc.) that sends journal text directly to LLM APIs for sentiment analysis and summarization. No chunking, no embeddings, no vector store, no retrieval. `requirements.txt` has only fastapi, uvicorn, pydantic, python-dotenv, httpx, cryptography. The portfolio card says "RAG-based summarization," "retrieval-first pipeline that chunks source content, indexes it for semantic lookup" — none of this exists in the codebase. Tags include "RAG" and "LangChain" — neither is used. |
+| **Journal Summarizer labeled "RAG" — there is zero RAG** | **RESOLVED** | Originally had no RAG despite claims. Phase 0 removed false claims. Phase 1.2 implemented genuine RAG: sentence-transformers (all-MiniLM-L6-v2, 384-dim) → FAISS IndexFlatIP → SQLite journal store. Eval harness: precision@3 = 0.80, MRR = 1.0, recall@3 = 0.77. Portfolio card and docs updated with accurate metrics. |
 | **Hero bio claims "I build ML systems that work in production"** | **High** | Current professional work is data analysis scripts/notebooks at JPO, not shipping ML to production. Previous role at HII was junior-level data engineering. Portfolio projects are personal/coursework. |
 | **Hero bio claims "designing scalable inference services"** | **High** | The inference optimization study is a benchmark notebook, not a deployed service. No inference service is running in production. |
 | **About chip says "MLOps & Production ML Systems"** | **High** | No MLflow, no model registry, no A/B testing, no monitoring pipeline exists in any project. Docker files exist for Railway deployment but that's web app hosting, not MLOps. |
@@ -315,51 +315,27 @@ If you want to highlight the JHU program, replace with a description of what you
 
 4. **Add Mermaid code blocks to each project's README** (GitHub renders them natively)
 
-### 1.2 Implement actual RAG on Journal Summarizer (or don't — but be honest)
+### 1.2 Implement actual RAG on Journal Summarizer — ✅ DONE
 
-**Decision point:** Now that the "RAG" label is removed (Phase 0.1), you have two options:
+**Completed April 19, 2026.** Chose Option A (implement genuine RAG).
 
-**Option A: Actually implement RAG (recommended if pursuing ML/AI engineering roles)**
+**What was implemented:**
 
-This transforms the project from "LLM API wrapper" to something with real ML engineering substance. Steps:
+1. Embedding layer: sentence-transformers `all-MiniLM-L6-v2` (384-dim vectors, L2-normalized)
+2. Vector store: FAISS `IndexFlatIP` (cosine similarity via inner product on normalized vectors)
+3. Persistent storage: SQLite (`data/journal.db`) with FAISS index (`data/journal.faiss`)
+4. Retrieval-augmented prompts: `rag/prompts.py` — context-aware templates for sentiment, insights, summarize
+5. New endpoints: `POST /api/journal` (ingest), `GET /api/journal` (list), `GET /api/journal/stats`, `POST /api/rag/query`
+6. Existing AI endpoints accept `use_rag: true` to automatically retrieve and inject longitudinal context
+7. Custom eval harness (not RAGAS/DeepEval — built from scratch to demonstrate understanding):
+   - 20-entry golden test set simulating 3 weeks of journaling
+   - 5 thematic queries with hand-labeled expected retrievals
+   - Metrics: precision@k, recall@k, MRR, avg cosine similarity
+   - Results: **precision@3 = 0.80, MRR = 1.0, recall@3 = 0.77**
+8. Portfolio card updated with RAG description, approach, and eval metrics
+9. All project documentation updated for consistency
 
-1. Add document chunking (LangChain text splitters or manual)
-2. Add embedding generation (sentence-transformers, already in your venv)
-3. Add vector store (FAISS is simplest, ChromaDB for persistence)
-4. Wire retrieval into the generation flow: chunk → embed → store → query → retrieve context → augmented prompt → LLM
-5. **Add an eval harness** — this is where the real value is:
-
-   **Using RAGAS** (recommended for RAG eval):
-   ```
-   pip install ragas
-   ```
-   - Create a golden test set: 20–50 journal entries with expected summaries
-   - Metrics: context_precision, context_recall, faithfulness, answer_relevancy
-   - Run evals, report scores in README and on portfolio card
-
-   **Or using DeepEval:**
-   ```
-   pip install deepeval
-   ```
-   - Metrics: G-Eval, hallucination, answer relevancy, contextual precision/recall
-   - Integrates with pytest
-
-   **Or build a custom eval harness** (shows you can build, not just install):
-   - Faithfulness check: does the summary contradict the source?
-   - Coverage check: does the summary capture key facts?
-   - Consistency check: same input → similar outputs?
-   - LLM-as-judge with structured rubrics
-
-6. Update the portfolio card title to: `"Journal Summarizer with RAG & Eval Harness"`
-7. Update metrics with concrete eval scores
-
-**Option B: Keep it as a multi-provider gateway and make that the story**
-
-The current app is actually decent engineering — multi-provider LLM routing, session auth, BYOK encryption. Lean into that:
-- Add provider-comparison benchmarks (latency, cost, quality per model)
-- Add a provider failover mechanism
-- Document the routing logic and trade-offs
-- This positions the project as "LLM infrastructure" rather than "RAG pipeline"
+**Files created:** `rag/store.py`, `rag/retriever.py`, `rag/prompts.py`, `rag/__init__.py`, `eval/golden_set.py`, `eval/metrics.py`, `eval/run_eval.py`, `eval/results.json`
 
 ### 1.3 Add measurable metrics to LearnOnTheGo
 
@@ -603,7 +579,7 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 
 | Priority | Item | Impact | Effort | Phase |
 |----------|------|--------|--------|-------|
-| **P0** | **Fix Journal Summarizer RAG claim** | **Critical** | **Low** | **0.1** |
+| **P0** | **Fix Journal Summarizer RAG claim** | **Critical** | **Low** | **0.1 ✅** |
 | **P0** | **Rewrite hero section honestly** | **High** | **Low** | **0.2** |
 | **P0** | **Fix about strip chip** | **High** | **Trivial** | **0.3** |
 | P0 | Fix SkillSwap metrics | Medium | Low | 0.4 |
@@ -611,7 +587,7 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | P0 | Remove JHU placeholder | Medium | Trivial | 0.6 |
 | P0 | Add dates to projects | Medium | Low | 0.7 |
 | P0 | GitHub profile polish | Medium | Low | 0.8 |
-| P1 | Implement RAG + evals on Journal Summarizer | High | Medium-High | 1.2 |
+| P1 | Implement RAG + evals on Journal Summarizer | High | Medium-High | 1.2 ✅ |
 | P1 | Architecture diagrams (all projects) | Medium | Medium | 1.1 |
 | P1 | LearnOnTheGo metrics | Medium | Medium | 1.3 |
 | P1 | SkillSwap AI integration / model assessment | Medium | Medium | 1.4 |
@@ -634,8 +610,8 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | Production ML credibility | C+ (projects, not production) | B (honest framing + evals) | B+ | B+ |
 | Math/foundations depth | B+ | B+ | A− | A |
 | Agentic/frontier AI | D | D | A− | A |
-| LLM depth | C | C+ (if RAG implemented) | B+ | A− |
-| Evals culture | C− | B+ (if evals added) | A− | A |
+| **LLM depth** | C | **B+** (RAG implemented with eval harness) | B+ | A− |
+| **Evals culture** | C− | **B+** (custom eval harness with golden test set) | A− | A |
 | Multimodal | C | C | B (if 2.3) | B+ |
 | Discoverability & polish | C+ | B+ | B+ | A− |
 | Overall | **B+** | **B+/A−** | **A−** | **A** |
@@ -664,3 +640,4 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | 2026-04-19 | Expanded with specific file paths, code changes, and step-by-step instructions |
 | 2026-04-19 | Major revision: added honesty audit based on actual professional experience and code review. Reframed from "production ML engineer" to "applied mathematician building toward AI engineering." Added Phase 0 honesty fixes as non-negotiable first step. |
 | 2026-04-19 | **Phase 0 executed.** Removed false RAG claims from Journal Summarizer (both pages). Rewrote hero bio honestly. Fixed MLOps chip → "Inference Optimization & Deployment." Fixed SkillSwap "production deploy" metric. Updated LearnOnTheGo framing. Removed JHU placeholder project. Added `timeframe` prop to ProjectCard + populated dates on all projects. Fixed projects page meta description. Open decisions resolved. |
+| 2026-04-19 | **Phase 1.2 executed.** Implemented genuine RAG pipeline on Journal Summarizer: sentence-transformers + FAISS + SQLite, 4 new API endpoints, `use_rag` flag on 3 existing endpoints. Built custom eval harness (20-entry golden set, 5 queries, precision@3=0.80, MRR=1.0). Updated all project documentation for consistency. |

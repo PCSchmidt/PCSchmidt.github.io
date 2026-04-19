@@ -11,9 +11,10 @@ interface Props {
   paper?: string;
   notebook?: string;
   metrics?: string[];
+  timeframe?: string;
 }
 
-const { title, description, tags, status, github, demo, evidence, guide, paper, notebook, metrics } = Astro.props;
+const { title, description, tags, status, github, demo, evidence, guide, paper, notebook, metrics, timeframe } = Astro.props;
 
 const statusLabel: Record<string, string> = {
   featured: 'Featured',
@@ -36,12 +37,15 @@ const statusTextColor: Record<string, string> = {
   <header class="project-header">
     <div class="project-title-row">
       <h3 class="project-title">{title}</h3>
-      <span
-        class="project-status"
-        style={`background:${statusColor[status]};color:${statusTextColor[status]}`}
-      >
-        {statusLabel[status]}
-      </span>
+      <div class="project-meta">
+        {timeframe && <span class="project-timeframe">{timeframe}</span>}
+        <span
+          class="project-status"
+          style={`background:${statusColor[status]};color:${statusTextColor[status]}`}
+        >
+          {statusLabel[status]}
+        </span>
+      </div>
     </div>
     <p class="project-description">{description}</p>
   </header>
@@ -123,6 +127,32 @@ const statusTextColor: Record<string, string> = {
     font-weight: 700;
     color: #111827;
     margin: 0;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .project-timeframe {
+    font-size: 0.78rem;
+    color: #6b7280;
+    white-space: nowrap;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .project-timeframe {
+    font-size: 0.78rem;
+    color: #6b7280;
+    white-space: nowrap;
   }
 
   .project-status {

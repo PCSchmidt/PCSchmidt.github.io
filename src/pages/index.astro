@@ -9,7 +9,8 @@ const featuredProjects = [
       'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',
     tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
     status: 'featured' as const,
-    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier production deploy'],
+    timeframe: 'May 2025 – Present',
+    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier architecture (Next.js + FastAPI + Supabase)'],
     github: 'https://github.com/PCSchmidt/skillswapappmvp',
     demo: 'https://skillswapappmvp.vercel.app',
     evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
@@ -21,6 +22,7 @@ const featuredProjects = [
       'ONNX export, INT8 quantization, and adaptive batching applied to a production sentence-transformer. ~9× throughput improvement on CPU with 74% model size reduction and validated accuracy.',
     tags: ['ONNX', 'PyTorch', 'Sentence Transformers', 'Benchmarking', 'Quantization'],
     status: 'featured' as const,
+    timeframe: 'Apr 2026',
     metrics: ['~9× throughput (602 req/s)', '74% model size reduction', '2.9ms p50 latency'],
     github: 'https://github.com/PCSchmidt/inference-optimization-study',
     evidence: 'https://github.com/PCSchmidt/inference-optimization-study/tree/main/evidence',
@@ -29,12 +31,13 @@ const featuredProjects = [
     notebook: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/notebooks/inference_optimization_study.ipynb',
   },
   {
-    title: 'Generative AI Journal Summarizer (RAG)',
+    title: 'Generative AI Journal Summarizer',
     description:
-      'RAG-based summarization workflow for journal entries and long-form documents, focused on grounded summaries and cleaner retrieval quality as the corpus scales.',
-    tags: ['Python', 'RAG', 'LangChain', 'NLP'],
+      'Multi-provider LLM gateway for journal entry analysis. Supports 17+ model configurations across Groq, HuggingFace, OpenAI, and Anthropic with session-based auth, BYOK token vault (AES-256), and rate limiting.',
+    tags: ['Python', 'FastAPI', 'LLM APIs', 'NLP'],
     status: 'featured' as const,
-    metrics: ['Document-to-summary workflow', 'Retrieval-augmented context', 'Production-oriented architecture'],
+    timeframe: 'Jul 2025 – Apr 2026',
+    metrics: ['17+ LLM model configs', 'Multi-provider routing (Groq, HF, OpenAI, Anthropic)', 'BYOK token vault with AES-256 encryption'],
     github: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer',
     demo: 'https://generative-ai-journal-summarizer.vercel.app',
     evidence: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/tree/main/evidence/reliability-2026-04-12-final-confirmed',
@@ -43,10 +46,11 @@ const featuredProjects = [
   {
     title: 'LearnOnTheGo — Prompt/PDF to Audio Lectures',
     description:
-      'End-to-end AI application that converts prompts and uploaded PDFs into generated audio lecture content, with evidence-first documentation of flow and constraints.',
-    tags: ['Full Stack', 'Generative AI', 'Audio', 'Document Processing'],
+      'Full-stack AI application that converts prompts and uploaded PDFs into audio lecture content using OpenRouter LLMs and ElevenLabs/Google TTS. FastAPI backend on Railway, React frontend on Vercel.',
+    tags: ['Full Stack', 'FastAPI', 'React', 'LLM', 'TTS'],
     status: 'featured' as const,
-    metrics: ['Prompt + file input modes', 'AI-generated learning output', 'Evidence-linked project narrative'],
+    timeframe: 'Jul 2025 – Present',
+    metrics: ['Prompt + PDF ingestion', 'Multi-provider LLM + TTS pipeline', 'FastAPI + React + Railway/Vercel'],
     github: 'https://github.com/PCSchmidt/learnonthego',
     demo: 'https://learnonthego-bice.vercel.app',
     evidence: 'https://github.com/PCSchmidt/learnonthego/blob/main/README.md',
@@ -58,6 +62,7 @@ const featuredProjects = [
       'From-scratch β-VAE in PyTorch with systematic β-sweep ablation studying the reconstruction–disentanglement tradeoff. 19 tests with CI.',
     tags: ['PyTorch', 'Generative Models', 'VAE', 'Ablation Study'],
     status: 'featured' as const,
+    timeframe: 'Spring 2026',
     metrics: ['6 β-sweep configurations', '19 passing tests', 'Evidence PNGs exported'],
     github: 'https://github.com/PCSchmidt/generative-modeling-study',
     evidence: 'https://github.com/PCSchmidt/generative-modeling-study/tree/main/evidence',
@@ -71,6 +76,7 @@ const featuredProjects = [
       'Custom Windy Gridworld with tabular Q-learning and DQN agents from scratch using Gymnasium and PyTorch. 24 tests with CI.',
     tags: ['Reinforcement Learning', 'PyTorch', 'Gymnasium', 'DQN'],
     status: 'featured' as const,
+    timeframe: 'Spring 2026',
     metrics: ['24 passing tests', 'Tabular + Deep RL agents', 'Custom Gymnasium environment'],
     github: 'https://github.com/PCSchmidt/rl-environment-study',
     evidence: 'https://github.com/PCSchmidt/rl-environment-study/tree/main/evidence',
@@ -84,6 +90,7 @@ const featuredProjects = [
       'Pure NumPy BGD, SGD+Momentum, Adam + neural net with backprop trained on MNIST. Loss landscape visualization and initialization sensitivity. 29 tests.',
     tags: ['NumPy', 'Optimization', 'Neural Networks', 'Backpropagation'],
     status: 'featured' as const,
+    timeframe: 'Spring 2026',
     metrics: ['29 passing tests', '~93% MNIST accuracy (pure NumPy)', '3 optimizers from scratch'],
     github: 'https://github.com/PCSchmidt/optimizer-deep-dive',
     evidence: 'https://github.com/PCSchmidt/optimizer-deep-dive/tree/main/evidence',
@@ -104,15 +111,16 @@ const featuredProjects = [
           <h1 class="hero-name">Chris Schmidt</h1>
           <p class="hero-tagline">Machine Learning Engineer | MS Applied Mathematics | JHU AI Engineering (MSE)</p>
           <p class="hero-bio">
-            I build machine learning systems that work in production — from data pipelines and model
-            training to deployment, monitoring, and continuous improvement. With a Master's in
-            Applied Mathematics and a current MSE in AI Engineering at Johns Hopkins University,
-            I bring mathematical rigor to deep learning, optimization, and applied ML research.
+            Applied mathematician and AI engineering graduate student building toward production
+            ML systems. With a Master's in Applied Mathematics and a current MSE in AI Engineering
+            at Johns Hopkins University, I bring mathematical rigor to deep learning, optimization,
+            and applied ML research.
           </p>
           <p class="hero-bio">
-            My work sits at the intersection of applied mathematics and production engineering:
-            designing scalable inference services, optimizing model performance with quantization
-            and batching strategies, and shipping models that create measurable impact.
+            My projects demonstrate hands-on depth across the ML stack: from-scratch optimizer
+            implementations with convergence analysis, inference optimization benchmarks (9× throughput
+            via ONNX + INT8 quantization), generative modeling ablation studies, and full-stack
+            applications with semantic matching and multi-provider LLM integration.
           </p>
           <div class="hero-actions">
             <a href="/projects" class="btn btn-primary">View Projects</a>
@@ -200,6 +208,7 @@ const featuredProjects = [
               demo={project.demo}
               evidence={project.evidence}
               guide={project.guide}
+              timeframe={project.timeframe}
               paper={project.paper}
               notebook={project.notebook}
             />

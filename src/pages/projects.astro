@@ -4,18 +4,19 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const projects = [
   {
-    title: 'Generative AI Journal Summarizer (RAG)',
+    title: 'Generative AI Journal Summarizer',
     description:
-      'RAG-powered summarization application for journal entries and longer documents. Focused on building grounded summaries with retrieval context instead of purely generative responses.',
+      'Multi-provider LLM gateway for journal entry analysis. Supports 17+ model configurations across Groq, HuggingFace, OpenAI, and Anthropic with session-based auth, BYOK token vault (AES-256), and rate limiting.',
     problem:
-      'Naive summarization often drops important context or invents details. For real usage, summaries need to stay anchored to source material while still being concise and readable.',
+      'Journal reflection benefits from summarization and insight extraction, but cloud LLM APIs differ in availability, cost, and quality. Users need flexible provider choice without vendor lock-in.',
     approach:
-      'Built a retrieval-first pipeline that chunks source content, indexes it for semantic lookup, then composes prompts with retrieved context before generation. Structured the implementation so retrieval, prompting, and summarization logic can evolve independently as quality work continues.',
+      'Built a FastAPI backend with multi-provider routing (Groq, HuggingFace, OpenAI, Anthropic), 17+ model configurations, session-based auth, and a BYOK token vault with AES-256 encryption. React Native frontend with a web deployment via Vercel.',
     impact:
-      'Delivered a practical working baseline for grounded document summarization with a clear path for adding stronger evaluation, source attribution, and production hardening.',
-    tags: ['Python', 'RAG', 'LangChain', 'NLP'],
+      'Working multi-provider LLM gateway with live demo. Demonstrates API integration patterns, auth/encryption handling, and multi-model routing. Foundation for planned RAG extension.',
+    tags: ['Python', 'FastAPI', 'LLM APIs', 'NLP'],
     status: 'featured' as const,
-    metrics: ['Retrieval-grounded summaries', 'Modular RAG pipeline', 'Extensible evaluation path'],
+    timeframe: 'Jul 2025 \u2013 Apr 2026',
+    metrics: ['17+ LLM model configs', 'Multi-provider routing (Groq, HF, OpenAI, Anthropic)', 'BYOK token vault with AES-256 encryption'],
     github: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer',
     demo: 'https://generative-ai-journal-summarizer.vercel.app',
     evidence: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/tree/main/evidence/reliability-2026-04-12-final-confirmed',
@@ -48,10 +49,11 @@ const projects = [
     approach:
       'Built a three-tier architecture: Next.js 14 frontend on Vercel, Supabase (PostgreSQL + pgvector + RLS) for data/auth, and a FastAPI AI backend on Railway running sentence-transformers (all-MiniLM-L6-v2). Skills are embedded on creation and matched via cosine similarity with cross-category explanations.',
     impact:
-      'Deployed end-to-end with 23 routes, 10 skill categories, real-time messaging, trade proposals, ratings, and AI-powered match recommendations. Demonstrates full-stack ownership from auth flows to ML inference in production.',
+      'Deployed end-to-end with 23 routes, 10 skill categories, real-time messaging, trade proposals, ratings, and AI-powered match recommendations. Demonstrates full-stack ownership from auth flows to embedding-based matching.',
     tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
     status: 'featured' as const,
-    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier production deploy'],
+    timeframe: 'May 2025 \u2013 Present',
+    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier architecture (Next.js + FastAPI + Supabase)'],
     github: 'https://github.com/PCSchmidt/skillswapappmvp',
     demo: 'https://skillswapappmvp.vercel.app',
     evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
@@ -69,6 +71,7 @@ const projects = [
       'ONNX + INT8 batch=32 achieved 2.9ms p50 latency and 602 req/s — a ~9× throughput improvement over PyTorch single inference. Model size reduced ~74%. Quantized embeddings maintained 0.962 mean cosine similarity vs. baseline. 17 passing tests with GitHub Actions CI.',
     tags: ['ONNX', 'PyTorch', 'Sentence Transformers', 'Benchmarking', 'Quantization'],
     status: 'featured' as const,
+    timeframe: 'Apr 2026',
     metrics: ['~9× throughput (602 req/s)', '74% model size reduction', '2.9ms p50 latency'],
     github: 'https://github.com/PCSchmidt/inference-optimization-study',
     evidence: 'https://github.com/PCSchmidt/inference-optimization-study/tree/main/evidence',
@@ -88,6 +91,7 @@ const projects = [
       'Clear demonstration of how β controls the reconstruction–disentanglement tradeoff. Low β (0.1) gives sharp reconstructions but tangled latents; high β (10) gives smooth latent space but blurry outputs. 19/19 tests passing.',
     tags: ['PyTorch', 'Generative Models', 'VAE', 'Ablation Study', 'Python'],
     status: 'featured' as const,
+    timeframe: 'Spring 2026',
     metrics: ['6 β-sweep configurations', '19 passing tests', 'Evidence PNGs exported'],
     github: 'https://github.com/PCSchmidt/generative-modeling-study',
     evidence: 'https://github.com/PCSchmidt/generative-modeling-study/tree/main/evidence',
@@ -107,6 +111,7 @@ const projects = [
       'Tabular Q-learning converges fast on small state spaces; DQN generalizes but needs replay buffer tuning. Full environment/agent separation following Gymnasium patterns. 24/24 tests passing.',
     tags: ['Reinforcement Learning', 'PyTorch', 'Gymnasium', 'DQN', 'Q-Learning', 'Python'],
     status: 'featured' as const,
+    timeframe: 'Spring 2026',
     metrics: ['24 passing tests', 'Tabular + Deep RL agents', 'Custom Gymnasium environment'],
     github: 'https://github.com/PCSchmidt/rl-environment-study',
     evidence: 'https://github.com/PCSchmidt/rl-environment-study/tree/main/evidence',
@@ -126,6 +131,7 @@ const projects = [
       'Adam achieves ~93% MNIST accuracy vs SGD ~85%. Condition number study shows Adam effectively reduces effective κ. He initialization critical for ReLU networks. 29/29 tests passing, zero external ML dependencies.',
     tags: ['NumPy', 'Optimization', 'Neural Networks', 'Backpropagation', 'MNIST', 'Python'],
     status: 'featured' as const,
+    timeframe: 'Spring 2026',
     metrics: ['29 passing tests', '~93% MNIST accuracy (pure NumPy)', '3 optimizers from scratch'],
     github: 'https://github.com/PCSchmidt/optimizer-deep-dive',
     evidence: 'https://github.com/PCSchmidt/optimizer-deep-dive/tree/main/evidence',
@@ -133,24 +139,12 @@ const projects = [
     paper: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.pdf',
     notebook: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.ipynb',
   },
-  {
-    title: 'JHU AI Engineering Research Project (In Progress)',
-    description:
-      'Applied research project completed as part of the Johns Hopkins MSE in AI Engineering program. Full details and write-up pending program completion.',
-    problem: 'Research problem and methodology to be disclosed upon completion.',
-    approach:
-      'Reproducible experimental setup with ablations, documented in a structured technical report following JHU research guidelines.',
-    impact: 'Results and conclusions pending. Paper/report to be linked upon completion.',
-    tags: ['Deep Learning', 'Applied Research', 'JHU', 'Python'],
-    status: 'in-progress' as const,
-    metrics: ['JHU MSE coursework', 'Reproducible experiments', 'Ablation study'],
-  },
 ];
 ---
 
 <Layout
   title="Projects — Chris Schmidt"
-  description="ML/AI project portfolio: RAG systems, MLOps pipelines, anomaly detection, and inference optimization."
+  description="ML/AI project portfolio: inference optimization, generative models, reinforcement learning, and full-stack AI applications."
 >
   <section class="section">
     <div class="container">
@@ -176,6 +170,7 @@ const projects = [
                 demo={project.demo}
                 evidence={project.evidence}
                 guide={project.guide}
+                timeframe={project.timeframe}
                 paper={project.paper}
                 notebook={project.notebook}
               >

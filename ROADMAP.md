@@ -53,8 +53,8 @@ These are not style issues — they are factual inaccuracies that will damage cr
 | **Hero bio claims "I build ML systems that work in production"** | **RESOLVED** | Phase 0.2 rewrote hero to honest framing: "Building production ML systems and studying AI engineering at Johns Hopkins." |
 | **Hero bio claims "designing scalable inference services"** | **RESOLVED** | Phase 0.2 replaced with accurate description of actual project work. |
 | **About chip says "MLOps & Production ML Systems"** | **RESOLVED** | Phase 0.3 changed to "Inference Optimization & Deployment." |
-| **SkillSwap card says "Three-tier production deploy"** | **Medium** | Per `PROGRESS.md`, Phase 2 (visual tokens) is complete but Phase 3 (AI Skill Matching integration) is still "Current." The AI backend exists but the full end-to-end semantic matching flow through the frontend is not yet complete. `next.config.js` has `typescript.ignoreBuildErrors`. |
-| **LearnOnTheGo e2e flow not confirmed working** | **Medium** | The audio generation pipeline exists in code but end-to-end (topic → LLM generation → TTS → audio playback) isn't confirmed working in the deployed environment. Provider API keys may not be configured on Railway. |
+| **SkillSwap card says "Three-tier production deploy"** | **RESOLVED** | Metric already updated to "Three-tier architecture (Next.js + FastAPI + Supabase)". Railway backend verified live (model loaded, DB connected). Frontend on Vercel. `aiClient.ts` wires dashboard → `/api/skills/match`. Architecture claims are accurate. |
+| **LearnOnTheGo e2e flow not confirmed working** | **RESOLVED** | Railway backend healthy. Vercel frontend is auth-gated (login wall). Card updated: demoted from `featured` to `active`, removed demo link, rewrote description/impact to reflect actual state, added timeframe. |
 | **`aie/` DSPy workshop is third-party code** | **Low** | Workshop materials from AI Engineering Summit 2025, not original work. Appropriately not on the portfolio — should stay off unless you build original work on top of it. |
 
 ### What's actually working and honestly represented
@@ -129,30 +129,13 @@ This reframing is *more impressive than the fake RAG claim* to someone who reads
 
 **Completed.** Changed chip from "MLOps & Production ML Systems" to "Inference Optimization & Deployment."
 
-### 0.4 Fix the SkillSwap metrics
+### 0.4 Fix the SkillSwap metrics — ✅ DONE
 
-**Current:** Metric says `"Three-tier production deploy"`.
+**Verified.** Railway backend is live (model loaded, DB connected). Frontend deployed on Vercel. `aiClient.ts` wires dashboard → `/api/skills/match`. Metric already reads `"Three-tier architecture (Next.js + FastAPI + Supabase)"` — accurate. Approach text about `all-MiniLM-L6-v2` and cosine similarity confirmed in backend code and deployed endpoint.
 
-**Action — choose one depending on current SkillSwap state:**
+### 0.5 Verify LearnOnTheGo deployment — ✅ DONE
 
-- If AI matching through the frontend is not yet working end-to-end:
-  - Change to `"Three-tier architecture (Next.js + FastAPI + Supabase)"` — describes the architecture without claiming it's production-complete
-- If AI matching works through the frontend:
-  - Keep as-is, but verify the claim is true by testing the deployed app
-
-Also in `projects.astro`, the approach text mentions `"all-MiniLM-L6-v2... cosine similarity with cross-category explanations"` — verify this flow actually works in the deployed app. If it only works in the standalone backend, say so.
-
-### 0.5 Verify LearnOnTheGo deployment
-
-**Action:** Hit `https://learnonthego-bice.vercel.app` and `https://learnonthego-production.up.railway.app` and test the actual flow:
-1. Can a user submit a prompt?
-2. Does it generate a lecture?
-3. Does TTS produce audio?
-4. Is the audio playable?
-
-If the flow doesn't work end-to-end in production:
-- Update the description to accurately describe the current state (e.g., "Backend API with lecture generation pipeline. Frontend deployed on Vercel with backend on Railway.")
-- Change metrics to reflect what actually works, not aspirational features
+**Verified.** Railway backend healthy. Vercel frontend is auth-gated (login wall — recruiter cannot see app). README honestly states frontend integration is partially complete. Updated `projects.astro` card: demoted from `featured` to `active`, removed demo link (login wall), rewrote description/impact to reflect actual state (backend operational, frontend in progress), added `timeframe`.
 
 ### 0.6 Remove or replace JHU placeholder — ✅ DONE
 
@@ -534,8 +517,8 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | **P0** | **Fix Journal Summarizer RAG claim** | **Critical** | **Low** | **0.1 ✅** |
 | **P0** | **Rewrite hero section honestly** | **High** | **Low** | **0.2 ✅** |
 | **P0** | **Fix about strip chip** | **High** | **Trivial** | **0.3 ✅** |
-| P0 | Fix SkillSwap metrics | Medium | Low | 0.4 |
-| P0 | Verify LearnOnTheGo deployment | Medium | Low | 0.5 |
+| P0 | Fix SkillSwap metrics | Medium | Low | 0.4 ✅ |
+| P0 | Verify LearnOnTheGo deployment | Medium | Low | 0.5 ✅ |
 | P0 | Remove JHU placeholder | Medium | Trivial | 0.6 ✅ |
 | P0 | Add dates to projects | Medium | Low | 0.7 ✅ |
 | P0 | GitHub profile polish | Medium | Low | 0.8 |

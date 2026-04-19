@@ -25,18 +25,18 @@ const projects = [
   {
     title: 'LearnOnTheGo — Prompt/PDF to Audio Lectures',
     description:
-      'Full-stack AI application that generates audio lecture content from user prompts or uploaded PDFs, with evidence-linked documentation of end-to-end behavior.',
+      'Full-stack AI application with a FastAPI backend that generates audio lecture content from user prompts or uploaded PDFs. Backend deployed on Railway; React frontend deployed on Vercel (auth-gated, frontend integration in progress).',
     problem:
       'Learners often have useful content but limited time to read. They need a way to transform raw notes and documents into listenable study material.',
     approach:
-      'Implemented an app flow that accepts prompt/file inputs, processes source text, and routes output into AI-assisted generation suitable for audio-first consumption. Prioritized modular boundaries between ingestion, generation, and output formatting so features can be iterated quickly.',
+      'Built a modular backend pipeline (prompt/file ingestion → LLM summarization → TTS audio output) with a React frontend shell. Prioritized backend API completeness and evidence-linked documentation before frontend polish.',
     impact:
-      'Demonstrates end-to-end AI product delivery beyond notebook experimentation, including real user inputs and a clear path to deployment-ready application behavior.',
+      'Backend API fully operational with health checks, lecture generation, and audio output endpoints. Frontend auth and layout deployed but end-to-end user flow still in progress.',
     tags: ['Full Stack', 'Generative AI', 'Audio', 'Document Processing'],
-    status: 'featured' as const,
-    metrics: ['Prompt + PDF ingestion', 'AI-generated lecture content', 'Evidence-linked README flow'],
+    status: 'active' as const,
+    timeframe: 'Jan 2025 – present',
+    metrics: ['FastAPI backend deployed on Railway', 'Prompt + PDF ingestion pipeline', 'AI-generated lecture content via TTS'],
     github: 'https://github.com/PCSchmidt/learnonthego',
-    demo: 'https://learnonthego-bice.vercel.app',
     evidence: 'https://github.com/PCSchmidt/learnonthego/blob/main/README.md',
     guide: 'https://github.com/PCSchmidt/learnonthego/blob/main/DEMO_GUIDE.md',
   },

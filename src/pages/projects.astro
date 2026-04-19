@@ -6,17 +6,17 @@ const projects = [
   {
     title: 'Generative AI Journal Summarizer',
     description:
-      'Multi-provider LLM gateway with RAG pipeline for journal entry analysis. Embeds past entries with sentence-transformers + FAISS, retrieves longitudinal context to augment LLM prompts. Supports 17+ model configs across Groq, HuggingFace, OpenAI, and Anthropic with BYOK token vault (AES-256).',
+      'Multi-provider LLM gateway with RAG pipeline and ReAct agentic layer for journal entry analysis. Embeds past entries with sentence-transformers + FAISS, retrieves longitudinal context to augment LLM prompts. Agent orchestrates 5 tools (search, sentiment, trends, reflect, suggest) in a multi-step reasoning loop. Supports 17+ model configs across Groq, HuggingFace, OpenAI, and Anthropic with BYOK token vault (AES-256).',
     problem:
       'Journal analysis tools treat each entry in isolation, losing insight from patterns over time. Cloud LLM APIs also differ in availability and cost, requiring flexible provider routing.',
     approach:
-      'Built a FastAPI backend with a RAG pipeline (sentence-transformers all-MiniLM-L6-v2, FAISS cosine search, prompt augmentation), multi-provider LLM routing, and a BYOK token vault. Evaluated retrieval with a 20-entry golden test set and automated metrics.',
+      'Built a FastAPI backend with a RAG pipeline (sentence-transformers all-MiniLM-L6-v2, FAISS cosine search, prompt augmentation), multi-provider LLM routing, a BYOK token vault, and a ReAct-style agentic layer built from Groq API primitives (no LangChain) with 5 tools and observable planning traces. Evaluated retrieval with a golden test set and agent accuracy with a 10-case benchmark.',
     impact:
-      'RAG retrieval achieves 0.80 precision@3 and 1.0 MRR on the eval set. Working multi-provider gateway with live demo, provider diagnostics, and reproducible eval harness.',
-    tags: ['Python', 'FastAPI', 'RAG', 'FAISS', 'sentence-transformers', 'LLM APIs'],
+      'RAG retrieval: 0.80 precision@3, 1.0 MRR. Agent eval: 90% pass rate, 0.92 tool recall, 0.77 precision, 4.8s avg latency. Working multi-provider gateway with live demo, provider diagnostics, and reproducible eval harness.',
+    tags: ['Python', 'FastAPI', 'RAG', 'FAISS', 'Agentic AI', 'LLM APIs'],
     status: 'featured' as const,
     timeframe: 'Jul 2025 \u2013 Present',
-    metrics: ['Retrieval: 0.80 precision@3, 1.0 MRR', '17+ LLM model configs across 8 providers', 'BYOK token vault with AES-256 encryption'],
+    metrics: ['Retrieval: 0.80 precision@3, 1.0 MRR', 'Agent: 90% pass, 0.92 recall, 4.8s latency', '17+ LLM model configs across 8 providers'],
     github: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer',
     demo: 'https://generative-ai-journal-summarizer.vercel.app',
     evidence: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/tree/main/evidence/reliability-2026-04-12-final-confirmed',

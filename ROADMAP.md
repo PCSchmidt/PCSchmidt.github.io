@@ -306,21 +306,21 @@ This reframing is *more impressive than the fake RAG claim* to someone who reads
    - Either upgrade or document why MiniLM is the right trade-off
    - This turns a potential weakness into an informed engineering decision
 
-### 1.5 Ensure all project cards have working links
+### 1.5 Ensure all project cards have working links ✅ DONE
 
-**Link audit:**
+**Link audit (verified 2026-04-19):**
 
 | Project | GitHub | Demo | Evidence | Guide | Paper | Notebook |
 |---------|--------|------|----------|-------|-------|----------|
-| SkillSwap | ✅ | ✅ verify | ✅ | ✅ | n/a (app) | n/a (app) |
-| Inference Optimization | ✅ | n/a (study) | ✅ | ✅ | ✅ | ✅ |
-| Journal Summarizer | ✅ | ✅ verify | ✅ | ✅ | ❌ add if evals added | ❌ n/a |
-| LearnOnTheGo | ✅ | ✅ verify | ✅ | ✅ | ❌ n/a | ❌ n/a |
-| β-VAE Study | ✅ | n/a | ✅ | ✅ | ✅ | ✅ |
-| RL Study | ✅ | n/a | ✅ | ✅ | ✅ | ✅ |
-| Optimizer Deep Dive | ✅ | n/a | ✅ | ✅ | ✅ | ✅ |
+| SkillSwap | ✅ | ✅ | ✅ README | ✅ | n/a (app) | n/a (app) |
+| Inference Optimization | ✅ | n/a (study) | ✅ evidence/ | ✅ | ✅ | ✅ |
+| Journal Summarizer | ✅ | ✅ | ✅ evidence/ | ✅ | n/a | n/a |
+| LearnOnTheGo | ✅ | removed (auth wall) | ✅ README | ✅ | n/a | n/a |
+| β-VAE Study | ✅ | n/a | ✅ PDF (no evidence/ dir) | ✅ | ✅ | ✅ |
+| RL Study | ✅ | n/a | ✅ PDF (no evidence/ dir) | ✅ | ✅ | ✅ |
+| Optimizer Deep Dive | ✅ | n/a | ✅ PDF (no evidence/ dir) | ✅ | ✅ | ✅ |
 
-**Action:** Hit every URL and verify it returns 200, not 404. Fix any dead links.
+**Fixed:** 5 evidence links pointed to non-existent `evidence/` directories in generative-modeling-study, rl-environment-study, and optimizer-deep-dive. Redirected to PDF reports which contain full executed notebook outputs.
 
 ---
 
@@ -526,7 +526,7 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | P1 | Architecture diagrams (all projects) | Medium | Medium | 1.1 |
 | P1 | LearnOnTheGo metrics | Medium | Medium | 1.3 |
 | P1 | SkillSwap AI integration / model assessment | Medium | Medium | 1.4 |
-| P1 | Verify all project card links | Low | Low | 1.5 |
+| P1 | Verify all project card links | Low | Low | 1.5 ✅ |
 | P2 | **Agentic AI project** | **Critical** | **High** | **2.1 ✅** |
 | P2 | **Fine-tuning + evals study** | **High** | **High** | **2.2** |
 | P3 | Multimodal project | Medium | High | 2.3 |

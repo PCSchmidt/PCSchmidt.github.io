@@ -102,19 +102,21 @@ const projects = [
   {
     title: 'Parameter-Efficient Fine-Tuning Study (LoRA)',
     description:
-      'Systematic LoRA rank ablation on GPT-2 (124M) for dialogue summarization. Ablates rank [2,4,8,16] × alpha [8,16,32], evaluates with ROUGE + BERTScore, and demonstrates diminishing returns beyond rank 8. CPU-only, fully reproducible.',
+      'Systematic LoRA rank ablation on GPT-2 (124M) for dialogue summarization. Ablates rank [2,4,8,16] x alpha [8,16,32], evaluates with ROUGE + BERTScore, and demonstrates diminishing returns beyond rank 8. CPU-only, fully reproducible.',
     problem:
       'Full fine-tuning of LLMs is expensive. LoRA reduces trainable parameters by 95%+, but how does rank affect quality? Practitioners need empirical guidance for choosing configurations.',
     approach:
       'Applied LoRA to GPT-2 attention layers across 5 rank/alpha configurations on SAMSum (500 train examples). Evaluated each with ROUGE-1/2/L and BERTScore. Visualized training curves, ablation heatmaps, and before/after comparisons.',
     impact:
-      'Rank 8 with alpha 16-32 captures most fine-tuning benefit at 0.02% of model parameters. Even rank-2 (~6K params) substantially beats zero-shot. Methodology is model-size-agnostic — applies to Llama, Mistral, etc.',
+      'Rank 8 with alpha 16-32 captures most fine-tuning benefit at 0.65% of model parameters. Even rank-2 (202K params) substantially beats zero-shot. Methodology is model-size-agnostic and applies directly to Llama, Mistral, and other transformers.',
     tags: ['LoRA', 'PEFT', 'Transformers', 'Fine-Tuning', 'Ablation Study', 'Python'],
     status: 'featured' as const,
     timeframe: 'Apr 2026',
-    metrics: ['5 LoRA configurations ablated', '12 passing tests', '0.02% trainable params (rank 8)'],
+    metrics: ['5 LoRA configurations ablated', '12 passing tests', '0.65% trainable params (rank 8)'],
     github: 'https://github.com/PCSchmidt/finetuning-study',
+    evidence: 'https://github.com/PCSchmidt/finetuning-study/blob/main/notebooks/finetuning_study.pdf',
     guide: 'https://github.com/PCSchmidt/finetuning-study/blob/main/DEMO_GUIDE.md',
+    paper: 'https://github.com/PCSchmidt/finetuning-study/blob/main/notebooks/finetuning_study.pdf',
     notebook: 'https://github.com/PCSchmidt/finetuning-study/blob/main/notebooks/finetuning_study.ipynb',
   },
   {

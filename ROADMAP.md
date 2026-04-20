@@ -1,6 +1,6 @@
 # Portfolio Improvement Roadmap
 
-**Last updated:** April 19, 2026
+**Last updated:** April 20, 2026
 **Current grade:** B+ (consensus from two independent AI evaluations)
 **Target:** Portfolio that honestly represents skills, demonstrates learning trajectory, and signals readiness for applied ML/AI engineering roles
 
@@ -32,6 +32,7 @@ The Astro 6.1.5 site at `PCSchmidt.github.io` (static output, deployed via GitHu
 | 5 | Generative Modeling Study (β-VAE) | 6 β-sweep configs; 19 tests; Evidence PNGs | ✅ | ✅ | ❌ |
 | 6 | RL Environment + Q-Learning Study | 24 tests; Tabular + Deep RL; Custom Gymnasium env | ✅ | ✅ | ❌ |
 | 7 | Optimizer Deep Dive: GD to Adam | 29 tests; ~93% MNIST; 3 optimizers from scratch | ✅ | ✅ | ❌ |
+| 8 | Fine-tuning Study (GPT-2 + LoRA) | 0.65% trainable params (rank 8); ROUGE-L 0.139; BERTScore F1 0.453 | ✅ | ✅ | ❌ |
 
 **JHU placeholder removed.** All projects now have `timeframe` dates.
 
@@ -64,6 +65,7 @@ These are not style issues — they are factual inaccuracies that will damage cr
 - **β-VAE Study:** From-scratch PyTorch implementation with systematic 6-config β ablation. 19 tests. Originated from JHU coursework (705.623) and was expanded. Honest, well-documented.
 - **RL Study:** Custom Gymnasium environment with tabular Q-learning and DQN from scratch. 24 tests. Same coursework origin, same quality.
 - **SkillSwap (partial):** The AI backend is real — `SentenceTransformer("all-MiniLM-L6-v2")` loads, generates embeddings, computes cosine similarity. The Next.js frontend is polished. But the end-to-end integration is incomplete, and "production deploy" overclaims the current state.
+- **Fine-tuning Study:** GPT-2 124M + LoRA rank ablation on SAMSum dialogue summarization. CPU-only, 5 configs, real ROUGE-L and BERTScore measurements, 12 passing tests, 22-page PDF. Originated as JHU-motivated work to understand LLM internals beyond API calls.
 - **Documentation rigor:** The Problem → Approach → Impact structure, evidence folders, CI badges, demo guides, Paper/Notebook links are a genuine differentiator regardless of project origins.
 
 ### Where it falls short for 2026 cutting-edge roles
@@ -72,7 +74,7 @@ These are not style issues — they are factual inaccuracies that will damage cr
 |-----|----------|--------|--------|
 | No agentic AI / tool-use work | Critical | Both evaluators | **RESOLVED** — Phase 2.1 shipped ReAct agent with 5 tools, 90% eval pass rate |
 | No ML evals culture (unit tests ≠ ML evals) | High | Both evaluators | **RESOLVED** — RAG eval harness (Phase 1.2) + agent eval benchmark (Phase 2.1) |
-| LLM usage is black-box (no fine-tuning, no internals) | High | Sonnet | Open |
+| LLM usage is black-box (no fine-tuning, no internals) | High | Sonnet | **RESOLVED** — Phase 2.2 shipped GPT-2 + LoRA rank ablation with ROUGE + BERTScore eval harness |
 | No multimodal work | Medium | Sonnet | Open |
 | No dates or progression narrative | Medium | Grok | **RESOLVED** — Phase 0.7 added timeframe to all cards |
 | JHU placeholder actively hurts credibility | Medium | Sonnet | **RESOLVED** — Phase 0.6 removed placeholder |
@@ -400,11 +402,12 @@ User Query → Planner Agent (selects tools + reasoning strategy)
 
 ### 2.2 Fine-tuning + evaluation study — ✅ DONE
 
-**Completed:** GPT-2 (124M) + LoRA rank ablation on SAMSum dialogue summarization. CPU-only.
-- Repo: https://github.com/PCSchmidt/finetuning-study (commit dc53bba)
-- 5 src modules, 12 passing tests, CI, study notebook, DEMO_GUIDE
-- Ablation: rank [2,4,8,16] × alpha [8,16,32], ROUGE + BERTScore evaluation
-- Portfolio cards added to index.astro and projects.astro
+**Completed April 20, 2026.** GPT-2 (124M) + LoRA rank ablation on SAMSum dialogue summarization. CPU-only.
+- Repo: https://github.com/PCSchmidt/finetuning-study (commit eef0407)
+- 5 src modules, 12 passing tests, CI, 22-page study PDF, DEMO_GUIDE
+- 5 configs: rank [2,4,8,16] × alpha [8,16,32]; trainable params 202K–1.6M (0.65% at rank 8)
+- Eval results: ROUGE-L 0.105–0.139, BERTScore F1 0.376–0.453, eval loss 2.510–2.561
+- Portfolio cards added to index.astro and projects.astro (evidence → results/, paper → 22-page PDF)
 - Adapted plan for CPU-only constraint: GPT-2 124M instead of Llama 7B+
 
 ### 2.3 Multimodal project (stretch goal)
@@ -448,16 +451,20 @@ const currentlyExploring = [
 ```
 Update monthly. Low-effort way to signal velocity and JHU program alignment.
 
-### 3.3 Thinking section
+### 3.3 Thinking section — ✅ DONE
 
-**Astro implementation:**
-1. Create `src/content/thinking/` + `src/content/config.ts` (thinking collection schema)
-2. Create `src/pages/thinking/index.astro` + `src/pages/thinking/[slug].astro`
-3. Add "Thinking" to navigation in `Layout.astro`
+**Completed April 20, 2026.**
 
-**Starter posts** (1 per week, drawn from existing work):
+- `src/content/thinking/` collection with Astro content schema
+- `src/pages/thinking/index.astro` + `src/pages/thinking/[slug].astro` route
+- "Thinking" added to navigation in `Layout.astro`
+
+**Published articles:**
+- ["The Evaluation Gap: Why 'It Works' Isn't Engineering"](https://pcschmidt.github.io/thinking/evaluation-gap) — evaluation methodology, ablation design, the β-VAE and inference optimization studies as case studies
+- ["Why Mathematical Foundations Matter More as Coding Agents Commoditize Implementation"](https://pcschmidt.github.io/thinking/mathematical-foundations-coding-agents) — applied math as a durable advantage as implementation cost falls
+
+**Possible future posts:**
 - "What I learned benchmarking inference at 602 req/s"
-- "Why pure-NumPy neural networks still matter in 2026"
 - "Building a multi-provider LLM gateway: routing, auth, and trade-offs"
 - "From coursework to portfolio: how I turned JHU assignments into case studies"
 
@@ -497,7 +504,7 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | P3 | Multimodal project | Medium | High | 2.3 |
 | P3 | Visual design refresh | Low | Medium | 3.1 |
 | P4 | "Currently Exploring" section | Low | Low | 3.2 |
-| P4 | Thinking | Low | Ongoing | 3.3 |
+| P4 | Thinking | Low | Ongoing | 3.3 ✅ |
 
 ---
 
@@ -510,11 +517,11 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | Production ML credibility | C+ (projects, not production) | B (honest framing + evals) | B+ | B+ |
 | Math/foundations depth | B+ | B+ | A− | A |
 | Agentic/frontier AI | ~~D~~ **A−** | ~~D~~ A− | A− | A |
-| **LLM depth** | C | **B+** (RAG + agent eval harnesses) | B+ | A− |
-| **Evals culture** | ~~C−~~ **B+** | **B+** (RAG eval + agent eval benchmarks) | A− | A |
+| **LLM depth** | C | **A−** (RAG + agent eval harnesses + LoRA fine-tuning study) | A− | A− |
+| **Evals culture** | ~~C−~~ **B+** | **A−** (RAG eval + agent eval + fine-tuning eval harness) | A− | A |
 | Multimodal | C | C | B (if 2.3) | B+ |
 | Discoverability & polish | C+ | B+ | B+ | A− |
-| Overall | **B+** | **B+/A−** | **A−** | **A** |
+| Overall | **B+** | **A−** | **A−** | **A** |
 
 ---
 

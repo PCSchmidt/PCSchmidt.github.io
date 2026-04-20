@@ -448,12 +448,12 @@ const currentlyExploring = [
 ```
 Update monthly. Low-effort way to signal velocity and JHU program alignment.
 
-### 3.3 Blog / writing section
+### 3.3 Thinking section
 
 **Astro implementation:**
-1. Create `src/content/blog/` + `src/content/config.ts` (blog collection schema)
-2. Create `src/pages/blog/index.astro` + `src/pages/blog/[slug].astro`
-3. Add "Blog" to navigation in `Layout.astro`
+1. Create `src/content/thinking/` + `src/content/config.ts` (thinking collection schema)
+2. Create `src/pages/thinking/index.astro` + `src/pages/thinking/[slug].astro`
+3. Add "Thinking" to navigation in `Layout.astro`
 
 **Starter posts** (1 per week, drawn from existing work):
 - "What I learned benchmarking inference at 602 req/s"
@@ -468,7 +468,7 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 - [ ] Evidence paths valid?
 - [ ] New metrics to update?
 - [ ] "Currently Exploring" section current?
-- [ ] Blog post published this month?
+- [ ] Thinking post published this month?
 - [ ] Lighthouse scores 95+?
 - [ ] GitHub profile README current?
 - [ ] Pinned repos still the right 6?
@@ -497,7 +497,7 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | P3 | Multimodal project | Medium | High | 2.3 |
 | P3 | Visual design refresh | Low | Medium | 3.1 |
 | P4 | "Currently Exploring" section | Low | Low | 3.2 |
-| P4 | Blog / writing | Low | Ongoing | 3.3 |
+| P4 | Thinking | Low | Ongoing | 3.3 |
 
 ---
 

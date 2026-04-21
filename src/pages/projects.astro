@@ -23,24 +23,6 @@ const projects = [
     guide: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/blob/main/DEMO_GUIDE.md',
   },
   {
-    title: 'AeroIntel — Real-Time Aviation Intelligence Dashboard',
-    description:
-      'Real-time ADS-B aviation dashboard with a 3-layer ML anomaly pipeline. Ingests live aircraft positions from OpenSky Network and adsb.lol, runs Kalman filter smoothing, DBSCAN spatial clustering, and IsolationForest outlier scoring, then pushes enriched GeoJSON over WebSocket to a MapLibre GL frontend. Anomalous aircraft trigger on-demand Claude 3.5 Sonnet natural language explanations.',
-    problem:
-      'Publicly available ADS-B feeds provide real-time position data for thousands of aircraft but no anomaly context. A researcher or analyst looking for irregular flight behavior has no fast path from raw coordinates to an interpretable explanation.',
-    approach:
-      'Built a FastAPI backend ingesting ADS-B data from two sources (OpenSky Network + adsb.lol) and running a sequential pipeline: Kalman filter for trajectory smoothing, DBSCAN for spatial cluster detection, and IsolationForest for statistical outlier scoring. Pipeline runs every 60 seconds; enriched GeoJSON is pushed to connected browser clients over WebSocket. Anomaly explanations are generated on demand via the Anthropic Claude API, citing specific flight parameters. Frontend is Next.js 14 with MapLibre GL, a natural language query endpoint, and a situation summary feature. Rate-limit graceful degradation merges cached commercial data with fresh military data and emits a warning banner.',
-    impact:
-      'Live system tracks 7,800+ aircraft per cycle across two ingestion sources. Pipeline runs in 5.3s with sub-100ms WebSocket push latency. IsolationForest flags statistically abnormal aircraft for human review; DBSCAN surfaces spatial cluster patterns. Graceful degradation keeps the map populated during OpenSky rate-limit events. Architecture: FastAPI backend (Railway-ready), Next.js frontend (Vercel-ready), Docker Compose for local development.',
-    tags: ['Python', 'FastAPI', 'Kalman Filter', 'DBSCAN', 'IsolationForest', 'Claude API', 'Next.js', 'MapLibre GL'],
-    status: 'featured' as const,
-    timeframe: 'Apr 2026',
-    metrics: ['7,800+ live aircraft tracked per pipeline cycle', '5.3s pipeline cycle, <100ms WebSocket push latency', '3-layer anomaly pipeline: Kalman, DBSCAN, IsolationForest'],
-    github: 'https://github.com/PCSchmidt/aerointel',
-    evidence: 'https://github.com/PCSchmidt/aerointel/tree/main/evidence',
-    guide: 'https://github.com/PCSchmidt/aerointel/blob/main/DEMO_GUIDE.md',
-  },
-  {
     title: 'LearnOnTheGo — Prompt/PDF to Audio Lectures',
     description:
       'Full-stack AI application with a FastAPI backend that generates audio lecture content from user prompts or uploaded PDFs. Backend deployed on Railway; React frontend deployed on Vercel (auth-gated, frontend integration in progress).',

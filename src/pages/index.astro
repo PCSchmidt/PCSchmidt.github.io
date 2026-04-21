@@ -18,18 +18,6 @@ const featuredProjects = [
     notebook: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/notebooks/inference_optimization_study.ipynb',
   },
   {
-    title: 'AeroIntel — Real-Time Aviation Intelligence Dashboard',
-    description:
-      'Real-time ADS-B aviation dashboard with a 3-layer ML anomaly pipeline. Ingests live aircraft positions from two sources, runs Kalman filter smoothing, DBSCAN spatial clustering, and IsolationForest outlier scoring, then pushes enriched GeoJSON over WebSocket to a MapLibre GL frontend. Anomalous aircraft trigger on-demand Claude 3.5 Sonnet natural language explanations.',
-    tags: ['Python', 'FastAPI', 'Kalman Filter', 'DBSCAN', 'IsolationForest', 'Claude API', 'Next.js', 'MapLibre GL'],
-    status: 'featured' as const,
-    timeframe: 'Apr 2026',
-    metrics: ['7,800+ live aircraft tracked per pipeline cycle', '5.3s pipeline cycle, <100ms WebSocket push latency', '3-layer anomaly pipeline: Kalman, DBSCAN, IsolationForest'],
-    github: 'https://github.com/PCSchmidt/aerointel',
-    evidence: 'https://github.com/PCSchmidt/aerointel/tree/main/evidence',
-    guide: 'https://github.com/PCSchmidt/aerointel/blob/main/DEMO_GUIDE.md',
-  },
-  {
     title: 'Optimizer Deep Dive: GD to Adam',
     description:
       'Pure NumPy BGD, SGD+Momentum, Adam + neural net with backprop trained on MNIST. Loss landscape visualization and initialization sensitivity. 29 tests.',
@@ -70,19 +58,6 @@ const featuredProjects = [
     guide: 'https://github.com/PCSchmidt/finetuning-study/blob/main/DEMO_GUIDE.md',
     paper: 'https://github.com/PCSchmidt/finetuning-study/blob/main/notebooks/finetuning_study.pdf',
     notebook: 'https://github.com/PCSchmidt/finetuning-study/blob/main/notebooks/finetuning_study.ipynb',
-  },
-  {
-    title: 'SkillSwap — AI-Powered Skill Bartering Platform',
-    description:
-      'Full-stack skill-sharing marketplace with AI-powered semantic matching. Users list skills they offer or seek, and an embedding-based backend surfaces the best trade partners using cosine similarity over 384-dim vectors.',
-    tags: ['Next.js', 'TypeScript', 'FastAPI', 'pgvector', 'sentence-transformers', 'Supabase'],
-    status: 'featured' as const,
-    timeframe: 'May 2025 – Present',
-    metrics: ['384-dim semantic matching', '23 routes, 10 categories', 'Three-tier architecture (Next.js + FastAPI + Supabase)'],
-    github: 'https://github.com/PCSchmidt/skillswapappmvp',
-    demo: 'https://skillswapappmvp.vercel.app',
-    evidence: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/README.md',
-    guide: 'https://github.com/PCSchmidt/skillswapappmvp/blob/master/DEMO_GUIDE.md',
   },
 ];
 ---

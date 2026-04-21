@@ -1,7 +1,7 @@
 # Portfolio Improvement Roadmap
 
-**Last updated:** April 20, 2026
-**Current grade:** B+ (consensus from two independent AI evaluations)
+**Last updated:** April 21, 2026
+**Current grade:** A−
 **Target:** Portfolio that honestly represents skills, demonstrates learning trajectory, and signals readiness for applied ML/AI engineering roles
 
 ---
@@ -548,3 +548,4 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | 2026-04-19 | Major revision: added honesty audit based on actual professional experience and code review. Reframed from "production ML engineer" to "applied mathematician building toward AI engineering." Added Phase 0 honesty fixes as non-negotiable first step. |
 | 2026-04-19 | **Phase 0 executed.** Removed false RAG claims from Journal Summarizer (both pages). Rewrote hero bio honestly. Fixed MLOps chip → "Inference Optimization & Deployment." Fixed SkillSwap "production deploy" metric. Updated LearnOnTheGo framing. Removed JHU placeholder project. Added `timeframe` prop to ProjectCard + populated dates on all projects. Fixed projects page meta description. Open decisions resolved. |
 | 2026-04-19 | **Phase 1.2 executed.** Implemented genuine RAG pipeline on Journal Summarizer: sentence-transformers + FAISS + SQLite, 4 new API endpoints, `use_rag` flag on 3 existing endpoints. Built custom eval harness (20-entry golden set, 5 queries, precision@3=0.80, MRR=1.0). Updated all project documentation for consistency. |
+| 2026-04-21 | **AeroIntel deployment recovered.** Migrated backend from Railway to Fly.io to fix OpenSky OAuth connection failures, redeployed the frontend on Vercel, and verified live commercial traffic again at 10,000+ aircraft. |

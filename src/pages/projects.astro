@@ -23,6 +23,25 @@ const projects = [
     guide: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer/blob/main/DEMO_GUIDE.md',
   },
   {
+    title: 'AeroIntel — Real-Time Aviation Intelligence Dashboard',
+    description:
+      'Live ADS-B aviation dashboard that fuses OpenSky Network and adsb.lol telemetry, smooths tracks with a Kalman filter, detects spatial patterns with DBSCAN, scores anomalies with IsolationForest, and serves a public Fly.io + Vercel deployment with on-demand Claude explanations.',
+    problem:
+      'Public ADS-B feeds expose raw aircraft positions but not interpretable signals about unusual behavior. An analyst can see thousands of points on a map, but not which aircraft deserve attention or why.',
+    approach:
+      'Built a FastAPI backend that ingests commercial and military telemetry, maintains in-memory aircraft state, and runs a sequential enrichment pipeline: Kalman filtering for state estimation, DBSCAN for pattern detection, and IsolationForest for anomaly scoring. The backend pushes GeoJSON to a Next.js + MapLibre frontend and exposes natural-language query, region summary, and anomaly explanation endpoints backed by Claude.',
+    impact:
+      'Recovered the live deployment by moving the backend from Railway to Fly.io after OpenSky OAuth timeouts, then verified the public system on Fly evidence snapshots. The captured warm snapshot shows 10,493 aircraft, 268 military aircraft, and a 3.5s pipeline duration with no pipeline errors. The public Vercel frontend is now rendering live global traffic again.',
+    tags: ['Python', 'FastAPI', 'Kalman Filter', 'DBSCAN', 'IsolationForest', 'Claude API', 'Next.js', 'MapLibre GL'],
+    status: 'featured' as const,
+    timeframe: 'Apr 2026',
+    metrics: ['10,493 aircraft in captured Fly snapshot', '268 military aircraft in live evidence', '3.5s pipeline duration on Fly.io'],
+    github: 'https://github.com/PCSchmidt/aerointel',
+    demo: 'https://aerointel-git-main-chris-schmidts-projects.vercel.app',
+    evidence: 'https://github.com/PCSchmidt/aerointel/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/aerointel/blob/main/DEMO_GUIDE.md',
+  },
+  {
     title: 'LearnOnTheGo — Prompt/PDF to Audio Lectures',
     description:
       'Full-stack AI application with a FastAPI backend that generates audio lecture content from user prompts or uploaded PDFs. Backend deployed on Railway; React frontend deployed on Vercel (auth-gated, frontend integration in progress).',

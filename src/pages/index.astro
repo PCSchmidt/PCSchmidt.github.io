@@ -18,6 +18,19 @@ const featuredProjects = [
     notebook: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/notebooks/inference_optimization_study.ipynb',
   },
   {
+    title: 'AeroIntel — Real-Time Aviation Intelligence Dashboard',
+    description:
+      'Live aviation intelligence dashboard ingesting OpenSky Network and adsb.lol telemetry, enriching tracks with Kalman filtering, DBSCAN pattern detection, and IsolationForest anomaly scoring, then serving a public Fly.io + Vercel deployment with on-demand Claude explanations.',
+    tags: ['Python', 'FastAPI', 'Kalman Filter', 'DBSCAN', 'IsolationForest', 'Claude API', 'Next.js', 'MapLibre GL'],
+    status: 'featured' as const,
+    timeframe: 'Apr 2026',
+    metrics: ['10,493 aircraft in captured Fly snapshot', '268 military aircraft in live evidence', '3.5s pipeline duration on Fly.io'],
+    github: 'https://github.com/PCSchmidt/aerointel',
+    demo: 'https://aerointel-git-main-chris-schmidts-projects.vercel.app',
+    evidence: 'https://github.com/PCSchmidt/aerointel/tree/main/evidence',
+    guide: 'https://github.com/PCSchmidt/aerointel/blob/main/DEMO_GUIDE.md',
+  },
+  {
     title: 'Optimizer Deep Dive: GD to Adam',
     description:
       'Pure NumPy BGD, SGD+Momentum, Adam + neural net with backprop trained on MNIST. Loss landscape visualization and initialization sensitivity. 29 tests.',
@@ -30,20 +43,6 @@ const featuredProjects = [
     guide: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/DEMO_GUIDE.md',
     paper: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.pdf',
     notebook: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.ipynb',
-  },
-  {
-    title: 'Generative Modeling Study (β-VAE)',
-    description:
-      'From-scratch β-VAE in PyTorch with systematic β-sweep ablation studying the reconstruction–disentanglement tradeoff. 19 tests with CI.',
-    tags: ['PyTorch', 'Generative Models', 'VAE', 'Ablation Study'],
-    status: 'featured' as const,
-    timeframe: 'Spring 2026',
-    metrics: ['6 β-sweep configurations', '19 passing tests', 'Full notebook with outputs (PDF)'],
-    github: 'https://github.com/PCSchmidt/generative-modeling-study',
-    evidence: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/notebooks/beta_vae_study.pdf',
-    guide: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/DEMO_GUIDE.md',
-    paper: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/notebooks/beta_vae_study.pdf',
-    notebook: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/notebooks/beta_vae_study.ipynb',
   },
   {
     title: 'Parameter-Efficient Fine-Tuning Study (LoRA)',

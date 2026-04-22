@@ -78,7 +78,7 @@ These are not style issues — they are factual inaccuracies that will damage cr
 | No multimodal work | Medium | Sonnet | Open |
 | No dates or progression narrative | Medium | Grok | **RESOLVED** — Phase 0.7 added timeframe to all cards |
 | JHU placeholder actively hurts credibility | Medium | Sonnet | **RESOLVED** — Phase 0.6 removed placeholder |
-| No architecture diagrams (text-only everywhere) | Medium | Both evaluators | Open |
+| No architecture diagrams (text-only everywhere) | Medium | Both evaluators | **RESOLVED** — Phase 1.1 added Mermaid diagrams to all 4 project READMEs |
 | SkillSwap embedding model is dated (~2021 MiniLM) | Low-Medium | Sonnet | Open |
 | LearnOnTheGo lacks measurable metrics | Low-Medium | Sonnet | Open |
 | Visual design reads as generic GitHub Pages | Low | Sonnet | Open |
@@ -147,31 +147,21 @@ This reframing is *more impressive than the fake RAG claim* to someone who reads
 
 **Completed.** Added `timeframe` prop to `ProjectCard.astro` and populated dates on all project cards.
 
-### 0.8 GitHub profile polish
+### 0.8 GitHub profile polish ✅ DONE
 
-**Current state:** No `PCSchmidt/PCSchmidt` profile README repo exists.
+**Completed April 22, 2026.** Created PCSchmidt/PCSchmidt profile README. Employer initially written incorrectly (US Patent and Trademark Office). Fixed in item 0.11.
 
-**Steps:**
+### 0.9 Hero rewrite with employer framing ✅ DONE
 
-1. **Create `PCSchmidt/PCSchmidt` repo** with a `README.md`:
-   ```markdown
-   # Chris Schmidt
-   **Applied Mathematician → AI Engineer** | MS Applied Mathematics | JHU AI Engineering (MSE)
+**Completed April 22, 2026.** Updated hero-subtitle to "Machine Learning Engineer, HII Mission Technologies." Replaced single hero-desc paragraph with two honest paragraphs: five years experience / F-35 JPO / AWS GovCloud, and Towson MS 2021 / JHU MSE expected December 2028 / projects are personal/JHU work.
 
-   Building hands-on ML projects while completing an MSE in AI Engineering at Johns Hopkins.
-   Background in applied mathematics with professional experience in data engineering and analysis.
+### 0.10 Resume inline experience section ✅ DONE
 
-   ### Highlighted Projects
-   - 🔬 [Inference Optimization Study](link) — 9× throughput via ONNX + INT8 quantization
-   - 🧮 [Optimizer Deep Dive](link) — SGD → Adam from scratch in pure NumPy (~93% MNIST)
-   - 🤖 [SkillSwap](link) — Semantic skill matching (Next.js + FastAPI + pgvector)
-   - 📊 [β-VAE Ablation Study](link) — 6-config β sweep, from-scratch PyTorch
+**Completed April 22, 2026.** Replaced the generic Highlights grid (Education / Core Skills / Focus Areas) with an inline Work Experience section (HII ML Engineer 2022-present, HII Fortis AI 2021-2022) and Education section (JHU 2025-Dec 2028, Towson 2019-2021). Cold visitors can now identify who you are professionally without opening the PDF.
 
-   📐 [Portfolio](https://pcschmidt.github.io) · 📄 [Resume](link)
-   ```
+### 0.11 Fix profile README employer error ✅ DONE
 
-2. **Pin top 6 repos** (ordered by strength):
-   `inference-optimization-study`, `optimizer-deep-dive`, `skillswapappmvp`, `generative-modeling-study`, `rl-environment-study`, `generative-ai-journal-summarizer`
+**Completed April 22, 2026.** Updated PCSchmidt/PCSchmidt README to correctly name HII Mission Technologies and F-35 JPO. Removed erroneous USPTO reference.
 
 ---
 
@@ -181,67 +171,15 @@ This reframing is *more impressive than the fake RAG claim* to someone who reads
 **Effort:** 1–2 weeks
 **Dependencies:** Phase 0 honesty fixes complete
 
-### 1.1 Architecture diagrams for all projects
+### 1.1 Architecture diagrams for all projects ✅ DONE
 
-**Current state:** `public/images/projects/` doesn't exist. All architecture descriptions are text-only.
+**Completed April 22, 2026.** Added Mermaid architecture diagrams to README files for:
+- `inference-optimization-study` (commit c982363)
+- `finetuning-study` (commit 343c7a5)
+- `generative-ai-journal-summarizer` (commit 547a166)
+- `optimizer-deep-dive` (commit 8a5aa51)
 
-**Tool choice:** Mermaid (renders in GitHub READMEs natively, can be exported to SVG/PNG for the portfolio site).
-
-**Steps:**
-
-1. **Create `public/images/projects/` directory**
-
-2. **Design diagrams for each project:**
-
-   **SkillSwap:**
-   ```
-   User → Next.js Frontend → FastAPI Backend → SentenceTransformer (MiniLM-L6-v2)
-                                    ↓                    ↓
-                              Supabase Auth       pgvector (384-dim embeddings)
-                                    ↓                    ↓
-                              PostgreSQL ←──── Cosine Similarity Matching
-   ```
-
-   **Inference Optimization:**
-   ```
-   PyTorch Model → ONNX Export (Optimum) → INT8 Dynamic Quantization
-        ↓                    ↓                        ↓
-   Baseline Bench      ONNX Runtime Bench       Quantized Bench
-        ↓                    ↓                        ↓
-                    Comparative Analysis
-                    (latency, throughput, cosine similarity vs baseline)
-   ```
-
-   **Journal Summarizer (honest version):**
-   ```
-   Journal Entry → FastAPI Gateway → Provider Router
-                                        ↓
-                     ┌──────────────────┼──────────────────┐
-                     ↓                  ↓                  ↓
-                   Groq             HuggingFace         OpenAI/Anthropic
-                  (Llama 3)         (Phi-3, etc.)      (BYOK tokens)
-                     ↓                  ↓                  ↓
-                     └──────────────────┼──────────────────┘
-                                        ↓
-                              Sentiment + Summary Response
-                                        ↓
-                              Static HTML Frontend (Vercel)
-   ```
-
-   **LearnOnTheGo:**
-   ```
-   Prompt/PDF Upload → PDFPlumber Extraction → OpenRouter LLM → Lecture Script
-                                                                      ↓
-                                                              ElevenLabs / Google TTS
-                                                                      ↓
-                                                              Cloudinary → Audio Player
-   ```
-
-   **β-VAE / RL / Optimizer:** Simpler diagrams showing model architecture, training loop, and evaluation
-
-3. **Export as SVG** and place in `public/images/projects/`
-
-4. **Add Mermaid code blocks to each project's README** (GitHub renders them natively)
+All four repos now have architecture diagrams that render natively on GitHub.
 
 ### 1.2 Implement actual RAG on Journal Summarizer — ✅ DONE
 
@@ -323,6 +261,14 @@ This reframing is *more impressive than the fake RAG claim* to someone who reads
 | Optimizer Deep Dive | ✅ | n/a | ✅ PDF (no evidence/ dir) | ✅ | ✅ | ✅ |
 
 **Fixed:** 5 evidence links pointed to non-existent `evidence/` directories in generative-modeling-study, rl-environment-study, and optimizer-deep-dive. Redirected to PDF reports which contain full executed notebook outputs.
+
+### 1.6 About page ✅ DONE
+
+**Completed April 22, 2026.** Created `src/pages/about.astro` with three-paragraph narrative covering applied math foundation, five years at HII (Fortis AI then F-35 JPO), and JHU MSE as deliberate deepening. Added About link to nav in Layout.astro.
+
+### 1.7 AeroIntel card re-framing ✅ DONE
+
+**Completed April 22, 2026.** Rewrote AeroIntel description in both `index.astro` and `projects.astro` to lead with the engineering challenge (anomaly detection with no labeled data) rather than data volume. Updated metrics in both files to emphasize the pipeline architecture and inference throughput.
 
 ---
 
@@ -493,9 +439,14 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | P0 | Verify LearnOnTheGo deployment | Medium | Low | 0.5 ✅ |
 | P0 | Remove JHU placeholder | Medium | Trivial | 0.6 ✅ |
 | P0 | Add dates to projects | Medium | Low | 0.7 ✅ |
-| P0 | GitHub profile polish | Medium | Low | 0.8 |
+| P0 | GitHub profile polish | Medium | Low | 0.8 ✅ |
+| P0 | Hero rewrite (employer, honest framing) | High | Low | 0.9 ✅ |
+| P0 | Resume inline experience section | Medium | Low | 0.10 ✅ |
+| P0 | Fix profile README employer error | High | Low | 0.11 ✅ |
 | P1 | Implement RAG + evals on Journal Summarizer | High | Medium-High | 1.2 ✅ |
-| P1 | Architecture diagrams (all projects) | Medium | Medium | 1.1 |
+| P1 | Architecture diagrams (all projects) | Medium | Medium | 1.1 ✅ |
+| P1 | About page | Medium | Low | 1.6 ✅ |
+| P1 | AeroIntel card re-framing | Medium | Low | 1.7 ✅ |
 | P1 | LearnOnTheGo metrics | Medium | Medium | 1.3 |
 | P1 | SkillSwap AI integration / model assessment | Medium | Medium | 1.4 |
 | P1 | Verify all project card links | Low | Low | 1.5 ✅ |
@@ -503,7 +454,7 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | P2 | **Fine-tuning + evals study** | **High** | **High** | **2.2** ✅ |
 | P3 | Multimodal project | Medium | High | 2.3 |
 | P3 | Visual design refresh | Low | Medium | 3.1 |
-| P4 | "Currently Exploring" section | Low | Low | 3.2 |
+| P4 | "Currently Exploring" section | Low | Low | 3.2 ✅ |
 | P4 | Thinking | Low | Ongoing | 3.3 ✅ |
 
 ---
@@ -548,4 +499,4 @@ Update monthly. Low-effort way to signal velocity and JHU program alignment.
 | 2026-04-19 | Major revision: added honesty audit based on actual professional experience and code review. Reframed from "production ML engineer" to "applied mathematician building toward AI engineering." Added Phase 0 honesty fixes as non-negotiable first step. |
 | 2026-04-19 | **Phase 0 executed.** Removed false RAG claims from Journal Summarizer (both pages). Rewrote hero bio honestly. Fixed MLOps chip → "Inference Optimization & Deployment." Fixed SkillSwap "production deploy" metric. Updated LearnOnTheGo framing. Removed JHU placeholder project. Added `timeframe` prop to ProjectCard + populated dates on all projects. Fixed projects page meta description. Open decisions resolved. |
 | 2026-04-19 | **Phase 1.2 executed.** Implemented genuine RAG pipeline on Journal Summarizer: sentence-transformers + FAISS + SQLite, 4 new API endpoints, `use_rag` flag on 3 existing endpoints. Built custom eval harness (20-entry golden set, 5 queries, precision@3=0.80, MRR=1.0). Updated all project documentation for consistency. |
-| 2026-04-21 | **AeroIntel deployment recovered.** Migrated backend from Railway to Fly.io to fix OpenSky OAuth connection failures, redeployed the frontend on Vercel, and verified live commercial traffic again at 10,000+ aircraft. |
+| 2026-04-22 | **Narrative and identity layer.** Added 0.9 (hero employer framing), 0.10 (resume inline experience), 0.11 (GitHub profile README employer fix), 1.1 (architecture diagrams), 1.6 (About page), 1.7 (AeroIntel re-framing). Footer updated. About page added to nav. Tier list in PORTFOLIO_EXECUTION_PLAN reordered. Current grade: A−. |

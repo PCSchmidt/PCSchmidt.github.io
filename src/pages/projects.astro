@@ -25,7 +25,7 @@ const projects = [
   {
     title: 'AeroIntel — Real-Time Aviation Intelligence Dashboard',
     description:
-      'Live ADS-B aviation dashboard that fuses OpenSky Network and adsb.lol telemetry, smooths tracks with a Kalman filter, detects spatial patterns with DBSCAN, scores anomalies with IsolationForest, and serves a public Fly.io + Vercel deployment with on-demand Claude explanations.',
+      'A real-time anomaly detection pipeline over live ADS-B telemetry with no labeled training data. Fuses two commercial feeds, applies Kalman filtering to maintain state across sparse position updates, detects orbital and holding patterns with DBSCAN, and scores deviations with IsolationForest. Claude explains flagged aircraft in plain language. Deployed continuously on Fly.io with CI/CD.',
     problem:
       'Public ADS-B feeds expose raw aircraft positions but not interpretable signals about unusual behavior. An analyst can see thousands of points on a map, but not which aircraft deserve attention or why.',
     approach:
@@ -35,7 +35,7 @@ const projects = [
     tags: ['Python', 'FastAPI', 'Kalman Filter', 'DBSCAN', 'IsolationForest', 'Claude API', 'Next.js', 'MapLibre GL'],
     status: 'featured' as const,
     timeframe: 'Apr 2026',
-    metrics: ['11,338 aircraft tracked in live evidence snapshot', '244 military aircraft and 1,861 patterns per cycle', '4 Claude anomaly explanations from live flight data'],
+    metrics: ['Full ML pipeline: Kalman + DBSCAN + IsolationForest, no labeled data required', '11,000+ aircraft processed per 60-second inference cycle', '4 real anomaly explanations from live military flight data'],
     github: 'https://github.com/PCSchmidt/aerointel',
     demo: 'https://aerointel-git-main-chris-schmidts-projects.vercel.app',
     evidence: 'https://github.com/PCSchmidt/aerointel/tree/main/evidence',

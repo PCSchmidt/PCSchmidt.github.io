@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="About — Chris Schmidt"
+  description="About Chris Schmidt, ML Engineer at HII Mission Technologies and JHU AI Engineering MSE student."
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">About</h1>
+
+      <div class="about-content">
+        <p>
+          I studied applied mathematics at Towson University (MS, 2021) and have been working in
+          data and software engineering ever since. The math background shapes how I approach ML
+          problems: I want to understand the mechanism, not just the API surface. That means reading
+          the papers, implementing from scratch when it clarifies something, and measuring results
+          with proper eval harnesses rather than eyeballing outputs.
+        </p>
+
+        <p>
+          I have spent five years at HII Mission Technologies. The first year was on the Fortis AI
+          project as a data engineer and software engineer: streaming telemetry pipelines, GIS
+          processing, GDELT ingestion, and RDF/SPARQL graph work. Since 2022 I have been an ML
+          Engineer supporting the F-35 Joint Program Office's data modernization initiative, writing
+          Python and SQL for data analysis and pipeline work on AWS GovCloud and the Advana
+          platform.
+        </p>
+
+        <p>
+          In 2025 I enrolled in the MSE in AI Engineering program at Johns Hopkins University
+          (expected December 2028). The program is a deliberate deepening: inference optimization,
+          LLM internals, evaluation methodology, and the mathematical foundations that make those
+          things legible. Most of the projects on this site were built alongside or directly out of
+          that coursework.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-content {
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-content p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #374151;
+  }
+</style>

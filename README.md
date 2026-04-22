@@ -1,8 +1,8 @@
 # Chris Schmidt — Portfolio
 
-**Machine Learning Engineer | JHU AI Engineering (MSE)**
+**Machine Learning Engineer | HII Mission Technologies | JHU AI Engineering (MSE, expected Dec 2028)**
 
-Personal portfolio site built with [Astro](https://astro.build/). Hosted on GitHub Pages at [pcschmidt.github.io](https://pcschmidt.github.io).
+Five years of professional experience in data engineering and ML engineering supporting DoD programs. Personal portfolio of AI engineering projects, JHU coursework, and applied research.
 
 ---
 

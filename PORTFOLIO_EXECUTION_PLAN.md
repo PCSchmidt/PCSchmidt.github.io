@@ -47,18 +47,20 @@ Do not wait for every project to be "perfect." Instead:
 Deliverable:
 - A one-page internal project roster with tier, role, and current status.
 
-### Current Tiered Shortlist (Updated July 2026)
+### Current Tiered Shortlist (Updated April 2026)
 
 Tier 1 (Primary portfolio focus now)
-- `generative-ai-journal-summarizer` — Role: Generative AI Product (RAG)
-- `learnonthego` — Role: AI Application Engineering (end-to-end flow)
-- `skillswapappmvp` — Role: Full-Stack MVP
+- `generative-ai-journal-summarizer` — Role: Generative AI Product (RAG + Agentic)
 - `inference-optimization-study` — Role: ML Systems / Optimization Research
-- `generative-modeling-study` — Role: Deep Generative Models (β-VAE)
+- `aerointel` — Role: Real-Time ML Pipeline
+- `finetuning-study` — Role: LLM Internals / Parameter-Efficient Fine-Tuning
+- `generative-modeling-study` — Role: Deep Generative Models (beta-VAE)
 - `rl-environment-study` — Role: RL / Decision-Making Systems
 - `optimizer-deep-dive` — Role: Optimization Theory + Neural Net from Scratch
 
 Tier 2 (Show as in-progress or add after hardening)
+- `learnonthego` — Role: AI Application Engineering (backend operational, e2e flow unconfirmed)
+- `skillswapappmvp` — Role: Full-Stack MVP (AI integration partially complete)
 - `generative-ai-budget-tracker` — Role: AI Product Feature Engineering
 - `advanced-stock-prediction-app` — Role: Applied ML + Visualization
 - `option-pricing-models-app` — Role: Quant/ML Engineering

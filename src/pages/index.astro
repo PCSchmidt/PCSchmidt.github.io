@@ -20,11 +20,11 @@ const featuredProjects = [
   {
     title: 'AeroIntel — Real-Time Aviation Intelligence Dashboard',
     description:
-      'Live aviation intelligence dashboard ingesting OpenSky Network and adsb.lol telemetry, enriching tracks with Kalman filtering, DBSCAN pattern detection, and IsolationForest anomaly scoring, then serving a public Fly.io + Vercel deployment with on-demand Claude explanations.',
+      'A real-time anomaly detection pipeline over live ADS-B telemetry with no labeled training data. Fuses two commercial feeds, applies Kalman filtering to maintain state across sparse position updates, detects orbital and holding patterns with DBSCAN, and scores deviations with IsolationForest. Claude explains flagged aircraft in plain language. Deployed continuously on Fly.io with CI/CD.',
     tags: ['Python', 'FastAPI', 'Kalman Filter', 'DBSCAN', 'IsolationForest', 'Claude API', 'Next.js', 'MapLibre GL'],
     status: 'featured' as const,
     timeframe: 'Apr 2026',
-    metrics: ['11,338 aircraft tracked in live evidence snapshot', '244 military aircraft and 1,861 patterns per cycle', '4 Claude anomaly explanations from live flight data'],
+    metrics: ['Full ML pipeline: Kalman + DBSCAN + IsolationForest, no labeled data required', '11,000+ aircraft processed per 60-second inference cycle', '4 real anomaly explanations from live military flight data'],
     github: 'https://github.com/PCSchmidt/aerointel',
     demo: 'https://aerointel-git-main-chris-schmidts-projects.vercel.app',
     evidence: 'https://github.com/PCSchmidt/aerointel/tree/main/evidence',
@@ -69,11 +69,12 @@ const featuredProjects = [
       <div class="hero-grid">
         <div class="hero-text">
           <h1>Chris Schmidt</h1>
-          <p class="hero-subtitle">Machine Learning Engineer</p>
+          <p class="hero-subtitle">Machine Learning Engineer, HII Mission Technologies</p>
           <p class="hero-desc">
-            Building production ML systems and studying AI engineering at Johns Hopkins.
-            Background in applied mathematics and data engineering. Focused on inference optimization,
-            model evaluation, and the engineering practices that make ML work in production.
+            Five years of professional experience across data engineering, software development, and ML engineering. Currently supporting the F-35 Joint Program Office's data modernization initiative at HII Mission Technologies on AWS GovCloud.
+          </p>
+          <p class="hero-desc">
+            MS in Applied Mathematics (Towson University, 2021). Pursuing an MSE in AI Engineering at Johns Hopkins University (expected December 2028). The projects here are personal learning work and JHU coursework.
           </p>
           <div class="hero-cta">
             <a href="/projects" class="btn btn-primary">View Projects</a>

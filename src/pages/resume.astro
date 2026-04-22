@@ -10,8 +10,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="container">
       <h1 class="section-title">Resume</h1>
       <p class="section-intro">
-        Machine Learning Engineer with experience building production ML systems. Currently pursuing
-        a Master of Science in Engineering in AI at Johns Hopkins University.
+        Five years of experience across data engineering, software development, and ML engineering at HII Mission Technologies. Currently supporting DoD data modernization programs and pursuing an MSE in AI Engineering at Johns Hopkins University.
       </p>
 
       <div class="resume-actions">
@@ -47,36 +46,46 @@ import Layout from '../layouts/Layout.astro';
 
       <hr class="divider" />
 
-      <div class="resume-highlights">
-        <h2 class="highlights-title">Highlights</h2>
-        <div class="highlights-grid">
-          <div class="highlight-card">
-            <h3 class="highlight-heading">Education</h3>
-            <ul class="highlight-list">
-              <li>
-                <strong>Johns Hopkins University</strong> — MSE, AI Engineering (in progress)
-              </li>
-              <li>Mathematics background with applied focus</li>
-            </ul>
-          </div>
+      <div class="exp-section">
+        <h2 class="exp-section-title">Work Experience</h2>
 
-          <div class="highlight-card">
-            <h3 class="highlight-heading">Core Skills</h3>
-            <ul class="highlight-list">
-              <li>Machine Learning &amp; Deep Learning (PyTorch, Scikit-learn)</li>
-              <li>NLP, LLMs, RAG systems</li>
-              <li>MLOps: MLflow, Docker, GitHub Actions, CI/CD</li>
-              <li>Python, SQL, cloud deployment</li>
-            </ul>
+        <div class="exp-entry">
+          <div class="exp-header">
+            <span class="exp-company">HII Mission Technologies</span>
+            <span class="exp-role-dates">Machine Learning Engineer, F-35 Joint Program Office | 2022 – present</span>
           </div>
+          <ul class="exp-bullets">
+            <li>Supporting the F-35 JPO data modernization initiative on AWS GovCloud using Python and SQL.</li>
+            <li>Build and maintain data analysis scripts, notebooks, and pipelines on the Advana platform.</li>
+          </ul>
+        </div>
 
-          <div class="highlight-card">
-            <h3 class="highlight-heading">Focus Areas</h3>
-            <ul class="highlight-list">
-              <li>Production ML systems &amp; inference optimization</li>
-              <li>Model evaluation frameworks</li>
-              <li>Applied research in AI Engineering</li>
-            </ul>
+        <div class="exp-entry">
+          <div class="exp-header">
+            <span class="exp-company">HII Mission Technologies</span>
+            <span class="exp-role-dates">Data Engineer / Software Engineer, Fortis AI | 2021 – 2022</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Data engineering on the Fortis AI project: streaming telemetry, GIS pipelines, GDELT ingestion, and RDF/SPARQL graph work.</li>
+            <li>Reviewed pull requests, maintained CI configuration, and drafted technical documentation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-section">
+        <h2 class="exp-section-title">Education</h2>
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <span class="exp-company">Johns Hopkins University</span>
+            <span class="exp-role-dates">MSE, AI Engineering | 2025 – December 2028 (expected)</span>
+          </div>
+        </div>
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <span class="exp-company">Towson University</span>
+            <span class="exp-role-dates">MS, Applied Mathematics | 2019 – 2021</span>
           </div>
         </div>
       </div>
@@ -115,56 +124,58 @@ import Layout from '../layouts/Layout.astro';
     text-align: center;
   }
 
-  .resume-highlights {
+  .exp-section {
     margin-top: 2rem;
   }
 
-  .highlights-title {
+  .exp-section-title {
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
   }
 
-  .highlights-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.25rem;
+  .exp-entry {
+    margin-bottom: 1.5rem;
   }
 
-  .highlight-card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 1.25rem;
+  .exp-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.5rem;
   }
 
-  .highlight-heading {
-    font-size: 0.85rem;
+  .exp-company {
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #1e40af;
-    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    color: #111827;
   }
 
-  .highlight-list {
+  .exp-role-dates {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .exp-bullets {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.35rem;
   }
 
-  .highlight-list li {
+  .exp-bullets li {
     font-size: 0.875rem;
     color: #374151;
     padding-left: 1rem;
     position: relative;
   }
 
-  .highlight-list li::before {
-    content: '›';
+  .exp-bullets li::before {
+    content: '\203A';
     position: absolute;
     left: 0;
     color: #1e40af;

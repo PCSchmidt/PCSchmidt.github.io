@@ -130,6 +130,31 @@ const featuredProjects = [
     </div>
   </section>
 
+  <!-- Currently Exploring -->
+  <section class="exploring-strip">
+    <div class="container">
+      <p class="exploring-label">Currently exploring</p>
+      <div class="exploring-chips">
+        <div class="exploring-chip">
+          <span>Real-time ML pipelines on streaming telemetry</span>
+          <span class="exploring-status built">built</span>
+        </div>
+        <div class="exploring-chip">
+          <span>Unsupervised anomaly detection without labeled data</span>
+          <span class="exploring-status built">built</span>
+        </div>
+        <div class="exploring-chip">
+          <span>LLM interpretability: from detection to explanation</span>
+          <span class="exploring-status building">building</span>
+        </div>
+        <div class="exploring-chip">
+          <span>Evaluation harness design for agentic LLM outputs</span>
+          <span class="exploring-status researching">researching</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Selected Projects -->
   <section class="section">
     <div class="container">
@@ -268,6 +293,68 @@ const featuredProjects = [
 
   .chip-icon {
     font-size: 0.95rem;
+  }
+
+  /* Currently Exploring strip */
+  .exploring-strip {
+    background: #f0fdf4;
+    padding: 1rem 0;
+    border-bottom: 1px solid #bbf7d0;
+  }
+
+  .exploring-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #15803d;
+    text-align: center;
+    margin-bottom: 0.6rem;
+  }
+
+  .exploring-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+
+  .exploring-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #166534;
+    background: white;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid #bbf7d0;
+    white-space: nowrap;
+  }
+
+  .exploring-status {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+  }
+
+  .exploring-status.built {
+    background: #dcfce7;
+    color: #15803d;
+  }
+
+  .exploring-status.building {
+    background: #fef9c3;
+    color: #854d0e;
+  }
+
+  .exploring-status.researching {
+    background: #ede9fe;
+    color: #5b21b6;
   }
 
   /* Projects grid */

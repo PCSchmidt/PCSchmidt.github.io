@@ -31,15 +31,16 @@ const projects = [
     approach:
       'Built a FastAPI backend that ingests commercial and military telemetry, maintains in-memory aircraft state, and runs a sequential enrichment pipeline: Kalman filtering for state estimation, DBSCAN for pattern detection, and IsolationForest for anomaly scoring. The backend pushes GeoJSON to a Next.js + MapLibre frontend and exposes natural-language query, region summary, and anomaly explanation endpoints backed by Claude.',
     impact:
-      'Recovered the live deployment by moving the backend from Railway to Fly.io after OpenSky OAuth timeouts, then verified the public system on Fly evidence snapshots. The captured warm snapshot shows 10,493 aircraft, 268 military aircraft, and a 3.5s pipeline duration with no pipeline errors. The public Vercel frontend is now rendering live global traffic again.',
+      'Built and deployed a full ML inference pipeline processing 11,000+ live aircraft per 60-second cycle, with Kalman state estimation, DBSCAN spatial pattern detection, and IsolationForest anomaly scoring. Captured 4 real Claude anomaly explanations from live flight data, including a US military helicopter (GRZLY71) executing a racetrack surveillance orbit. Implemented Fleet Analytics, on-demand feature vector display, and a collapsible Pattern Drill-Down. Fixed a state persistence bug that was silently discarding anomaly scores between non-scoring cycles. System runs continuously on Fly.io with CI/CD via GitHub Actions. Full technical write-up in CASE_STUDY.md.',
     tags: ['Python', 'FastAPI', 'Kalman Filter', 'DBSCAN', 'IsolationForest', 'Claude API', 'Next.js', 'MapLibre GL'],
     status: 'featured' as const,
     timeframe: 'Apr 2026',
-    metrics: ['10,493 aircraft in captured Fly snapshot', '268 military aircraft in live evidence', '3.5s pipeline duration on Fly.io'],
+    metrics: ['11,338 aircraft tracked in live evidence snapshot', '244 military aircraft and 1,861 patterns per cycle', '4 Claude anomaly explanations from live flight data'],
     github: 'https://github.com/PCSchmidt/aerointel',
     demo: 'https://aerointel-git-main-chris-schmidts-projects.vercel.app',
     evidence: 'https://github.com/PCSchmidt/aerointel/tree/main/evidence',
     guide: 'https://github.com/PCSchmidt/aerointel/blob/main/DEMO_GUIDE.md',
+    paper: 'https://github.com/PCSchmidt/aerointel/blob/main/CASE_STUDY.md',
   },
   {
     title: 'LearnOnTheGo — Prompt/PDF to Audio Lectures',

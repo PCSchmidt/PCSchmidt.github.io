@@ -5,7 +5,7 @@ date: 2026-04-24
 tags: ["AI Engineering", "Systems Thinking", "Architecture", "Career"]
 ---
 
-I spent the last few months building [AeroIntel](https://github.com/PCSchmidt/aerointel), a real-time aviation intelligence pipeline that ingests live ADS-B telemetry, runs Kalman filtering for state estimation, clusters trajectories with DBSCAN, scores anomalies with IsolationForest, and pushes results to a Next.js frontend over WebSocket. The individual pieces are not complicated; I generated the first versions of most of them with an AI agent in an afternoon. What took the next three weeks was getting the pipeline to behave as a system.
+I spent a while recently building a hobby project [AeroIntel](https://github.com/PCSchmidt/aerointel), a real-time aviation intelligence pipeline that ingests live ADS-B telemetry, runs Kalman filtering for state estimation, clusters trajectories with DBSCAN, scores anomalies with IsolationForest, and pushes results to a Next.js frontend over WebSocket. The individual pieces are not complicated; I generated the first versions of most of them with an AI agent in an afternoon. What took the next three weeks was getting the pipeline to behave as a system.
 
 The agent wrote a working Kalman filter, a working DBSCAN call, and a working anomaly scorer. What it did not write was the contract between them. The Kalman filter expects state vectors in a specific order. DBSCAN expects lat/lon pairs. The anomaly scorer expects the output of DBSCAN plus raw telemetry features. When the OpenSky feed hiccups and drops a message, the Kalman estimate drifts. When the drift crosses DBSCAN's epsilon threshold, the clustering reassigns aircraft IDs. When the reassignment changes the feature vector, the anomaly scorer fires false positives. None of these are code bugs. They are systems bugs, and they only appear when the pieces talk to each other under load.
 
@@ -37,13 +37,13 @@ In the age of infinite generation, bloat is the default. Every module is a liabi
 
 ## The broken junior pipeline
 
-There is a harder observation here. The traditional junior developer path was: struggle with syntax, debug for hours, develop an intuition for how systems fail, gradually learn to hold larger mental models. AI agents have removed the syntax struggle without replacing the systems intuition. The result is a generation of builders who can generate a FastAPI backend in an afternoon but cannot explain why it falls over when two clients write to the same SQLite connection.
+There is a harder observation here. I was recently a very junior developer and the traditional junior developer path was: struggle with syntax, debug for hours, develop an intuition for how systems fail, gradually learn to hold larger mental models. AI agents have removed the syntax struggle without replacing the systems intuition. The result is a generation of builders who can generate a FastAPI backend in an afternoon but cannot explain why it falls over when two clients write to the same SQLite connection.
 
-I am not immune to this. My [SkillSwap](https://github.com/PCSchmidt/skillswapappmvp) backend has a working semantic matching pipeline: `SentenceTransformer` loads, generates 384-dimensional embeddings, computes cosine similarity, and returns ranked trades. The frontend is polished. But the end-to-end integration is incomplete; the frontend does not fully wire the matching results into the user flow. The individual components are correct. The system is not finished. That gap is not a coding problem; it is a systems problem, and it is the reason the project is still in Phase 2 of 5.
+I am absolutely not immune to this. My [SkillSwap](https://github.com/PCSchmidt/skillswapappmvp) backend has a working semantic matching pipeline: `SentenceTransformer` loads, generates 384-dimensional embeddings, computes cosine similarity, and returns ranked trades. The frontend is polished. But the end-to-end integration is incomplete; the frontend does not fully wire the matching results into the user flow. The individual components are correct. The system is not finished. That gap is not a coding problem; it is a systems problem, and it is the reason the project is still in Phase 2 of 5.
 
 ## What systems thinking looks like in practice
 
-Systems thinking is not a personality trait; it is a protocol you can adopt. Here is what I do differently now after building three projects that all broke at the integration layer.
+Systems thinking is not a personality trait; it is a protocol you can adopt. Here is what I do differently now after building an number projects using AI tools that all broke at the integration layer.
 
 **Draw the architecture before prompting.** In AeroIntel, the Mermaid diagram in the README existed before most of the code. It defines the data flow: ingestion -> Kalman -> DBSCAN -> anomaly -> WebSocket -> frontend. When the agent generates a module, I know which stage it belongs to and what its input/output contracts are. The diagram is the theory. The code is the artifact.
 
@@ -55,6 +55,6 @@ Systems thinking is not a personality trait; it is a protocol you can adopt. Her
 
 ## Why this matters for the work
 
-If I were reviewing someone else's portfolio and saw a collection of correct functions with no story about how they connect, I would have questions. The projects that hold up are the ones that answer: what happens when the OpenSky feed drops a message? What happens when the LLM provider rate-limits? What happens when the user refreshes the page mid-generation?
+If I were reviewing someone else's portfolio and saw a collection of correct functions with no story about how they connect, I think I should have questions. The projects that hold up are the ones that answer: what happens when the OpenSky feed drops a message? What happens when the LLM provider rate-limits? What happens when the user refreshes the page mid-generation?
 
 The agents will keep getting better at writing functions. The question is whether I am getting better at holding the mental model of what those functions should do together. That is the systems layer, and that is the part worth investing in.

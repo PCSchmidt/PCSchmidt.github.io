@@ -1,5 +1,5 @@
 ---
-title: "Three Repositories, 93.8 Million Tokens, $3.23: The Economics of Agent Orchestration"
+title: "Prime Agent - 3 Repositories, 93.8 Million Tokens, $3.23: The Economics of Agent Orchestration"
 description: "93.8 million tokens, three repositories, $3.23. The architecture that made agent orchestration cheaper than skipping validation — and what that inversion means for how rigor gets funded."
 date: 2026-09-08
 tags: ["AI Engineering", "Agentic AI", "Tooling", "Systems Thinking"]
@@ -13,7 +13,7 @@ The work was real. Three sibling applications — a [RAG pipeline over YouTube t
 
 The naive way to run an agent over three codebases is one long conversation. Every tool call, every file read, every test failure re-enters the context window, and the context window is where the money burns. By the tenth hour, most of each call is re-reading material the model already saw. You pay list price for your own repetition.
 
-Prime Agent inverts the structure. A root session holds a persistent Python kernel and does coordination, not code. The heavy work goes to child sessions that start with a fresh context, work one repository, and return a report. A child that needs the test suite runs it in a shell and sends back eleven words of summary instead of streaming the output through the model. State that has to survive compaction lives in a memory layer, not in the transcript. And the deterministic parts of the job — parsing test output, diffing trees, comparing metric inventories against a contract — run as plain Python, which costs zero tokens because it never touches a model at all.
+[Prime Agent](https://github.com/PrimeIntellect-ai/prime-agent) inverts the structure. A root session holds a persistent Python kernel and does coordination, not code. The heavy work goes to child sessions that start with a fresh context, work one repository, and return a report. A child that needs the test suite runs it in a shell and sends back eleven words of summary instead of streaming the output through the model. State that has to survive compaction lives in a memory layer, not in the transcript. And the deterministic parts of the job — parsing test output, diffing trees, comparing metric inventories against a contract — run as plain Python, which costs zero tokens because it never touches a model at all.
 
 The effect compounds across both axes of the bill. Each call carries fewer tokens, because no session drags three repos of history behind it. And each token is cheaper, because the volume work runs on small routed models instead of a frontier model idling through boilerplate. If every one of those 93.8 million tokens had been billed as input at $0.075 per million, the bill would have been $7.04. If every token had been billed as output at $0.25 per million, it would have been $23.45. The real mix sits somewhere in between, which means orchestration saved me somewhere between 2× and 7× — an effective rate of about three cents per million tokens, all-in.
 

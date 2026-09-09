@@ -6,6 +6,7 @@ interface Props {
   status: 'featured' | 'in-progress' | 'placeholder';
   github?: string;
   demo?: string;
+  demoLabel?: string;
   evidence?: string;
   guide?: string;
   paper?: string;
@@ -14,7 +15,7 @@ interface Props {
   timeframe?: string;
 }
 
-const { title, description, tags, status, github, demo, evidence, guide, paper, notebook, metrics, timeframe } = Astro.props;
+const { title, description, tags, status, github, demo, demoLabel, evidence, guide, paper, notebook, metrics, timeframe } = Astro.props;
 
 const statusLabel: Record<string, string> = {
   featured: 'Featured',
@@ -74,7 +75,7 @@ const statusTextColor: Record<string, string> = {
       )}
       {demo && (
         <a href={demo} class="project-link">
-          Demo ↗
+          {demoLabel ?? "Demo"} ↗
         </a>
       )}
       {evidence && (

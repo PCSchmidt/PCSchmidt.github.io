@@ -4,6 +4,62 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const projects = [
   {
+    title: 'Convex Optimization App — Live Optimization Workbench',
+    description:
+      'Three classic convex optimization problems solved by four first-order methods written from scratch in NumPy, benchmarked against SciPy ground truth, and served as a public web workbench with an LLM natural-language front door. Deployed live on fly.io with a same-origin React UI.',
+    problem:
+      'Most optimization education stops at library calls - you never see the method, the convergence behavior, or what happens when it fails. And an LLM "solve my problem" front door usually means silently trusting the LLM.',
+    approach:
+      'Implemented gradient descent, Nesterov acceleration, ISTA and FISTA from scratch with per-iterate convergence history; nothing is tuned (fixed 1/L step, tol 1e-10, 2000-iteration cap), so the same problem+seed returns the byte-identical response. SciPy appears only as an independent referee. POST /parse turns plain English into a structured solve request, which a deterministic mechanical verifier checks against the literal text before anything runs; mismatches are surfaced, never hidden. One fly.io process serves the API and the React workbench same-origin, with bounded rate limiting, body caps, and honest failure states (a "hit the iteration cap" result is shown as an outcome, not an error).',
+    impact:
+      'Live at https://convexoptimizer.stream with verified acceptance evidence: TLS on apex + www, byte-reproducible solves on production, 422/413/429 abuse-mitigation confirmed live, and an end-to-end LLM parse verified with zero mismatches. 98 backend + 12 UI tests, all offline and deterministic.',
+    tags: ['Python', 'FastAPI', 'NumPy', 'React', 'Fly.io'],
+    status: 'featured' as const,
+    timeframe: 'Aug 2026 - Present',
+    metrics: ['Live at convexoptimizer.stream (fly.io)', '98 + 12 tests; byte-reproducible solves', 'LLM parse gated by a mechanical verifier'],
+    github: 'https://github.com/PCSchmidt/convex-optimization-app',
+    demo: 'https://convexoptimizer.stream',
+    demoLabel: 'Live',
+    evidence: 'https://github.com/PCSchmidt/convex-optimization-app/tree/main/experiments',
+    guide: 'https://github.com/PCSchmidt/convex-optimization-app#deployment-runbook-flyio--convexoptimizerstream-phase-b',
+  },
+  {
+    title: 'Advanced Stock Prediction App - The Model Maintenance Lifecycle',
+    description:
+      'A complete model-maintenance lifecycle on a financial forecasting problem: walk-forward evaluation, drift detection, retraining into versioned bundles, and validated rollback. Deliberately local-only (Docker Compose) - the point is the maintain loop, not a hosted demo.',
+    problem:
+      'Projects ship a model and stop. Nobody shows what happens when the market drifts away from what the model learned, how degradation is detected, or whether a retrain can be undone.',
+    approach:
+      'Strict one-step-ahead walk-forward evaluation with the no-lookahead contract enforced by two dedicated leak-detection tests (a perturbed-future test and a spy model that audits every fit call). Drift is detected with PSI + KS on log-return distributions; retraining writes a NEW versioned bundle (manifest: feature config, data hash, sklearn version, git commit) and moves a pointer - never overwrites; rollback validates the target identity before flipping the pointer back.',
+    impact:
+      'The evaluation is honest to a fault: the recorded numbers include regimes where the gradient-boosting model LOSES to a persistence baseline (directional accuracy 0.484, negative edge on the mean-reverting fixture) and the README says so. The maintain loop was executed for real: a volatility-regime-shift fixture fired the detector (PSI 1.13), the retrain produced a v2 bundle, and rollback restored v1 with manifest identity verified. 88 offline tests.',
+    tags: ['Python', 'scikit-learn', 'FastAPI', 'Drift Detection', 'MLOps'],
+    status: 'featured' as const,
+    timeframe: 'Sep 2026',
+    metrics: ['88 offline tests incl. 2 leak-detection tests', 'Executed incident: PSI 1.13 -> retrain -> rollback', 'Honest eval: GBM loses to persistence in one regime - recorded, not hidden'],
+    github: 'https://github.com/PCSchmidt/advanced-stock-prediction-app',
+    evidence: 'https://github.com/PCSchmidt/advanced-stock-prediction-app/blob/main/experiments/eval_log.md',
+    guide: 'https://github.com/PCSchmidt/advanced-stock-prediction-app/blob/main/experiments/incident.md',
+  },
+  {
+    title: 'yt_rag - Real RAG over YouTube Transcripts',
+    description:
+      'A retrieval-augmented generation pipeline over YouTube transcripts done properly: chunk, embed, index with FAISS, retrieve top-4, and generate strictly from the retrieved chunks - with recorded evaluation numbers and a full bundle refresh/rollback loop.',
+    problem:
+      'The previous app answered questions with one LLM call over the whole transcript and called itself RAG. Without retrieval there is no citation, no grounding, and no honest way to say "the transcript does not cover that."',
+    approach:
+      'Sliding-window chunking (800 chars, 150 overlap, word boundaries), pinned all-MiniLM-L6-v2 embeddings, exact FAISS search, top-4 retrieval feeding numbered chunks to a swappable OpenAI-compatible provider. Offline-by-default is enforced: tests run on a deterministic hash embedder plus a stub provider, so 134 tests and CI never touch the network. Groundedness is measured by a deterministic lexical evaluator that checks claim coverage and verifies every number appears verbatim in the retrieved context - explicitly labeled a lexical heuristic, not semantic truth.',
+    impact:
+      'Recorded retrieval numbers on a hand-labeled eval set: hit rate@4 0.917, MRR@4 0.653 for the real embedder. The maintain loop was exercised in a real incident: a wrong-fixture refresh dropped top similarity 0.257 -> 0.041, was caught, and rolled back to v1 - restoring grounded answers. 134 offline tests plus an offline React workspace UI with a clearly-labeled DEMO mode.',
+    tags: ['Python', 'RAG', 'FAISS', 'FastAPI', 'React'],
+    status: 'featured' as const,
+    timeframe: 'Sep 2026',
+    metrics: ['hit rate@4 0.917 / MRR@4 0.653 (hand-labeled set)', '134 offline tests; zero network in CI', 'Executed incident: bad refresh caught, rollback verified'],
+    github: 'https://github.com/PCSchmidt/youtube_app',
+    evidence: 'https://github.com/PCSchmidt/youtube_app/blob/main/experiments/baseline_log.md',
+    guide: 'https://github.com/PCSchmidt/youtube_app/blob/main/experiments/incident.md',
+  },
+  {
     title: 'Generative AI Journal Summarizer',
     description:
       'Multi-provider LLM gateway with RAG pipeline and ReAct agentic layer for journal entry analysis. Embeds past entries with sentence-transformers + FAISS, retrieves longitudinal context to augment LLM prompts. Agent orchestrates 5 tools (search, sentiment, trends, reflect, suggest) in a multi-step reasoning loop. Supports 17+ model configs across Groq, HuggingFace, OpenAI, and Anthropic with BYOK token vault (AES-256).',
@@ -210,6 +266,7 @@ const projects = [
                 metrics={project.metrics}
                 github={project.github}
                 demo={project.demo}
+                demoLabel={project.demoLabel}
                 evidence={project.evidence}
                 guide={project.guide}
                 timeframe={project.timeframe}

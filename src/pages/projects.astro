@@ -4,6 +4,31 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const projects = [
   {
+    title: 'AI Diplomacy — Theory of Mind as Engineering',
+    description:
+      'Seven AI powers negotiate, ally and betray each other on the standard Diplomacy map. Each keeps an explicit, inspectable model of what it believes the others intend, updated separately on what they say and on what they actually do. The point is not an AI that plays well - it is that belief modelling can be built as engineering rather than prompting, with falsifiable evidence that the belief layer does something.',
+    problem:
+      'Multi-agent LLM demos are easy to make look impressive and nearly impossible to evaluate. An agent that says it "trusts France at 0.7" is producing a number, not a belief - and nothing in a transcript distinguishes a calibrated model from a confident one. Worse, an agent that can see its counterpart\'s private channel produces plausible results that are quietly meaningless.',
+    approach:
+      'Trust is a Beta posterior over promise-keeping, not an LLM-supplied score: every message carries a structured commitment, and after adjudication the engine diffs promised against ordered, which is the evidence the posterior updates on. Betrayals weigh double, because alliances take many turns to build and one stab to destroy. Two properties are enforced mechanically rather than by instruction - a belief store belongs to one power and has no method that could admit another\'s private channel, and a structurally separate evaluator scores incoming messages while seeing only the counterpart\'s words and public order record, never its own side\'s plans. Both are asserted by fixtures that must fail.',
+    impact:
+      'Seven gates green in CI across four hash seeds. The eval harness measures evaluator AUC, Brier score, calibration bins and betrayal lead time - the metric separating a belief model from a scoreboard - all verified against known inputs rather than real games. Live replay viewer showing the trust network, transcript and mental-model inspector. Ablation results pending a live-model run; the harness refuses to report synthetic runs as evidence.',
+    tags: ['Python', 'Multi-Agent', 'Evaluation', 'Anthropic API', 'Theory of Mind'],
+    status: 'featured' as const,
+    tier: 'hero' as const,
+    timeframe: 'Sep 2026 - Present',
+    metrics: [
+      'Live replay viewer: board, trust network, evaluator scorecard',
+      '7 CI gates incl. cross-process determinism regression test',
+      'Deliberate-leak and provenance fixtures that must fail',
+    ],
+    github: 'https://github.com/PCSchmidt/Diplomacy',
+    demo: 'https://pcschmidt.github.io/Diplomacy/',
+    demoLabel: 'Live demo',
+    evidence: 'https://github.com/PCSchmidt/Diplomacy/blob/main/ARCHITECTURE.md',
+    guide: 'https://github.com/PCSchmidt/Diplomacy#try-it',
+  },
+  {
     title: 'Convex Optimization App — Live Optimization Workbench',
     description:
       'Three classic convex optimization problems solved by four first-order methods written from scratch in NumPy, benchmarked against SciPy ground truth, and served as a public web workbench with an LLM natural-language front door. Deployed live on fly.io with a same-origin React UI.',
@@ -15,6 +40,7 @@ const projects = [
       'Live at https://convexoptimizer.stream with verified acceptance evidence: TLS on apex + www, byte-reproducible solves on production, 422/413/429 abuse-mitigation confirmed live, and an end-to-end LLM parse verified with zero mismatches. 98 backend + 12 UI tests, all offline and deterministic.',
     tags: ['Python', 'FastAPI', 'NumPy', 'React', 'Fly.io'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Aug 2026 - Present',
     metrics: ['Live at convexoptimizer.stream (fly.io)', '98 + 12 tests; byte-reproducible solves', 'LLM parse gated by a mechanical verifier'],
     github: 'https://github.com/PCSchmidt/convex-optimization-app',
@@ -35,6 +61,7 @@ const projects = [
       '326 offline deterministic tests, CI-green with zero credentials and zero network. Groundedness evaluation: 25/25 labeled scenarios (fabricated numbers rejected, causal/threat/predictive language rejected, scope overreach rejected, out-of-domain questions abstain). Detector evaluation: precision 1.0, recall 0.75, zero false positives with known failures documented. Replay performance profiled against documented budgets (render mean ~3ms, zero idle renders, 0% heap growth) — the profiler caught a real cursor bug synthetic tests had missed. Live at pcschmidt.github.io/chokepoint_app with a PWA offline shell, plus a Docker Compose observability stack (Prometheus + Grafana, bounded-label metrics, redacted JSON logs). The CBP live layer was verified against the real feed (85 crossings) and the demo honestly shows Suez as coverage-UNKNOWN rather than zero.',
     tags: ['TypeScript', 'CesiumJS', 'Verified Agent', 'Evaluation', 'Geospatial', 'Prometheus'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Sep 2026 - Present',
     metrics: ['Live demo: pcschmidt.github.io/chokepoint_app', '326 offline tests; groundedness eval 25/25', 'Evaluator rejects causal, threat, and fabricated claims'],
     github: 'https://github.com/PCSchmidt/chokepoint_app',
@@ -55,6 +82,7 @@ const projects = [
       'The evaluation is honest to a fault: the recorded numbers include regimes where the gradient-boosting model LOSES to a persistence baseline (directional accuracy 0.484, negative edge on the mean-reverting fixture) and the README says so. The maintain loop was executed for real: a volatility-regime-shift fixture fired the detector (PSI 1.13), the retrain produced a v2 bundle, and rollback restored v1 with manifest identity verified. 88 offline tests.',
     tags: ['Python', 'scikit-learn', 'FastAPI', 'Drift Detection', 'MLOps'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Sep 2026',
     metrics: ['88 offline tests incl. 2 leak-detection tests', 'Executed incident: PSI 1.13 -> retrain -> rollback', 'Honest eval: GBM loses to persistence in one regime - recorded, not hidden'],
     github: 'https://github.com/PCSchmidt/advanced-stock-prediction-app',
@@ -73,6 +101,7 @@ const projects = [
       'Recorded retrieval numbers on a hand-labeled eval set: hit rate@4 0.917, MRR@4 0.653 for the real embedder. The maintain loop was exercised in a real incident: a wrong-fixture refresh dropped top similarity 0.257 -> 0.041, was caught, and rolled back to v1 - restoring grounded answers. 134 offline tests plus an offline React workspace UI with a clearly-labeled DEMO mode.',
     tags: ['Python', 'RAG', 'FAISS', 'FastAPI', 'React'],
     status: 'featured' as const,
+    tier: 'supporting' as const,
     timeframe: 'Sep 2026',
     metrics: ['hit rate@4 0.917 / MRR@4 0.653 (hand-labeled set)', '134 offline tests; zero network in CI', 'Executed incident: bad refresh caught, rollback verified'],
     github: 'https://github.com/PCSchmidt/youtube_app',
@@ -91,6 +120,7 @@ const projects = [
       'RAG retrieval: 0.80 precision@3, 1.0 MRR. Agent eval: 90% pass rate, 0.92 tool recall, 0.77 precision, 4.8s avg latency. Working multi-provider gateway with live demo, provider diagnostics, and reproducible eval harness.',
     tags: ['Python', 'FastAPI', 'RAG', 'FAISS', 'Agentic AI', 'LLM APIs'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Jul 2025 \u2013 Present',
     metrics: ['Retrieval: 0.80 precision@3, 1.0 MRR', 'Agent: 90% pass, 0.92 recall, 4.8s latency', '17+ LLM model configs across 8 providers'],
     github: 'https://github.com/PCSchmidt/generative-ai-journal-summarizer',
@@ -110,6 +140,7 @@ const projects = [
       'Built and deployed a full ML inference pipeline processing 11,000+ live aircraft per 60-second cycle, with Kalman state estimation, DBSCAN spatial pattern detection, and IsolationForest anomaly scoring. Captured 4 real Claude anomaly explanations from live flight data, including a US military helicopter (GRZLY71) executing a racetrack surveillance orbit. Implemented Fleet Analytics, on-demand feature vector display, and a collapsible Pattern Drill-Down. Fixed a state persistence bug that was silently discarding anomaly scores between non-scoring cycles. System runs continuously on Fly.io with CI/CD via GitHub Actions. Full technical write-up in CASE_STUDY.md.',
     tags: ['Python', 'FastAPI', 'Kalman Filter', 'DBSCAN', 'IsolationForest', 'Claude API', 'Next.js', 'MapLibre GL'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Apr 2026',
     metrics: ['Full ML pipeline: Kalman + DBSCAN + IsolationForest, no labeled data required', '11,000+ aircraft processed per 60-second inference cycle', '4 real anomaly explanations from live military flight data'],
     github: 'https://github.com/PCSchmidt/aerointel',
@@ -130,6 +161,7 @@ const projects = [
       'Validated the core thesis by experiment: an agent scored its own work 5.5/10 while an independent evaluator scored the same work 2.5/10 — a 3.0-point gap the harness closes mechanically. 238 tests across 18 suites, all three recipes verified end-to-end. Dogfooded on two production projects, where a gate caught stub citation code an agent had marked complete and forced it to be rebuilt as real infrastructure before it could ship as technical debt.',
     tags: ['Bash', 'Claude Code', 'Agent Harness', 'LLM Evaluation', 'Hooks', 'DevTools'],
     status: 'featured' as const,
+    tier: 'supporting' as const,
     timeframe: 'May 2026 – Present',
     metrics: ['Self-grading gap closed: 5.5 → 2.5 (−3.0 pts)', '238 tests across 18 suites', 'Dogfooded on 2 production projects'],
     github: 'https://github.com/PCSchmidt/meridian',
@@ -149,6 +181,7 @@ const projects = [
       'Live end-to-end and publishing daily from live data. The entity resolver holds precision 1.0 / recall 1.0 with zero false links on a golden set, rendering each item’s companies as clickable entity chips and flagging cross-desk convergence — a company appearing on two or more desks — as the core signal. An interactive Convergence Graph makes the entity network visible, with the cited stories behind each connection and a federal-funding overlay. Payments are built but not yet wired to a processor; turning on subscriptions is the next step to public launch.',
     tags: ['Next.js', 'FastAPI', 'Supabase', 'pgvector', 'RAG', 'Entity Resolution', 'LLM'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Jun 2026 \u2013 Present',
     metrics: ['Live: Next.js + FastAPI + Supabase', 'Entity resolver: 1.0 precision / 1.0 recall', '3 desks, 4 live sources, daily cron'],
     github: 'https://github.com/PCSchmidt/HardPowerIntelligence',
@@ -169,6 +202,7 @@ const projects = [
       'ONNX + INT8 batch=32 achieved 2.9ms p50 latency and 602 req/s — a ~9× throughput improvement over PyTorch single inference. Model size reduced ~74%. Quantized embeddings maintained 0.962 mean cosine similarity vs. baseline. 17 passing tests with GitHub Actions CI.',
     tags: ['ONNX', 'PyTorch', 'Sentence Transformers', 'Benchmarking', 'Quantization'],
     status: 'featured' as const,
+    tier: 'supporting' as const,
     timeframe: 'Apr 2026',
     metrics: ['~9× throughput (602 req/s)', '74% model size reduction', '2.9ms p50 latency'],
     github: 'https://github.com/PCSchmidt/inference-optimization-study',
@@ -189,6 +223,7 @@ const projects = [
       'Clear demonstration of how β controls the reconstruction–disentanglement tradeoff. Low β (0.1) gives sharp reconstructions but tangled latents; high β (10) gives smooth latent space but blurry outputs. 19/19 tests passing.',
     tags: ['PyTorch', 'Generative Models', 'VAE', 'Ablation Study', 'Python'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Spring 2026',
     metrics: ['6 β-sweep configurations', '19 passing tests', 'Evidence PNGs exported'],
     github: 'https://github.com/PCSchmidt/generative-modeling-study',
@@ -209,6 +244,7 @@ const projects = [
       'Rank 8 with alpha 16-32 captures most fine-tuning benefit at 0.65% of model parameters. Even rank-2 (202K params) substantially beats zero-shot. Methodology is model-size-agnostic and applies directly to Llama, Mistral, and other transformers.',
     tags: ['LoRA', 'PEFT', 'Transformers', 'Fine-Tuning', 'Ablation Study', 'Python'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Apr 2026',
     metrics: ['5 LoRA configurations ablated', '12 passing tests', '0.65% trainable params (rank 8)'],
     github: 'https://github.com/PCSchmidt/finetuning-study',
@@ -229,6 +265,7 @@ const projects = [
       'Tabular Q-learning converges fast on small state spaces; DQN generalizes but needs replay buffer tuning. Full environment/agent separation following Gymnasium patterns. 24/24 tests passing.',
     tags: ['Reinforcement Learning', 'PyTorch', 'Gymnasium', 'DQN', 'Q-Learning', 'Python'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Spring 2026',
     metrics: ['24 passing tests', 'Tabular + Deep RL agents', 'Custom Gymnasium environment'],
     github: 'https://github.com/PCSchmidt/rl-environment-study',
@@ -249,6 +286,7 @@ const projects = [
       'Adam achieves ~93% MNIST accuracy vs SGD ~85%. Condition number study shows Adam effectively reduces effective κ. He initialization critical for ReLU networks. 29/29 tests passing, zero external ML dependencies.',
     tags: ['NumPy', 'Optimization', 'Neural Networks', 'Backpropagation', 'MNIST', 'Python'],
     status: 'featured' as const,
+    tier: 'more' as const,
     timeframe: 'Spring 2026',
     metrics: ['29 passing tests', '~93% MNIST accuracy (pure NumPy)', '3 optimizers from scratch'],
     github: 'https://github.com/PCSchmidt/optimizer-deep-dive',
@@ -258,6 +296,13 @@ const projects = [
     notebook: 'https://github.com/PCSchmidt/optimizer-deep-dive/blob/main/notebooks/optimizer_deep_dive.ipynb',
   },
 ];
+
+// Three tiers, because when everything is featured nothing is. A hiring manager
+// arriving from LinkedIn spends about 90 seconds here; that budget buys one project
+// read properly, not thirteen skimmed. Reordering is a one-word edit to `tier`.
+const hero = projects.filter((p) => p.tier === 'hero');
+const supporting = projects.filter((p) => p.tier === 'supporting');
+const more = projects.filter((p) => p.tier === 'more');
 ---
 
 <Layout
@@ -268,15 +313,66 @@ const projects = [
     <div class="container">
       <h1 class="section-title">Projects</h1>
       <p class="section-intro">
-        Flagship ML/AI projects structured as case studies. Each entry describes the engineering
-        problem, my approach, and measurable outcomes. Projects marked <strong>"In Progress"</strong>
-        are actively being hardened with deeper evaluation, deployment polish, and expanded writeups.
-        Evidence links are provided where available for direct reviewer verification.
+        Ordered by what I would most want to discuss, not by date. The first project is
+        where my current work is; three more show the range; the rest are listed briefly
+        with links. Every case study states the engineering problem, the approach, and
+        what was actually measured — including what is still unproven.
       </p>
 
-      <div class="projects-list">
+      {hero.length > 0 && (
+        <div class="tier tier-hero">
+          <div class="tier-head">
+            <h2 class="tier-title">Current focus</h2>
+            <p class="tier-note">The project I would most want to be asked about.</p>
+          </div>
+          <div class="projects-list">
+            {hero.map((project) => (
+              <div class="project-detail is-hero">
+                <ProjectCard
+                  title={project.title}
+                  description={project.description}
+                  tags={project.tags}
+                  status={project.status}
+                  metrics={project.metrics}
+                  github={project.github}
+                  demo={project.demo}
+                  demoLabel={project.demoLabel}
+                  evidence={project.evidence}
+                  guide={project.guide}
+                  timeframe={project.timeframe}
+                  paper={project.paper}
+                  notebook={project.notebook}
+                >
+                  <div class="case-study">
+                    <div class="case-row">
+                      <span class="case-label">Problem</span>
+                      <p class="case-text">{project.problem}</p>
+                    </div>
+                    <div class="case-row">
+                      <span class="case-label">Approach</span>
+                      <p class="case-text">{project.approach}</p>
+                    </div>
+                    <div class="case-row">
+                      <span class="case-label">Impact</span>
+                      <p class="case-text">{project.impact}</p>
+                    </div>
+                  </div>
+                </ProjectCard>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="tier">
+        <div class="tier-head">
+          <h2 class="tier-title">Selected work</h2>
+          <p class="tier-note">Three projects that show the range: agent evaluation,
+            production ML systems, and retrieval.</p>
+        </div>
+        <div class="projects-list">
         {
-          projects.map((project) => (
+          supporting.map((project) => (
             <div class="project-detail">
               <ProjectCard
                 title={project.title}
@@ -311,6 +407,31 @@ const projects = [
             </div>
           ))
         }
+        </div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-head">
+          <h2 class="tier-title">More work</h2>
+          <p class="tier-note">Studies and applications, kept brief on purpose.
+            Each links to a repo with setup docs and evidence.</p>
+        </div>
+        <ul class="more-list">
+          {
+            more.map((project) => (
+              <li class="more-item">
+                <div class="more-main">
+                  <h3 class="more-title">{project.title}</h3>
+                  <p class="more-desc">{project.description.split('. ')[0]}.</p>
+                </div>
+                <div class="more-links">
+                  {project.demo && <a href={project.demo} class="more-link">{project.demoLabel ?? 'Demo'}</a>}
+                  {project.github && <a href={project.github} class="more-link">Code</a>}
+                </div>
+              </li>
+            ))
+          }
+        </ul>
       </div>
 
       <div class="thinking-cta">
@@ -322,6 +443,33 @@ const projects = [
 </Layout>
 
 <style>
+  /* --- tiering ------------------------------------------------------- */
+  .tier { margin-bottom: 3.25rem; }
+  .tier-head { margin-bottom: 1.25rem; }
+  .tier-title {
+    font-size: 1.05rem; text-transform: uppercase; letter-spacing: .06em;
+    margin: 0 0 .25rem; color: #334155;
+  }
+  .tier-note { margin: 0; font-size: .9rem; color: #64748b; max-width: 62ch; }
+  .tier-hero .tier-title { color: #1d4ed8; }
+  .tier-hero .project-detail { border-left: 3px solid #1d4ed8; padding-left: 1.1rem; }
+
+  .more-list { list-style: none; margin: 0; padding: 0;
+    border-top: 1px solid #e2e8f0; }
+  .more-item {
+    display: flex; gap: 1rem; align-items: baseline; justify-content: space-between;
+    flex-wrap: wrap; padding: .85rem .25rem; border-bottom: 1px solid #e2e8f0;
+  }
+  .more-main { flex: 1 1 22rem; min-width: 0; }
+  .more-title { font-size: .98rem; margin: 0 0 .15rem; font-weight: 600; color: #0f172a; }
+  .more-desc { margin: 0; font-size: .86rem; color: #64748b; }
+  .more-links { display: flex; gap: .6rem; flex-shrink: 0; }
+  .more-link {
+    font-size: .82rem; color: #1d4ed8; text-decoration: none;
+    border: 1px solid #cbd5e1; border-radius: 5px; padding: .18rem .55rem;
+  }
+  .more-link:hover { border-color: #1d4ed8; background: #eff6ff; }
+
   .projects-list {
     display: flex;
     flex-direction: column;

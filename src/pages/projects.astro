@@ -24,6 +24,26 @@ const projects = [
     guide: 'https://github.com/PCSchmidt/convex-optimization-app#deployment-runbook-flyio--convexoptimizerstream-phase-b',
   },
   {
+    title: 'Chokepoint - Provenance-Aware Transportation Intelligence',
+    description:
+      'A verified analytical workflow over public transportation signals: deterministic metrics over normalized observations, reviewed geofences with a named human owner, and an agent that answers questions only from evaluator-approved evidence. Maritime core (three chokepoints) extended to air (ADS-B) and land (CBP border wait times) through the same admission-gate discipline. Live fixture-mode demo on GitHub Pages.',
+    problem:
+      'Raw movement data is not intelligence: positions are noisy, misclassified, and easy to over-read, and LLM agents over maps routinely invent intent, causes, and completeness that the data does not support. Missing data gets silently treated as zero, and "all vessels at the port" claims smuggle in scope the source never had.',
+    approach:
+      'Deterministic analytics before any AI: six versioned component metrics (vessel count, moving fraction, dwell estimates, entry/exit) computed over a canonical observation model that rejects invalid data instead of clamping it, inside nine reviewed geofences with per-vertex provenance and a named human review owner. The agent is evaluator-gated end to end: a typed-intent parser abstains rather than guessing scope, tools read only manager snapshots, a claim evaluator rejects causal/threat/predictive language, requires provenance on every claim, and verifies every number against the metrics — and the generator renders accepted claims only, structurally. Every live source went through a primary-source terms admission gate (AISStream risk-accepted with no ToS, adsb.lol under ODbL, CBP keyless; OpenSky rejected on its own written terms; rail deferred on evidence), and facility-level signals (border wait times) enter as a separate FacilityMetric model so entity data is never polluted.',
+    impact:
+      '326 offline deterministic tests, CI-green with zero credentials and zero network. Groundedness evaluation: 25/25 labeled scenarios (fabricated numbers rejected, causal/threat/predictive language rejected, scope overreach rejected, out-of-domain questions abstain). Detector evaluation: precision 1.0, recall 0.75, zero false positives with known failures documented. Replay performance profiled against documented budgets (render mean ~3ms, zero idle renders, 0% heap growth) — the profiler caught a real cursor bug synthetic tests had missed. Live at pcschmidt.github.io/chokepoint_app with a PWA offline shell, plus a Docker Compose observability stack (Prometheus + Grafana, bounded-label metrics, redacted JSON logs). The CBP live layer was verified against the real feed (85 crossings) and the demo honestly shows Suez as coverage-UNKNOWN rather than zero.',
+    tags: ['TypeScript', 'CesiumJS', 'Verified Agent', 'Evaluation', 'Geospatial', 'Prometheus'],
+    status: 'featured' as const,
+    timeframe: 'Sep 2026 - Present',
+    metrics: ['Live demo: pcschmidt.github.io/chokepoint_app', '326 offline tests; groundedness eval 25/25', 'Evaluator rejects causal, threat, and fabricated claims'],
+    github: 'https://github.com/PCSchmidt/chokepoint_app',
+    demo: 'https://pcschmidt.github.io/chokepoint_app/',
+    demoLabel: 'Live',
+    evidence: 'https://github.com/PCSchmidt/chokepoint_app/tree/main/evaluation-reports',
+    guide: 'https://github.com/PCSchmidt/chokepoint_app#verify-the-claims-a-reviewers-path',
+  },
+  {
     title: 'Advanced Stock Prediction App - The Model Maintenance Lifecycle',
     description:
       'A complete model-maintenance lifecycle on a financial forecasting problem: walk-forward evaluation, drift detection, retraining into versioned bundles, and validated rollback. Deliberately local-only (Docker Compose) - the point is the maintain loop, not a hosted demo.',

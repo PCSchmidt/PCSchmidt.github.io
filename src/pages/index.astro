@@ -4,6 +4,20 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const featuredProjects = [
   {
+    title: 'Chokepoint - Provenance-Aware Transportation Intelligence',
+    description:
+      'Deterministic maritime metrics over reviewed geofences, extended to air and land through the same admission-gate discipline, with an agent that answers only from evaluator-approved evidence. Live fixture-mode demo with a PWA offline shell.',
+    tags: ['TypeScript', 'CesiumJS', 'Verified Agent', 'Evaluation', 'Geospatial'],
+    status: 'featured' as const,
+    timeframe: 'Sep 2026 - Present',
+    metrics: ['Live demo (GitHub Pages)', '326 offline tests; groundedness 25/25', 'Evaluator rejects causal, threat, and fabricated claims'],
+    github: 'https://github.com/PCSchmidt/chokepoint_app',
+    demo: 'https://pcschmidt.github.io/chokepoint_app/',
+    demoLabel: 'Live',
+    evidence: 'https://github.com/PCSchmidt/chokepoint_app/tree/main/evaluation-reports',
+    guide: 'https://github.com/PCSchmidt/chokepoint_app#verify-the-claims-a-reviewers-path',
+  },
+  {
     title: 'Production Inference Optimization Study',
     description:
       'ONNX export, INT8 quantization, and adaptive batching applied to a production sentence-transformer. ~9× throughput improvement on CPU with 74% model size reduction and validated accuracy.',

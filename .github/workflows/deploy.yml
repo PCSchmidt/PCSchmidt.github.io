@@ -35,6 +35,34 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check out the SITREP app source
+        uses: actions/checkout@v4
+        with:
+          # Public repository: the default GITHUB_TOKEN can read it, so the web app
+          # needs no extra secret or cross-repo deploy key.
+          repository: PCSchmidt/SITREP
+          path: sitrep-src
+
+      - name: Build the SITREP web app
+        working-directory: sitrep-src/mobile
+        run: |
+          set -euo pipefail
+          npm ci --no-audit --no-fund
+          # app.json sets experiments.baseUrl to /sitrep so asset URLs resolve from
+          # the subpath this site serves the app from.
+          npx expo export --platform web --output-dir "$GITHUB_WORKSPACE/sitrep-web"
+
+      - name: Publish the SITREP web app into the site
+        run: |
+          set -euo pipefail
+          # Replace only the app-owned files so the hand-written /sitrep page is
+          # untouched. privacy-policy.html and terms.html live in that folder and are
+          # linked from the app store listings, so they must survive every deploy.
+          rm -rf public/sitrep/_expo public/sitrep/assets public/sitrep/index.html public/sitrep/favicon.ico public/sitrep/metadata.json
+          mkdir -p public/sitrep
+          cp -R sitrep-web/. public/sitrep/
+          echo "SITREP web app files:"; ls -1 public/sitrep | head -20
+
       - name: Build with Astro
         run: npm run build
 

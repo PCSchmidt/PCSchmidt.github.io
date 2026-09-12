@@ -19,6 +19,13 @@
           return;
         }
 
+        // Same fallback for the SITREP web app served from /sitrep/.
+        if (path.startsWith('/sitrep/')) {
+          var sitrepRedirect = '/sitrep/?redirect=' + encodeURIComponent(path + search) + hash;
+          window.location.replace(sitrepRedirect);
+          return;
+        }
+
         document.body.innerHTML =
           '<main style="font-family: sans-serif; max-width: 680px; margin: 3rem auto; padding: 0 1rem;">' +
           '<h1>Page not found</h1>' +

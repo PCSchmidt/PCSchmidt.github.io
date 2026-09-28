@@ -29,6 +29,27 @@ const projects = [
     guide: 'https://github.com/PCSchmidt/Diplomacy#try-it',
   },
   {
+    title: 'SiteWatch AI - Computer Vision Safety Monitoring, Verified by an RLM Agent',
+    description:
+      'A two-plane safety monitor for warehouse and site video that keeps the safety decision deterministic and makes the AI prove its numbers. The fast plane (YOLO11s, ByteTrack, Kalman filtering, homography calibration to floor meters) applies versioned proximity, zone-dwell and speed rules on every frame at no AI cost. Only when a rule fires does a Prime Agent Recursive Language Model verify the event by running Python over the raw tracks, and a deterministic Band-3 gate recomputes its numbers before anything is stored. Live demo on GitHub Pages replays the real pipeline output and recorded agent sessions.',
+    problem:
+      'Site-safety systems fail in one of two ways. Pure rules are fast and predictable but cannot tell a genuine near-miss from a tracking glitch, so operators drown in false alarms. Pure LLM pipelines can reason about context but are too slow and costly to run on every frame, and will state a distance that sounds confident and is simply wrong - unacceptable when the question is how close the forklift got.',
+    approach:
+      'Two planes and a referee neither can override. The fast plane detects and tracks people and vehicles, projects each to floor coordinates through one of three calibration methods, and fails safe: a camera whose calibration error exceeds 2.0 px keeps zone rules but switches off distance and speed rules. The only thing that crosses planes is a Pydantic-validated TriggerEvent plus the tracking window around it; the agent never sees video. Prime Agent runs headless over JSON-lines RPC, one fresh process per incident, and must answer from code it executes in its REPL rather than from prose. A feasibility spike showed its own turn limit did not stop a runaway task, so the real limit is an external 210 s timeout and kill in the adapter. The Band-3 gate recomputes distance, speed and zone dwell independently; any disagreement, timeout or malformed output becomes a needs_review incident with the evidence kept, never a dropped one. Redis Streams, Postgres, FastAPI with WebSocket push and a React dashboard carry the result; Terraform for AWS, GCP and Azure is validated in CI and deliberately never applied.',
+    impact:
+      'Against the real Prime Agent CLI, 26/30 hand-labeled incidents passed first time (86.7%); all four misses were the same timeout and completed correctly on retest, so the limit was raised on that evidence. Classification agreement with the labels was 82.1%, at about $0.002 and 43-56K tokens per incident. The gate earned its place on the live demo: the agent called a real aisle intrusion a false positive, and after a zone check was added to the gate the agent repeated the mistake and the gate caught it, sending the incident to review. The recorded transcript showed the agent had misread a rule id, fixed by putting rule definitions in the prompt. YOLO11s runs 35 FPS single-stream at 1080p; for three streams both the rested (30.2 FPS) and thermally throttled (9.5-13.2 FPS) numbers are published. 191 Python tests plus 6 dashboard tests, green in CI. Still unproven: inputs are looped stock clips, the demo calibrations are estimates rather than surveys, the gate cannot catch a plausible wrong judgment between allowed classes, and speed verdicts are not gated.',
+    tags: ['Python', 'Computer Vision', 'YOLO', 'Verified Agent', 'FastAPI', 'React'],
+    status: 'featured' as const,
+    tier: 'more' as const,
+    timeframe: 'Sep 2026',
+    metrics: ['Live demo: pcschmidt.github.io/sitework-ai', 'Agent eval: 26/30 first pass; ~$0.002 per incident', 'Band-3 gate caught a real agent misclassification'],
+    github: 'https://github.com/PCSchmidt/sitework-ai',
+    demo: 'https://pcschmidt.github.io/sitework-ai/',
+    demoLabel: 'Live',
+    evidence: 'https://github.com/PCSchmidt/sitework-ai/blob/main/docs/eval-m5-agent-slow-path.md',
+    guide: 'https://github.com/PCSchmidt/sitework-ai#verify-the-claims-a-reviewers-path',
+  },
+  {
     title: 'Convex Optimization App — Live Optimization Workbench',
     description:
       'Three classic convex optimization problems solved by four first-order methods written from scratch in NumPy, benchmarked against SciPy ground truth, and served as a public web workbench with an LLM natural-language front door. Deployed live on fly.io with a same-origin React UI.',

@@ -6,32 +6,32 @@ const projects = [
   {
     title: 'AI Diplomacy — Theory of Mind as Engineering',
     description:
-      'Seven AI powers negotiate, ally and betray each other on the standard Diplomacy map. Each keeps an explicit, inspectable model of what it believes the others intend, updated separately on what they say and on what they actually do. The point is not an AI that plays well - it is that belief modelling can be built as engineering rather than prompting, with falsifiable evidence that the belief layer does something.',
+      'Seven LLM powers negotiate, ally and betray each other in full-rules Diplomacy, each keeping an explicit trust model of the others that updates separately on what they promise and on what they then order. The question was whether belief modelling can be built as engineering rather than prompting, measured so that the answer could be no - and on this run it was: a matched-seed ablation scored evaluator AUC 0.497, which is chance. Live replay viewer on GitHub Pages.',
     problem:
       'Multi-agent LLM demos are easy to make look impressive and nearly impossible to evaluate. An agent that says it "trusts France at 0.7" is producing a number, not a belief - and nothing in a transcript distinguishes a calibrated model from a confident one. Worse, an agent that can see its counterpart\'s private channel produces plausible results that are quietly meaningless.',
     approach:
       'Trust is a Beta posterior over promise-keeping, not an LLM-supplied score: every message carries a structured commitment, and after adjudication the engine diffs promised against ordered, which is the evidence the posterior updates on. Betrayals weigh double, because alliances take many turns to build and one stab to destroy. Two properties are enforced mechanically rather than by instruction - a belief store belongs to one power and has no method that could admit another\'s private channel, and a structurally separate evaluator scores incoming messages while seeing only the counterpart\'s words and public order record, never its own side\'s plans. Both are asserted by fixtures that must fail.',
     impact:
-      'Seven gates green in CI across four hash seeds. The eval harness measures evaluator AUC, Brier score, calibration bins and betrayal lead time - the metric separating a belief model from a scoreboard - all verified against known inputs rather than real games. Live replay viewer showing the trust network, transcript and mental-model inspector. Ablation results pending a live-model run; the harness refuses to report synthetic runs as evidence.',
+      'The definitive ablation (12 seeds x 2 arms, all seven powers LLM-driven on claude-haiku-4.5, about $25) scored evaluator AUC 0.497, 95% CI [0.453, 0.542], on 667 falsifiable commitments: kept promises do not rank above broken ones, and the low-confidence predictions run backwards (it said 15%, the promise was kept 80% of the time). The Theory of Mind claim is not supported by this run. Getting to a negative worth trusting took three rounds of fixing the measurement itself: a cross-process nondeterminism bug that would have had the two arms playing different games (now a CI job), silent fallbacks that made 47% of one batch\'s "evaluator scores" a constant, and a "kept" base rate of 82% that turned out to be mostly unfalsifiable promises. What remains untested - a stronger evaluator model, richer board context, longer games - is named rather than implied to be an obvious fix.',
     tags: ['Python', 'Multi-Agent', 'Evaluation', 'Anthropic API', 'Theory of Mind'],
     status: 'featured' as const,
-    tier: 'hero' as const,
-    timeframe: 'Sep 2026 - Present',
+    tier: 'more' as const,
+    timeframe: 'Sep 2026',
     metrics: [
       'Live replay viewer: board, trust network, evaluator scorecard',
-      '7 CI gates incl. cross-process determinism regression test',
-      'Deliberate-leak and provenance fixtures that must fail',
+      'Ablation: AUC 0.497, 95% CI [0.453, 0.542] - chance, reported as found',
+      'Three measurement bugs fixed before the result was trusted',
     ],
     github: 'https://github.com/PCSchmidt/Diplomacy',
     demo: 'https://pcschmidt.github.io/Diplomacy/',
     demoLabel: 'Live demo',
-    evidence: 'https://github.com/PCSchmidt/Diplomacy/blob/main/ARCHITECTURE.md',
-    guide: 'https://github.com/PCSchmidt/Diplomacy#try-it',
+    evidence: 'https://github.com/PCSchmidt/Diplomacy#results',
+    guide: 'https://github.com/PCSchmidt/Diplomacy#quickstart',
   },
   {
     title: 'SiteWatch AI - Computer Vision Safety Monitoring, Verified by an RLM Agent',
     description:
-      'A two-plane safety monitor for warehouse and site video that keeps the safety decision deterministic and makes the AI prove its numbers. The fast plane (YOLO11s, ByteTrack, Kalman filtering, homography calibration to floor meters) applies versioned proximity, zone-dwell and speed rules on every frame at no AI cost. Only when a rule fires does a Prime Agent Recursive Language Model verify the event by running Python over the raw tracks, and a deterministic Band-3 gate recomputes its numbers before anything is stored. Live demo on GitHub Pages replays the real pipeline output and recorded agent sessions.',
+      'A two-plane safety monitor for warehouse and site video that keeps the safety decision deterministic and makes the AI prove its numbers. The fast plane (YOLO11s, ByteTrack, Kalman filtering, homography calibration to floor meters) applies versioned proximity, zone-dwell and speed rules on every frame at no AI cost. Only when a rule fires does a Prime Agent Recursive Language Model verify the event by running Python over the raw tracks, and a deterministic Band-3 gate recomputes its numbers before anything is stored. It grew out of the computer vision component of Creating AI-Enabled Systems, a course in my JHU program. Live demo on GitHub Pages replays the real pipeline output and recorded agent sessions.',
     problem:
       'Site-safety systems fail in one of two ways. Pure rules are fast and predictable but cannot tell a genuine near-miss from a tracking glitch, so operators drown in false alarms. Pure LLM pipelines can reason about context but are too slow and costly to run on every frame, and will state a distance that sounds confident and is simply wrong - unacceptable when the question is how close the forklift got.',
     approach:
@@ -40,7 +40,7 @@ const projects = [
       'Against the real Prime Agent CLI, 26/30 hand-labeled incidents passed first time (86.7%); all four misses were the same timeout and completed correctly on retest, so the limit was raised on that evidence. Classification agreement with the labels was 82.1%, at about $0.002 and 43-56K tokens per incident. The gate earned its place on the live demo: the agent called a real aisle intrusion a false positive, and after a zone check was added to the gate the agent repeated the mistake and the gate caught it, sending the incident to review. The recorded transcript showed the agent had misread a rule id, fixed by putting rule definitions in the prompt. YOLO11s runs 35 FPS single-stream at 1080p; for three streams both the rested (30.2 FPS) and thermally throttled (9.5-13.2 FPS) numbers are published. 191 Python tests plus 6 dashboard tests, green in CI. Still unproven: inputs are looped stock clips, the demo calibrations are estimates rather than surveys, the gate cannot catch a plausible wrong judgment between allowed classes, and speed verdicts are not gated.',
     tags: ['Python', 'Computer Vision', 'YOLO', 'Verified Agent', 'FastAPI', 'React'],
     status: 'featured' as const,
-    tier: 'more' as const,
+    tier: 'hero' as const,
     timeframe: 'Sep 2026',
     metrics: ['Live demo: pcschmidt.github.io/sitework-ai', 'Agent eval: 26/30 first pass; ~$0.002 per incident', 'Band-3 gate caught a real agent misclassification'],
     github: 'https://github.com/PCSchmidt/sitework-ai',
@@ -79,12 +79,12 @@ const projects = [
     approach:
       'Deterministic analytics before any AI: six versioned component metrics (vessel count, moving fraction, dwell estimates, entry/exit) computed over a canonical observation model that rejects invalid data instead of clamping it, inside nine reviewed geofences with per-vertex provenance and a named human review owner. The agent is evaluator-gated end to end: a typed-intent parser abstains rather than guessing scope, tools read only manager snapshots, a claim evaluator rejects causal/threat/predictive language, requires provenance on every claim, and verifies every number against the metrics — and the generator renders accepted claims only, structurally. Every live source went through a primary-source terms admission gate (AISStream risk-accepted with no ToS, adsb.lol under ODbL, CBP keyless; OpenSky rejected on its own written terms; rail deferred on evidence), and facility-level signals (border wait times) enter as a separate FacilityMetric model so entity data is never polluted.',
     impact:
-      '326 offline deterministic tests, CI-green with zero credentials and zero network. Groundedness evaluation: 25/25 labeled scenarios (fabricated numbers rejected, causal/threat/predictive language rejected, scope overreach rejected, out-of-domain questions abstain). Detector evaluation: precision 1.0, recall 0.75, zero false positives with known failures documented. Replay performance profiled against documented budgets (render mean ~3ms, zero idle renders, 0% heap growth) — the profiler caught a real cursor bug synthetic tests had missed. Live at pcschmidt.github.io/chokepoint_app with a PWA offline shell, plus a Docker Compose observability stack (Prometheus + Grafana, bounded-label metrics, redacted JSON logs). The CBP live layer was verified against the real feed (85 crossings) and the demo honestly shows Suez as coverage-UNKNOWN rather than zero.',
+      '341 offline deterministic tests, CI-green with zero credentials and zero network. Groundedness evaluation: 25/25 labeled scenarios (fabricated numbers rejected, causal/threat/predictive language rejected, scope overreach rejected, out-of-domain questions abstain). Detector evaluation: precision 1.0, recall 0.75, zero false positives with known failures documented. Replay performance profiled against documented budgets (render mean ~3ms, zero idle renders, 0% heap growth) — the profiler caught a real cursor bug synthetic tests had missed. Live at pcschmidt.github.io/chokepoint_app with a PWA offline shell, plus a Docker Compose observability stack (Prometheus + Grafana, bounded-label metrics, redacted JSON logs). The CBP live layer was verified against the real feed (85 crossings) and the demo honestly shows Suez as coverage-UNKNOWN rather than zero.',
     tags: ['TypeScript', 'CesiumJS', 'Verified Agent', 'Evaluation', 'Geospatial', 'Prometheus'],
     status: 'featured' as const,
-    tier: 'more' as const,
+    tier: 'supporting' as const,
     timeframe: 'Sep 2026 - Present',
-    metrics: ['Live demo: pcschmidt.github.io/chokepoint_app', '326 offline tests; groundedness eval 25/25', 'Evaluator rejects causal, threat, and fabricated claims'],
+    metrics: ['Live demo: pcschmidt.github.io/chokepoint_app', '341 offline tests; groundedness eval 25/25', 'Evaluator rejects causal, threat, and fabricated claims'],
     github: 'https://github.com/PCSchmidt/chokepoint_app',
     demo: 'https://pcschmidt.github.io/chokepoint_app/',
     demoLabel: 'Live',
@@ -122,7 +122,7 @@ const projects = [
       'Recorded retrieval numbers on a hand-labeled eval set: hit rate@4 0.917, MRR@4 0.653 for the real embedder. The maintain loop was exercised in a real incident: a wrong-fixture refresh dropped top similarity 0.257 -> 0.041, was caught, and rolled back to v1 - restoring grounded answers. 134 offline tests plus an offline React workspace UI with a clearly-labeled DEMO mode.',
     tags: ['Python', 'RAG', 'FAISS', 'FastAPI', 'React'],
     status: 'featured' as const,
-    tier: 'supporting' as const,
+    tier: 'more' as const,
     timeframe: 'Sep 2026',
     metrics: ['hit rate@4 0.917 / MRR@4 0.653 (hand-labeled set)', '134 offline tests; zero network in CI', 'Executed incident: bad refresh caught, rollback verified'],
     github: 'https://github.com/PCSchmidt/youtube_app',
@@ -179,12 +179,12 @@ const projects = [
     approach:
       'Built infrastructure, not prompts. Gates are a project-defined YAML dependency graph enforced by shell hooks that exit 2 to block execution. A Gate Evaluator subagent runs in a fresh context, told "you did not produce this work," and blocks any gate scoring below 7.0. Three schema-validated JSONL memory types persist patterns, session events, and predicted-vs-actual calibration across resets. Every gate transition, block, and verdict is logged to queryable telemetry, and enforcement relocates to the git/CI boundary for non-Claude platforms.',
     impact:
-      'Validated the core thesis by experiment: an agent scored its own work 5.5/10 while an independent evaluator scored the same work 2.5/10 — a 3.0-point gap the harness closes mechanically. 238 tests across 18 suites, all three recipes verified end-to-end. Dogfooded on two production projects, where a gate caught stub citation code an agent had marked complete and forced it to be rebuilt as real infrastructure before it could ship as technical debt.',
+      'Validated the core thesis by experiment: an agent scored its own work 5.5/10 while an independent evaluator scored the same work 2.5/10 — a 3.0-point gap the harness closes mechanically. 240 assertions across 18 suites, all three recipes verified end-to-end. Dogfooded on two production projects, where a gate caught stub citation code an agent had marked complete and forced it to be rebuilt as real infrastructure before it could ship as technical debt.',
     tags: ['Bash', 'Claude Code', 'Agent Harness', 'LLM Evaluation', 'Hooks', 'DevTools'],
     status: 'featured' as const,
     tier: 'supporting' as const,
     timeframe: 'May 2026 – Present',
-    metrics: ['Self-grading gap closed: 5.5 → 2.5 (−3.0 pts)', '238 tests across 18 suites', 'Dogfooded on 2 production projects'],
+    metrics: ['Self-grading gap closed: 5.5 → 2.5 (−3.0 pts)', '240 assertions across 18 suites', 'Dogfooded on 2 production projects'],
     github: 'https://github.com/PCSchmidt/meridian',
     evidence: 'https://github.com/PCSchmidt/meridian/blob/main/experiment/GENERATOR_EVALUATOR_VALIDATION.md',
     guide: 'https://github.com/PCSchmidt/meridian/blob/main/DEMO_GUIDE.md',
@@ -202,7 +202,7 @@ const projects = [
       'Live end-to-end and publishing daily from live data. The entity resolver holds precision 1.0 / recall 1.0 with zero false links on a golden set, rendering each item’s companies as clickable entity chips and flagging cross-desk convergence — a company appearing on two or more desks — as the core signal. An interactive Convergence Graph makes the entity network visible, with the cited stories behind each connection and a federal-funding overlay. Payments are built but not yet wired to a processor; turning on subscriptions is the next step to public launch.',
     tags: ['Next.js', 'FastAPI', 'Supabase', 'pgvector', 'RAG', 'Entity Resolution', 'LLM'],
     status: 'featured' as const,
-    tier: 'more' as const,
+    tier: 'supporting' as const,
     timeframe: 'Jun 2026 \u2013 Present',
     metrics: ['Live: Next.js + FastAPI + Supabase', 'Entity resolver: 1.0 precision / 1.0 recall', '3 desks, 4 live sources, daily cron'],
     github: 'https://github.com/PCSchmidt/HardPowerIntelligence',
@@ -223,7 +223,7 @@ const projects = [
       'ONNX + INT8 batch=32 achieved 2.9ms p50 latency and 602 req/s — a ~9× throughput improvement over PyTorch single inference. Model size reduced ~74%. Quantized embeddings maintained 0.962 mean cosine similarity vs. baseline. 17 passing tests with GitHub Actions CI.',
     tags: ['ONNX', 'PyTorch', 'Sentence Transformers', 'Benchmarking', 'Quantization'],
     status: 'featured' as const,
-    tier: 'supporting' as const,
+    tier: 'more' as const,
     timeframe: 'Apr 2026',
     metrics: ['~9× throughput (602 req/s)', '74% model size reduction', '2.9ms p50 latency'],
     github: 'https://github.com/PCSchmidt/inference-optimization-study',
@@ -328,16 +328,18 @@ const more = projects.filter((p) => p.tier === 'more');
 
 <Layout
   title="Projects — Chris Schmidt"
-  description="ML/AI project portfolio: inference optimization, generative models, reinforcement learning, and full-stack AI applications."
+  description="ML/AI project portfolio: verified AI systems, computer vision, geospatial intelligence, agent evaluation, and applied ML studies."
 >
   <section class="section">
     <div class="container">
       <h1 class="section-title">Projects</h1>
       <p class="section-intro">
-        Ordered by what I would most want to discuss, not by date. The first project is
-        where my current work is; three more show the range; the rest are listed briefly
-        with links. Every case study states the engineering problem, the approach, and
-        what was actually measured — including what is still unproven.
+        One idea runs through the recent work: keep the consequential decision in
+        deterministic code, and put an independent check on anything a model produces
+        before it is trusted. Projects are ordered by what I would most want to discuss,
+        not by date. Every case study states the engineering problem, the approach, and
+        what was actually measured, including what is still unproven and one result that
+        came back negative.
       </p>
 
       {hero.length > 0 && (
@@ -388,8 +390,8 @@ const more = projects.filter((p) => p.tier === 'more');
       <div class="tier">
         <div class="tier-head">
           <h2 class="tier-title">Selected work</h2>
-          <p class="tier-note">Three projects that show the range: agent evaluation,
-            production ML systems, and retrieval.</p>
+          <p class="tier-note">The same discipline in three other settings: geospatial
+            intelligence, agent evaluation, and a live intelligence product.</p>
         </div>
         <div class="projects-list">
         {

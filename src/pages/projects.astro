@@ -4,6 +4,27 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const projects = [
   {
+    title: 'Grey-Resolve - Degraded-Media Entity Resolution, Evaluated Honestly',
+    description:
+      'An entity-resolution pipeline over degraded, uncurated media: detect a face, quality-gate it, embed it, retrieve near-duplicates, then try to break near-ties with lightweight context (time, coarse geo, source, text entities) - or honestly decline to resolve. The project is the evaluation: per-condition ROC/FMR/FNMR sweeps, a quality gate that measurably helps, and a central hypothesis (context resolves face near-ties) that was tested at scale and is not supported. Live Resolution Console on GitHub Pages; synthetic and public research data only, with candidate-ranking semantics throughout. Adapted from the vector-search coursework in Creating AI-Enabled Systems, a course in my JHU program.',
+    problem:
+      'Face matching looks solved on clean, well-lit images and quietly falls apart on the open-source media that real mission contexts supply: blurred, downsampled, off-angle, uncurated. A single accuracy percentage hides this, and a pipeline that always returns a top match will return a confident wrong one when several identities genuinely look alike. The harder question is whether contextual metadata can resolve those near-ties at all - and how you would know if it cannot.',
+    approach:
+      'Detect (SCRFD), quality-gate (FIQA-lite), embed (ArcFace, 512-d), and retrieve through a FAISS HNSW index with a SQLite metadata sidecar, then fuse context. Evaluation replaces accuracy percentages with EER, FMR and FNMR per degradation type (blur, downsampling, brightness, rotation), produced from one command, with detection failures counted per condition rather than hidden. The ambiguity regime is defined by measurement - the top-1/top-2 face-score gap - and four methods are compared on it: face-only, raw fusion, gap-gated selective fusion, and an evidence-only top-2 tiebreak, each swept across context-noise rates. Outputs are candidate rankings, never identifications, and the repo and UI carry no face imagery. Model weights are downloaded at runtime and never committed or baked into images; FastAPI and Docker Compose (API plus Qdrant) wrap the real pipeline.',
+    impact:
+      'The headline finding is structural: ranking quality is not operating-point calibration. EER stays near zero while FMR at FNMR=1% explodes to 0.873 under severe downsampling, so thresholds must be calibrated per condition. The quality gate lowers FNMR at a fixed threshold in nearly every condition (0.028 to 0.020 on clean probes) and rejects almost everything where quality is genuinely bad. The fusion claim did not hold: a small-run positive (n=4) did not replicate at scale (n=18) and reversed sign, with raw fusion cutting tight-gap hit@1 from 0.500 to 0.167. The mechanism was diagnosed (extreme-value noise from 59 competing context scores) and the guarded top-2 tiebreak was shown to be safe (overall exactly face-only, within +0.009/-0.019 across noise) but neutral. HNSW search p95 is at most 1.6 ms at 50k vectors against about 29 ms brute force on CPU. 241 deterministic tests, none needing model weights. Still unproven: results come from LFW-derived research data and synthetic scenarios, the FIQA gate is a heuristic rather than a measured assessor, runs use a single gallery draw, and nothing here transfers to real-world operational accuracy.',
+    tags: ['Python', 'Entity Resolution', 'Evaluation', 'FAISS', 'FastAPI', 'Computer Vision'],
+    status: 'featured' as const,
+    tier: 'hero' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['Live demo: pcschmidt.github.io/Grey-Resolve', 'FMR@FNMR=1% 0.873 at EER 0.046 (downsample x0.1)', 'Fusion claim tested at scale: not supported, reported as found'],
+    github: 'https://github.com/PCSchmidt/Grey-Resolve',
+    demo: 'https://pcschmidt.github.io/Grey-Resolve/',
+    demoLabel: 'Live',
+    evidence: 'https://github.com/PCSchmidt/Grey-Resolve/blob/main/docs/RESULTS.md',
+    guide: 'https://github.com/PCSchmidt/Grey-Resolve#getting-started',
+  },
+  {
     title: 'AI Diplomacy — Theory of Mind as Engineering',
     description:
       'Seven LLM powers negotiate, ally and betray each other in full-rules Diplomacy, each keeping an explicit trust model of the others that updates separately on what they promise and on what they then order. The question was whether belief modelling can be built as engineering rather than prompting, measured so that the answer could be no - and on this run it was: a matched-seed ablation scored evaluator AUC 0.497, which is chance. Live replay viewer on GitHub Pages.',
@@ -40,7 +61,7 @@ const projects = [
       'Against the real Prime Agent CLI, 26/30 hand-labeled incidents passed first time (86.7%); all four misses were the same timeout and completed correctly on retest, so the limit was raised on that evidence. Classification agreement with the labels was 82.1%, at about $0.002 and 43-56K tokens per incident. The gate earned its place on the live demo: the agent called a real aisle intrusion a false positive, and after a zone check was added to the gate the agent repeated the mistake and the gate caught it, sending the incident to review. The recorded transcript showed the agent had misread a rule id, fixed by putting rule definitions in the prompt. YOLO11s runs 35 FPS single-stream at 1080p; for three streams both the rested (30.2 FPS) and thermally throttled (9.5-13.2 FPS) numbers are published. 191 Python tests plus 6 dashboard tests, green in CI. Still unproven: inputs are looped stock clips, the demo calibrations are estimates rather than surveys, the gate cannot catch a plausible wrong judgment between allowed classes, and speed verdicts are not gated.',
     tags: ['Python', 'Computer Vision', 'YOLO', 'Verified Agent', 'FastAPI', 'React'],
     status: 'featured' as const,
-    tier: 'hero' as const,
+    tier: 'supporting' as const,
     timeframe: 'Sep 2026',
     metrics: ['Live demo: pcschmidt.github.io/sitework-ai', 'Agent eval: 26/30 first pass; ~$0.002 per incident', 'Band-3 gate caught a real agent misclassification'],
     github: 'https://github.com/PCSchmidt/sitework-ai',
@@ -390,8 +411,9 @@ const more = projects.filter((p) => p.tier === 'more');
       <div class="tier">
         <div class="tier-head">
           <h2 class="tier-title">Selected work</h2>
-          <p class="tier-note">The same discipline in three other settings: geospatial
-            intelligence, agent evaluation, and a live intelligence product.</p>
+          <p class="tier-note">The same discipline in four other settings: computer vision
+            safety monitoring, geospatial intelligence, agent evaluation, and a live
+            intelligence product.</p>
         </div>
         <div class="projects-list">
         {

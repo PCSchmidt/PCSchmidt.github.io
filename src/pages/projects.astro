@@ -233,6 +233,28 @@ const projects = [
     paper: 'https://github.com/PCSchmidt/HardPowerIntelligence/blob/main/docs/PHILOSOPHY.md',
   },
   {
+    title: 'VERA - Literature Reviews and Research Runs You Can Check, on Your Own Key',
+    description:
+      'VERA (Verifiable, Economical Research Agents) asks whether an AI research assistant can be cheap enough to use and checkable enough to trust. You give it a topic; it proposes one research question and waits for you to confirm it, searches several paper databases, reads the most relevant papers, writes a review in which every claim is tied to an exact quote from a source, and audits the result. Runs locally on your own model key with a hard spend cap; a read-only showcase of seven finished examples is live on GitHub Pages.',
+    problem:
+      'Autonomous research agents now write papers that clear automated review bars, which leaves two gaps: almost nobody can afford to run them (the comparison system reports about $3,800 and 2 to 3 days per task), and nobody independent checks whether what they write is true. A fluent review with plausible citations is easy to produce and hard to trust.',
+    approach:
+      'Three layers: a cheap-by-default judge, an auditor that checks citations, numbers and claims, and a research agent that works under a hard budget. Each claim is one assertion with one quote; deterministic checks reject sentences that join two assertions, a judge that sees only the quote must agree it states the claim, and a claim without a quote is removed. Every model call goes through a ledger and a budget that raises before a limit is crossed, the key is held in memory and written nowhere (an adversarial test checks this), and no component grades its own output. Audits, test sets and targets are written down and hashed before the run they judge. The reader marks each cited sentence and opens the exact quote behind it; the same review exports as a PDF with every claim and quote in an appendix.',
+    impact:
+      'A literature review costs $0.11 to $0.21 in model fees and takes 7.5 to 15 minutes; 700 tests pass. The audit caught 50 of 52 planted faults, but 3 of 6 clean controls failed, and an independent scorer found an overstated claim and an unsupported sentence in reviews that had passed it: a green audit is a floor, not a verdict. Against the system it imitates, the research loop ran at about ten cents per run and did not improve either parent baseline, so the gain half of the comparison is not met and the cost half is not assessable. Blind human scores were 3 to 5 on five criteria for three app reviews (the independent scorer gave 2 to 4), with coverage the weakest. Not shown: a new user completing a run (the one walkthrough was the builder). A research prototype built by one person; experiments run from the command line, not the app.',
+    tags: ['Python', 'FastAPI', 'Agents', 'Evaluation', 'Citation Verification', 'Budget Controls'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['Live showcase: 7 finished reviews with evidence panel and PDF', 'Audit: 50/52 planted faults caught; 3/6 clean controls failed, reported as found', '$0.11 to $0.21 per review; 700 tests'],
+    github: 'https://github.com/PCSchmidt/VERA',
+    demo: 'https://pcschmidt.github.io/VERA/',
+    demoLabel: 'Showcase',
+    evidence: 'https://github.com/PCSchmidt/VERA#results',
+    guide: 'https://github.com/PCSchmidt/VERA#quickstart',
+    paper: 'https://github.com/PCSchmidt/VERA/blob/main/docs/reviews/incr-5.md',
+  },
+  {
     title: 'Production Inference Optimization Study',
     description:
       'Applied inference optimization techniques (ONNX export, INT8 quantization, adaptive batching) to SkillSwap\'s all-MiniLM-L6-v2 sentence transformer. Benchmarked cost-latency tradeoffs with p50/p95/p99 measurements across five deployment configurations. Fully tested with CI.',
@@ -412,9 +434,9 @@ const more = projects.filter((p) => p.tier === 'more');
       <div class="tier">
         <div class="tier-head">
           <h2 class="tier-title">Selected work</h2>
-          <p class="tier-note">The same discipline in four other settings: computer vision
-            safety monitoring, geospatial intelligence, agent evaluation, and a live
-            intelligence product.</p>
+          <p class="tier-note">The same discipline in five other settings: computer vision
+            safety monitoring, geospatial intelligence, agent evaluation, a live
+            intelligence product, and verifiable research agents.</p>
         </div>
         <div class="projects-list">
         {

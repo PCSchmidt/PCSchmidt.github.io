@@ -255,6 +255,124 @@ const projects = [
     paper: 'https://github.com/PCSchmidt/VERA/blob/main/docs/reviews/incr-5.md',
   },
   {
+    title: 'geo-eval-gate - Satellite Change Detection Where an AI May Label a Change but Cannot Approve One',
+    description:
+      'A two-stage change detector for pairs of satellite images: a cheap deterministic screen (NDVI and structural-similarity change, cloud masking, morphology) proposes candidate boxes, and a vision-language model may only label a candidate, behind a gate that checks its reply against a strict schema, a confidence floor and an actionable-class list. Evaluated on real Sentinel-2 imagery with human labels (OSCD, 24 city pairs) under a protocol pushed before any result existed, with the test split run once. An extension tests whether a calibrated text-only judge (TypeSafe Jev) fixes the models\' unusable self-reported confidence.',
+    problem:
+      'A raw difference between two satellite photos lights up everywhere: crops change colour with the season, clouds drift, sun angles differ. Sending every changed patch to a vision model is slow and costly, and a model that is allowed to approve changes will confidently approve the wrong ones. The open question is whether a vision model behind a deterministic screen actually helps, and whether the confidence it reports can be trusted at all.',
+    approach:
+      'The screen is fixed code and never sees a model. The gate is separate and deterministic: a reply that is not valid JSON, names a class outside the enum, or falls below the confidence floor is rejected, and a model can propose a label but never widen what is allowed through. The evaluation was written down first (PROTOCOL.md, with every deviation logged), tuned on a development split of 14 pairs and run once on 10 test pairs, with pair-level bootstrap intervals. Two local models (Gemma 4 12B and Qwen2.5-VL 7B) were compared against an RGB-difference baseline. The follow-up (PROTOCOL_JEV.md) was written before the first API call and is labelled as a second look at an already-seen test split.',
+    impact:
+      'The design screen (NDVI or SSIM) was not the best screen: development F1 0.227 against 0.297 for a plain RGB difference, and both screens find only about 39% of the 668 labelled change objects. Behind Gemma 4 12B the gate raised precision by +0.24 [+0.09, +0.33] for the design screen (0.42 to 0.67) while keeping about 70% of real candidates; Qwen2.5-VL 7B added nothing. An F1 gain and a win over a three-number regression are not established at 10 pairs. The models\' verbalized confidence failed calibration. The calibrated judge matched Gemma\'s precision lift and recall, missed its own calibration-error target (0.166 and 0.124 against 0.10), did not beat a stacked logistic regression (AUROC 0.701 against 0.782), and cost about $0.06 in all: a calibration layer, not a better judge. 54 tests. Not shown: any effect with no labelled data, which is where the judge should help, and any result beyond one dataset of 24 pairs.',
+    tags: ['Python', 'Computer Vision', 'Remote Sensing', 'Vision-Language Models', 'Evaluation', 'Calibration'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['Gate precision +0.24 [0.09, 0.33] with Gemma 4 12B; Qwen2.5-VL 7B: no gain', 'Screens find only ~39% of labelled changes; design screen not the best', 'Calibrated judge missed its target and did not beat a regression, reported as found'],
+    github: 'https://github.com/PCSchmidt/geo-eval-gate',
+    evidence: 'https://github.com/PCSchmidt/geo-eval-gate/blob/main/docs/RESULTS_REAL.md',
+    guide: 'https://github.com/PCSchmidt/geo-eval-gate#quickstart',
+    paper: 'https://github.com/PCSchmidt/geo-eval-gate/blob/main/docs/PROTOCOL.md',
+  },
+  {
+    title: 'entity-resolution-gate - Deduplicating Organisation Names with a Hard Registry-ID Rule',
+    description:
+      'An entity-resolution pipeline for messy organisation names: blocking, a hand-built similarity score, graph clustering, and a hard rule that two records with different registry IDs can never merge, whatever the similarity score says. Two real-data studies, each pre-registered with a held-out half scored once: a random sample of 3,000 Department of Defense contract recipients (name-only), and 60 slices of UK Companies House data where a registry ID is visible on half the records. A third, separate ablation tests what the graph-splitting step actually contributes.',
+    problem:
+      'Linking the same company across federal contracting, registry and filing data fails when it relies on fuzzy strings alone: similar names merge different companies, renamed companies split, and one oversized alias list can dominate a metric. A system that always takes the best-scoring merge has no way to promise that two companies with different official IDs stay apart.',
+    approach:
+      'Blocking and a composite name and address score propose pairs; a deterministic constraint vetoes any pair with contradicting IDs, same-ID records are treated as evidence, and community detection (Louvain) cuts clusters on the vetoed edges so the guarantee holds for whole clusters, not just pairs. B-cubed F1 is the primary metric because pairwise F1 was dominated by one 256-alias entity. The plans (PROTOCOL_SAMPLE, PROTOCOL_GATE, PROTOCOL_SPLIT) were pushed before the data were downloaded or run, and compared against a tuned plain fuzzy matcher and Splink. Several of my own mistakes were caught and are documented, including a first sample that was only the first 10,000 awards in name order.',
+    impact:
+      'On the random DoD sample, the name-only pipeline scored B-cubed F1 0.911 against 0.885 for tuned fuzzy matching (+0.026, 95% interval +0.019 to +0.034) and 0.893 for Splink; better blocking keys raised completeness but not F1, and my guess that token-sort scoring would help was wrong. On the UK data the full gate beat the same pipeline without IDs by +0.027 [0.025, 0.029], all 30 held-out slices improving, with zero rule-breaking clusters against 49 to 77 without the veto. Nearly all of the F1 gain came from the same-ID evidence, not the veto, and the graph-splitting step moved F1 by 0.0001 at a tuned threshold while making the guarantee true (6 rule-breaking clusters without it) and being worth +0.20 at an untuned one. 43 tests. Not shown: the registry ID is a company number, not a tax ID, and its visibility is simulated; 17% of true pairs are renames nobody recovers; the 100k-plus record benchmark is not done.',
+    tags: ['Python', 'Entity Resolution', 'Graph Clustering', 'DuckDB', 'Evaluation', 'Pre-registration'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['DoD sample: B-cubed F1 0.911 vs 0.885 tuned fuzzy (+0.026 [0.019, 0.034])', 'UK registry: 0 rule-breaking clusters vs 49 to 77 without the veto', 'Graph step +0.0001 F1 at a tuned threshold; +0.20 at an untuned one'],
+    github: 'https://github.com/PCSchmidt/entity-resolution-gate',
+    evidence: 'https://github.com/PCSchmidt/entity-resolution-gate/blob/main/docs/RESULTS_GATE.md',
+    guide: 'https://github.com/PCSchmidt/entity-resolution-gate#quickstart',
+    paper: 'https://github.com/PCSchmidt/entity-resolution-gate/blob/main/docs/RESULTS_SAMPLE.md',
+  },
+  {
+    title: 'rag-audit - A Claim-by-Claim Factuality Check for RAG Answers',
+    description:
+      'A Python library and command-line tool that checks whether each cited sentence in a generated answer is actually supported by the source it cites. It splits the answer into claims, finds each claim\'s cited passage, and asks a small local natural-language-inference model whether the passage entails the claim, flagging anything uncited, mis-cited or unsupported and writing a hashed audit record. Benchmarked on 1,800 FEVER items with thresholds frozen on a development split.',
+    problem:
+      'Generated briefings and RAG answers invent facts and mis-cite real ones. An LLM used as the judge is non-deterministic, costs money per claim and shares the generator\'s biases. What is needed is a cheap, repeatable check that fails toward flagging, plus a measured answer to how often it flags the wrong thing.',
+    approach:
+      'The checker is deterministic around one small model: sentence-level claim extraction, a footnote-to-passage mapping, an NLI model (DeBERTa-v3 small or base) scoring entailment, contradiction and neutral, and a fixed rule that anything not entailed is flagged. A 2x2 ablation crossed model size with whether passages carry their page title, because missing context was the suspected cause of false flags. Thresholds were fixed on development data per condition and each condition ran once on the same held-out items. A model trained on FEVER was skipped on purpose to avoid contaminating the benchmark, and an invalid first run is kept in the results with the reason.',
+    impact:
+      'Small model plus page titles reached F1 0.920 for flagging unsupported claims (precision 0.914, recall 0.927) while keeping 82.5% of supported claims, at 46 ms median; the base model with titles reached 0.933, a gap within noise. Missing context, not model size, caused most of the false flags: adding titles moved retention by 22 to 26 points, while moving from small to base without titles moved it by 8. The raw entailment probability is overconfident (calibration error 0.08 to 0.17) and should not be shown as a probability. 10 tests, no model download needed. Not shown: long documents, tables, non-English text or adversarial claims; support for a claim is not truth if the source is wrong; HaluEval, GPU timings and a PyPI release are not done.',
+    tags: ['Python', 'NLI', 'RAG', 'Hugging Face Transformers', 'Evaluation', 'Factuality'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['FEVER F1 0.920 (small + titles), keeps 82.5% of supported claims', 'Page-title context moved retention 22 to 26 points; model size 8', 'Raw probability overconfident (ECE 0.08 to 0.17)'],
+    github: 'https://github.com/PCSchmidt/rag-audit',
+    evidence: 'https://github.com/PCSchmidt/rag-audit/blob/main/docs/RESULTS.md',
+    guide: 'https://github.com/PCSchmidt/rag-audit#quickstart',
+  },
+  {
+    title: 'datapipeline-ast-guard - A Linter for AI-Written Data Pipelines, Measured on Real Code',
+    description:
+      'A command-line linter that parses Python data-pipeline code with the standard ast module, without running it, and flags three antipatterns that AI assistants tend to write: unbounded collect() and toPandas() calls, joins without equality keys, and hard-coded file paths. Output is JSON or SARIF with exact line numbers, and a GitHub Action can fail a pull request on a chosen severity. The project is mostly its evaluation: a pre-registered study on 300 real files from 83 public repositories, 200 model-written scripts and 133 challenge cases, then four rounds of fixes each re-measured on files nobody had read.',
+    problem:
+      'AI assistants write PySpark and Pandas that passes a toy test and misbehaves at scale: a whole table pulled to the driver, a join that explodes, a path that exists only on the author\'s laptop. A linter can catch these without executing anything, but only if its findings are worth a reviewer\'s time, and a rule that cries wolf gets switched off.',
+    approach:
+      'Three AST visitor rules, each deterministic and individually testable, with property-based tests and a strict type check. The evaluation separates three questions: is a finding faithful to the rule, is it actionable to a reviewer, and does the tool find defects planted in real code (mutation testing). Every version was frozen and tagged before the next sample was drawn, with the protocol pushed first (PROTOCOL through PROTOCOL_V4) and one rater, the author. A change that lowered the failure rate by changing a severity is recorded as that, not as an improvement.',
+    impact:
+      'On real code the rules were accurate and stable, but the one I had made critical was not useful: AG001 (unbounded collect) was faithful to its rule in 97% of findings and actionable in only 3 of 44 (about 1 in 15), so v2 demoted it to a warning, which cut the files failing the default gate from 21% to none with real findings without reducing the noise. AG002 (join without keys) has not found a true positive in real code; AG003 (hard-coded paths) went from 0.58 faithful to 0.94 on the first fix, then 0.83 on unseen files, and v4 reached 59 of 59 faithful on 300 fresh files with about 22% actionable and no new false-alarm kinds. Planted defects in their plain forms were found every time, which is a sanity check, not a recall estimate. 28 tests. Not shown: that it changes what engineers do, recall on forms I did not think of, or anything beyond one rater and a convenience sample of public repositories.',
+    tags: ['Python', 'AST', 'Static Analysis', 'SARIF', 'Evaluation', 'PySpark'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['AG001 (once critical): 3 of 44 findings actionable, demoted to a warning', 'Default gate failures 21% to none with real findings; noise not reduced', 'AG003 59/59 faithful on 300 fresh files; 4 versions, each re-measured unseen'],
+    github: 'https://github.com/PCSchmidt/datapipeline-ast-guard',
+    evidence: 'https://github.com/PCSchmidt/datapipeline-ast-guard/blob/main/docs/RESULTS.md',
+    guide: 'https://github.com/PCSchmidt/datapipeline-ast-guard#quickstart',
+    paper: 'https://github.com/PCSchmidt/datapipeline-ast-guard/blob/main/docs/RESULTS_V4.md',
+  },
+  {
+    title: 'edge-slm-eval - Can a Small Local Model Make Safe Tool Calls Offline?',
+    description:
+      'A test harness for small quantized language models running entirely on one laptop with no network: it asks each model to write tool calls, forces valid JSON with grammar-constrained decoding, and passes every call through an AST gate that only lets four registered tools run. Four real GGUF models were measured on CPU (llama.cpp) and GPU (Ollama), constrained and unconstrained, 20 prompts each, including prompt-injection cases.',
+    problem:
+      'Tactical and offline deployments cannot use a cloud model, but small local models are unreliable at structured output, and an unchecked tool call is a way to run arbitrary code. Two questions need numbers: does constraining the output format actually help, and is a valid-looking call a correct, safe one?',
+    approach:
+      'A deterministic gate sits between the model and anything that executes: schema validation, then an AST check that the call is exactly one registered tool with the right argument form. The same weights run on both backends so CPU and GPU can be compared, and every result is scored three ways (schema valid, passes the gate, equals the expected call). A first pass that was invalid is kept with the reason. A post-hoc column shows what the strict keyword-argument rule costs, labelled as a diagnostic, not the headline.',
+    impact:
+      'Constrained decoding never lowered format adherence: Qwen2.5-Coder 7B went from 60 to 65% valid output to 100%, Llama 3B Q8 from 75% to 100%. A valid JSON wrapper was not a valid call: Llama 3B Q8 was 100% schema-valid but only 50 to 60% correct, because the grammar closed a string at an unescaped inner quote and truncated the call, which only the AST gate caught. One strict rule explains much of the Llama result (65% against 100% if keyword arguments are accepted). Across 320 first-pass outputs nothing outside the registered tools ran. GPU speeds (61 to 135 tokens per second) are throttled-laptop numbers, not hardware limits. 23 tests. Not shown: reasoning, long contexts or multi-turn tool use, other hardware, or any difference of one to three prompts out of 20 (about plus or minus 20 points).',
+    tags: ['Python', 'llama.cpp', 'Ollama', 'Constrained Decoding', 'AST', 'Edge AI'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['4 real models x CPU/GPU x constrained/unconstrained (16 configurations)', 'Constrained decoding never hurt; Qwen 60 to 65% to 100% valid', 'Nothing outside the registered tools ever ran, including injection prompts'],
+    github: 'https://github.com/PCSchmidt/edge-slm-eval',
+    evidence: 'https://github.com/PCSchmidt/edge-slm-eval/blob/main/docs/RESULTS.md',
+    guide: 'https://github.com/PCSchmidt/edge-slm-eval#quickstart',
+  },
+  {
+    title: 'multicam-ground-fusion - Tracking People Across Cameras, and Finding Out the Detector Is the Problem',
+    description:
+      'A multi-camera tracker that projects each camera\'s detections onto one shared ground map with a homography, associates them with a Mahalanobis-gated Hungarian assignment, fuses them with a Kalman filter, and flags physically impossible speeds instead of smoothing them away. Validated first on a synthetic scene, then measured on two real datasets (Wildtrack and MMPTrack), with a pre-registered three-detector study asking how much of the remaining error is the detector.',
+    problem:
+      'One camera sees part of a site and loses people behind objects; several cameras can follow someone across views, but only if the system knows where each person is on the ground and whether two detections are the same person. A tracker that always attaches the nearest detection will teleport a track onto someone else, and a synthetic benchmark can make any such tracker look good.',
+    approach:
+      'Homography projection of box bottom-centres, chi-square gating that refuses surprising associations and counts them, a constant-velocity Kalman filter, and a speed-ceiling flag. Each real-data study was pre-registered: tuned on development frames, then run once on held-out sequences, with block-bootstrap intervals and ground-plane CLEAR-MOT and IDF1. The detector study compared a COCO Faster R-CNN, a COCO RetinaNet and a Faster R-CNN fine-tuned on earlier sessions of the same rooms, against the dataset\'s own boxes, with seven numeric hypotheses written first.',
+    impact:
+      'The synthetic score (MOTA 0.93 to 0.96) did not predict real footage: on Wildtrack the tracker scored 0.79 with perfect boxes and minus 0.17 with a COCO detector, mostly because that scene is crowded and sampled at 2 frames per second; on MMPTrack it scored 0.996 with clean boxes and 0.57 to 0.60 with a detector. In the detector study pooled MOTA was 0.524, 0.594 and 0.759 for the three detectors against 0.986 for clean boxes, so fine-tuning added +0.235 [0.164, 0.304] while a different COCO architecture added 0.07; five of seven hypotheses held. Two did not: with the best detector, fusion beat the best single camera in only one of three sequences, and camera consensus still helped (+0.021). 22 tests. Not shown: generalisation to a new site (the fine-tuned detector saw the same rooms), why about 8.8k false positives remain, YOLO with ByteTrack, an extended Kalman filter, or PETS 2009.',
+    tags: ['Python', 'Computer Vision', 'Multi-Object Tracking', 'Kalman Filter', 'Sensor Fusion', 'PyTorch'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['Synthetic MOTA 0.93 to 0.96 did not transfer: Wildtrack -0.17 with a COCO detector', 'Fine-tuned detector +0.235 MOTA [0.164, 0.304]; 5 of 7 hypotheses held', 'Fusion beat the best single camera in 1 of 3 sequences, reported as found'],
+    github: 'https://github.com/PCSchmidt/multicam-ground-fusion',
+    evidence: 'https://github.com/PCSchmidt/multicam-ground-fusion/blob/main/docs/RESULTS_DETECTORS.md',
+    guide: 'https://github.com/PCSchmidt/multicam-ground-fusion#quickstart',
+    paper: 'https://github.com/PCSchmidt/multicam-ground-fusion/blob/main/docs/PROTOCOL_DETECTORS.md',
+  },
+  {
     title: 'Production Inference Optimization Study',
     description:
       'Applied inference optimization techniques (ONNX export, INT8 quantization, adaptive batching) to SkillSwap\'s all-MiniLM-L6-v2 sentence transformer. Benchmarked cost-latency tradeoffs with p50/p95/p99 measurements across five deployment configurations. Fully tested with CI.',
@@ -276,22 +394,22 @@ const projects = [
     notebook: 'https://github.com/PCSchmidt/inference-optimization-study/blob/main/notebooks/inference_optimization_study.ipynb',
   },
   {
-    title: 'Generative Modeling Study (β-VAE)',
+    title: 'generative-modeling-study - Can You Trust a Generative Model’s "This Looks Unusual" Alarm?',
     description:
-      'From-scratch β-VAE implementation in PyTorch for MNIST, with systematic β-sweep ablation (β = 0.1–10) studying the reconstruction–disentanglement tradeoff. 19 tests, CI, and exported evidence plots.',
+      'Two studies in one repository. The original is a from-scratch beta-VAE on MNIST with a beta sweep. The second is an uncertainty-calibration benchmark: split-conformal inference on the anomaly scores of a VAE, a diffusion model, an energy-based model and a Gaussian mixture, tested first on synthetic data with a known density and then, under a protocol pushed before any model was trained, on real tabular data (California Housing and Covertype). It asks whether the coverage guarantee holds, what happens under shift, and whether the same score actually detects novelty.',
     problem:
-      'Standard VAEs balance reconstruction fidelity against latent space regularity via a single β hyperparameter, but the impact is hard to reason about without hands-on experimentation.',
+      'Generative models are often used to flag anomalies, but a score alone does not say how many alarms are false or how many real problems are missed. Conformal prediction promises a fixed alarm rate on normal data for any score, however poor, which is easy to state and easy to mistake for a promise that the detector works.',
     approach:
-      'Built encoder/decoder with configurable latent dimensions, trained across 6 β values, and measured reconstruction loss, KL divergence, and sample quality. Exported latent space interpolations and reconstructions as evidence.',
+      'Plain split-conformal calibration (a deterministic, tested threshold) wrapped around small VAE, DDPM, energy-based and Gaussian-mixture models. The synthetic data are two half-moons with an exact density, so every score can be compared with the true likelihood. For the real tables, five hypotheses with numeric criteria, the grid of choices and the seeds were fixed in advance; choices were made on development seeds from a separate pool of rows and ten test seeds were run once, with paired comparisons.',
     impact:
-      'Clear demonstration of how β controls the reconstruction–disentanglement tradeoff. Low β (0.1) gives sharp reconstructions but tangled latents; high β (10) gives smooth latent space but blurry outputs. 19/19 tests passing.',
-    tags: ['PyTorch', 'Generative Models', 'VAE', 'Ablation Study', 'Python'],
+      'Coverage held for every score on every dataset (0.895 to 0.902 synthetic, 0.897 to 0.907 on the real tables, nominal 0.90), as theory says it must, and said nothing about usefulness: novelty detection on Covertype was poor, with a best AUROC of 0.70 and 64 to 75% of novel rows still inside the 90% region. Under shift, the better a score noticed the shift, the faster its coverage fell. Two of five hypotheses were falsified: deep scores did beat a tuned mixture model by about 0.05 AUROC, and VAE reconstruction error was competitive rather than among the weakest. 43 tests. Not shown: other kinds of shift, adaptive conformal methods, larger models, image or text data, or a tight diffusion likelihood; the mixture baseline was capped at the edge of its grid, and UCI Sensorless Drive could not be downloaded.',
+    tags: ['PyTorch', 'Conformal Prediction', 'Uncertainty Quantification', 'Generative Models', 'Pre-registration', 'Python'],
     status: 'featured' as const,
-    tier: 'more' as const,
-    timeframe: 'Spring 2026',
-    metrics: ['6 β-sweep configurations', '19 passing tests', 'Evidence PNGs exported'],
+    tier: 'supporting' as const,
+    timeframe: 'Spring 2026 – Oct 2026',
+    metrics: ['Coverage held for every score (0.897 to 0.907 on real tables)', 'Covertype novelty detection poor: best AUROC 0.70', '2 of 5 pre-registered hypotheses falsified, reported as found'],
     github: 'https://github.com/PCSchmidt/generative-modeling-study',
-    evidence: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/notebooks/beta_vae_study.pdf',
+    evidence: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/docs/RESULTS_TABULAR.md',
     guide: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/DEMO_GUIDE.md',
     paper: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/notebooks/beta_vae_study.pdf',
     notebook: 'https://github.com/PCSchmidt/generative-modeling-study/blob/main/notebooks/beta_vae_study.ipynb',
@@ -434,9 +552,10 @@ const more = projects.filter((p) => p.tier === 'more');
       <div class="tier">
         <div class="tier-head">
           <h2 class="tier-title">Selected work</h2>
-          <p class="tier-note">The same discipline in five other settings: computer vision
-            safety monitoring, geospatial intelligence, agent evaluation, a live
-            intelligence product, and verifiable research agents.</p>
+          <p class="tier-note">The same discipline in many settings: computer vision safety
+            monitoring, geospatial change detection, entity resolution, factuality checking,
+            code linting, edge language models, multi-camera tracking, calibration, agent
+            evaluation, a live intelligence product, and verifiable research agents.</p>
         </div>
         <div class="projects-list">
         {

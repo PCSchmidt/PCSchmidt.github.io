@@ -233,26 +233,26 @@ const projects = [
     paper: 'https://github.com/PCSchmidt/HardPowerIntelligence/blob/main/docs/PHILOSOPHY.md',
   },
   {
-    title: 'VERA - Literature Reviews and Research Runs You Can Check, on Your Own Key',
+    title: 'VERA - Literature Reviews and Review Papers You Can Check Sentence by Sentence, on Your Own Key',
     description:
-      'VERA (Verifiable, Economical Research Agents) asks whether an AI research assistant can be cheap enough to use and checkable enough to trust. You give it a topic; it proposes one research question and waits for you to confirm it, searches several paper databases, reads the most relevant papers, writes a review in which every claim is tied to an exact quote from a source, and audits the result. Runs locally on your own model key with a hard spend cap; a read-only showcase of seven finished examples is live on GitHub Pages.',
+      'VERA (Verifiable, Economical Research Agents) asks whether an AI research assistant can be cheap enough to use and checkable enough to trust. You give it a topic; it proposes one research question and waits for you to confirm it, searches several paper databases, reads the most relevant papers, writes a review in which every claim is tied to an exact quote from a source, and on request turns the review into a review paper with labelled interpretation sections. An audit then checks every sentence and says, in a colour and in words, what it could and could not confirm. Runs locally on your own model key with a hard spend cap. v1.0, closed after eleven gated increments; a read-only showcase of nine finished examples, three with the review paper made from them, is live on GitHub Pages.',
     problem:
       'Autonomous research agents now write papers that clear automated review bars, which leaves two gaps: almost nobody can afford to run them (the comparison system reports about $3,800 and 2 to 3 days per task), and nobody independent checks whether what they write is true. A fluent review with plausible citations is easy to produce and hard to trust.',
     approach:
-      'Three layers: a cheap-by-default judge, an auditor that checks citations, numbers and claims, and a research agent that works under a hard budget. Each claim is one assertion with one quote; deterministic checks reject sentences that join two assertions, a judge that sees only the quote must agree it states the claim, and a claim without a quote is removed. Every model call goes through a ledger and a budget that raises before a limit is crossed, the key is held in memory and written nowhere (an adversarial test checks this), and no component grades its own output. Audits, test sets and targets are written down and hashed before the run they judge. The reader marks each cited sentence and opens the exact quote behind it; the same review exports as a PDF with every claim and quote in an appendix.',
+      'Three layers: a cheap-by-default judge, an auditor, and a research agent that works under a hard budget. Each claim is one assertion with one quote; every other sentence is classed as synthesis (which must name the claims it follows from) or a transition (which must state no fact), and each is checked. A cheap judge answers first; a confident "no" on a claim or statement is put to a reference judge (Claude), an unsure reference makes the item "unsettled" rather than failed or passed, and a disagreement between judges is shown, not hidden. Every model call goes through a ledger and a budget that raises before a limit is crossed, the key is held in memory and written nowhere, and no component grades its own output. Test sets and code were frozen and hashed before the measurement they serve. Built with Claude Code under the Meridian harness: gated increments, human approvals, and an independent evaluator scoring every review.',
     impact:
-      'A literature review costs $0.11 to $0.21 in model fees and takes 7.5 to 15 minutes; 700 tests pass. The audit caught 50 of 52 planted faults, but 3 of 6 clean controls failed, and an independent scorer found an overstated claim and an unsupported sentence in reviews that had passed it: a green audit is a floor, not a verdict. Against the system it imitates, the research loop ran at about ten cents per run and did not improve either parent baseline, so the gain half of the comparison is not met and the cost half is not assessable. Blind human scores were 3 to 5 on five criteria for three app reviews (the independent scorer gave 2 to 4), with coverage the weakest. Not shown: a new user completing a run (the one walkthrough was the builder). A research prototype built by one person; experiments run from the command line, not the app.',
-    tags: ['Python', 'FastAPI', 'Agents', 'Evaluation', 'Citation Verification', 'Budget Controls'],
+      'A literature review costs $0.11 to $0.21 and a review paper $0.53 to $0.77 in model fees; the whole project spent $16.05. The audit caught 50 of 52 planted faults, and the sentence checks caught 15 of 21 real defects that earlier checks had missed (0 of 21), while flagging 14 of 69 sound items. No cheap judge met the 97% agreement bar against the reference (89% claims, 95% sentences, 89% statements), and the reference itself is unsure on about a fifth of verdicts. The headline negative: making the checks stricter made the light more honest but did not make the papers measurably better; independent readers still found claims that say a little more than their quotes. The showcase papers are published as they are, two red, with their deficiencies listed. The research loop did not beat either parent baseline. Not shown: a new user completing a run, or labels from a person after Increment 6.',
+    tags: ['Python', 'FastAPI', 'Agents', 'LLM Evaluation', 'Citation Verification', 'Budget Controls'],
     status: 'featured' as const,
     tier: 'supporting' as const,
-    timeframe: 'Oct 2026',
-    metrics: ['Live showcase: 7 finished reviews with evidence panel and PDF', 'Audit: 50/52 planted faults caught; 3/6 clean controls failed, reported as found', '$0.11 to $0.21 per review; 700 tests'],
+    timeframe: 'Sep – Oct 2026',
+    metrics: ['Live showcase: 9 reviews and 3 review papers with evidence panel and PDF', 'Sentence checks: 15/21 real defects caught (0/21 before); judges below the 97% bar, reported as found', '$0.11 to $0.21 per review, $0.53 to $0.77 per paper; 842 tests'],
     github: 'https://github.com/PCSchmidt/VERA',
     demo: 'https://pcschmidt.github.io/VERA/',
     demoLabel: 'Showcase',
     evidence: 'https://github.com/PCSchmidt/VERA#results',
     guide: 'https://github.com/PCSchmidt/VERA#quickstart',
-    paper: 'https://github.com/PCSchmidt/VERA/blob/main/docs/reviews/incr-5.md',
+    paper: 'https://github.com/PCSchmidt/VERA/blob/main/docs/reviews/retrospective.md',
   },
   {
     title: 'geo-eval-gate - Satellite Change Detection Where an AI May Label a Change but Cannot Approve One',

@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Recipe Card Maker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@600;700&display=swap">
+<style>
+/* Layout: a slim app bar for the URL, then the recipe card itself, styled after the
+   "Weigh/Add · Do/Look/Feel" staged card: navy title bar, grey stage bands, two columns. */
+:root{
+  --app-bg:#eef0f4; --app-fg:#1b2333; --app-muted:#5d6678; --app-line:#d3d8e2; --app-field:#ffffff;
+  --navy:#1f3a68; --navy-deep:#16294b; --gold:#e3b23c;
+  --paper:#fbfbf8; --ink:#1a1a1a; --ink-soft:#4a4a4a; --band:#dcdfe5; --rule:#b9bec8;
+  --f-display:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Barlow","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --app-bg:#12161f; --app-fg:#e6e9ef; --app-muted:#9aa3b5; --app-line:#2c3444; --app-field:#1a2030; color-scheme:dark;
+}}
+:root[data-theme="dark"]{--app-bg:#12161f; --app-fg:#e6e9ef; --app-muted:#9aa3b5; --app-line:#2c3444; --app-field:#1a2030; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--app-bg);color:var(--app-fg);font:15px/1.4 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:16px 40px}
+.wrap{max-width:860px;margin:0 auto;display:grid;gap:14px}
+
+/* ---------- app bar ---------- */
+.bar{display:grid;gap:8px}
+.bar h1{margin:0;font:700 20px/1.1 var(--f-display);letter-spacing:.01em}
+.bar h1 span{color:var(--app-muted);font-weight:600}
+form.go{display:flex;gap:8px;flex-wrap:wrap}
+form.go input{flex:1 1 240px;min-width:0;font:inherit;padding:10px 12px;border:1px solid var(--app-line);
+  border-radius:8px;background:var(--app-field);color:var(--app-fg)}
+button{font:600 14px var(--f-body);padding:10px 14px;border-radius:8px;border:1px solid var(--navy);
+  background:var(--navy);color:#fff;cursor:pointer}
+button.ghost{background:transparent;color:var(--app-fg);border-color:var(--app-line)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+button:disabled{opacity:.6;cursor:wait}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--app-muted)}
+.seg{display:inline-flex;border:1px solid var(--app-line);border-radius:8px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:transparent;color:var(--app-fg);padding:6px 10px;font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--navy);color:#fff}
+.status{font-size:13px;color:var(--app-muted);min-height:1.2em}
+.status.err{color:#c0392b}
+details.paste summary{cursor:pointer;font-size:13px;color:var(--app-muted)}
+details.paste textarea{width:100%;min-height:140px;margin-top:8px;font:13px/1.4 ui-monospace,Menlo,monospace;
+  padding:10px;border-radius:8px;border:1px solid var(--app-line);background:var(--app-field);color:var(--app-fg)}
+.recent{display:flex;gap:6px;flex-wrap:wrap}
+.recent button{font-size:12px;padding:5px 9px;background:transparent;color:var(--app-fg);border-color:var(--app-line);font-weight:500}
+
+/* ---------- the card ---------- */
+.card{background:var(--paper);color:var(--ink);border-radius:10px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(0,0,0,.08),0 8px 24px rgba(20,30,60,.10);color-scheme:light}
+.card-head{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;
+  display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:3px solid var(--navy-deep)}
+.card-head h2{margin:0;flex:1;min-width:0;font:700 clamp(20px,4.4vw,28px)/1.1 var(--f-display);text-wrap:balance}
+.badge{flex:none;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6d77a,var(--gold) 60%,#b98a1f);
+  color:var(--navy-deep);display:grid;place-items:center;text-align:center;font:700 11px/1.05 var(--f-display);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+.badge b{display:block;font-size:17px}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;padding:6px 16px;font-size:12px;color:var(--ink-soft);border-bottom:1px solid var(--rule)}
+.meta a{color:var(--navy)}
+.cols{display:grid;grid-template-columns:38% 62%;font:700 11px var(--f-body);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--navy-deep);padding:6px 16px 4px}
+.stage-band{display:flex;gap:8px;align-items:baseline;background:var(--band);border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);padding:3px 16px;font:600 14px var(--f-body);color:var(--navy-deep)}
+.stage-band .n{font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink-soft)}
+.stage-band .t{font-weight:700}
+.row{display:grid;grid-template-columns:38% 62%;padding:5px 16px;align-items:start}
+.row + .row{padding-top:2px}
+.left{min-width:0;padding-right:10px}
+.right{min-width:0;font-size:13.5px;line-height:1.35}
+.right b{font-weight:700}
+.ing{list-style:none;margin:0;padding:0 0 0 10px;border-left:1.5px solid var(--rule);position:relative}
+.ing li{display:grid;grid-template-columns:4.6em 1fr;gap:5px;font-size:13.5px;line-height:1.25;padding:1px 0;position:relative}
+.ing li::before{content:"";position:absolute;left:-10px;top:.7em;width:6px;border-top:1.5px solid var(--rule)}
+.amt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.nm{min-width:0;overflow-wrap:anywhere}
+.label{font-weight:700;font-size:13.5px;line-height:1.25}
+.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:8px 16px;border-top:1px solid var(--rule);font-size:11px;color:var(--ink-soft)}
+.empty{padding:28px 16px;text-align:center;color:var(--ink-soft)}
+
+@media (max-width:420px){
+  .cols,.row{grid-template-columns:40% 60%}
+  .ing li{grid-template-columns:4.1em 1fr}
+  .ing li,.right,.label{font-size:12.5px}
+}
+@media print{
+  body{background:#fff;padding:0}
+  .bar,.no-print{display:none!important}
+  .card{box-shadow:none;border-radius:0}
+  .card-head,.stage-band,.badge{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .row,.stage-band{break-inside:avoid}
+}
+@media (prefers-reduced-motion:no-preference){.card{transition:opacity .2s}}
+.card.loading{opacity:.45}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <h1>Recipe Card Maker <span>· paste a link, get the staged card</span></h1>
+    <form class="go" id="goForm">
+      <input id="url" type="url" inputmode="url" placeholder="https://www.example.com/best-banana-bread" required aria-label="Recipe URL">
+      <button id="goBtn" type="submit">Make card</button>
+    </form>
+    <div class="tools">
+      <span>Amounts</span>
+      <div class="seg" role="group" aria-label="Amounts">
+        <button type="button" id="uGrams" aria-pressed="true">Grams</button>
+        <button type="button" id="uOrig" aria-pressed="false">As written</button>
+      </div>
+      <span>Batch</span>
+      <div class="seg" role="group" aria-label="Batch size" id="scaleSeg">
+        <button type="button" data-s="0.5" aria-pressed="false">½×</button>
+        <button type="button" data-s="1" aria-pressed="true">1×</button>
+        <button type="button" data-s="2" aria-pressed="false">2×</button>
+      </div>
+      <button type="button" class="ghost" id="printBtn">Print</button>
+    </div>
+    <div class="status" id="status" role="status"></div>
+    <details class="paste">
+      <summary>Site won't load? Paste the recipe instead</summary>
+      <textarea id="pasteBox" placeholder="Paste the recipe text (ingredients + directions), or the page's source (Ctrl+U, select all, copy)."></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px"><button type="button" id="pasteBtn">Make card from paste</button></div>
+    </details>
+    <div class="recent" id="recent"></div>
+  </header>
+
+  <article class="card" id="card"><div class="empty">Loading…</div></article>
+</div>
+
+<script>
+"use strict";
+/* ================= fetching ================= */
+const PROXIES = [
+  u => ({ url: u }),                                                      // site allows it directly (rare)
+  u => ({ url: "https://api.allorigins.win/raw?url=" + encodeURIComponent(u) }),
+  u => ({ url: "https://corsproxy.io/?url=" + encodeURIComponent(u) }),
+  u => ({ url: "https://r.jina.ai/" + u, headers: { "X-Return-Format": "html" } }),
+];
+async function fetchHtml(target) {
+  let lastErr;
+  for (const mk of PROXIES) {
+    const { url, headers } = mk(target);
+    try {
+      const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 15000);
+      const r = await fetch(url, { headers, signal: ctl.signal }); clearTimeout(t);
+      if (!r.ok) { lastErr = new Error("HTTP " + r.status); continue; }
+      const html = await r.text();
+      if (html && html.length > 500) {
+        const rec = extractRecipe(html, target);
+        if (rec) return rec;
+        lastErr = new Error("No recipe found on that page");
+      }
+    } catch (e) { lastErr = e; }
+  }
+  throw lastErr || new Error("Couldn't load the page");
+}
+
+/* ================= extraction ================= */
+const decoder = (() => { let ta; return s => { if (s == null) return ""; s = String(s);
+  if (!/[&<]/.test(s)) return s.trim();
+  const doc = new DOMParser().parseFromString("<!doctype html><body>" + s, "text/html");
+  return (doc.body.textContent || "").replace(/\s+/g, " ").trim(); }; })();
+
+function isRecipeType(t) { return t && (Array.isArray(t) ? t : [t]).some(x => String(x).toLowerCase() === "recipe"); }
+function findRecipeNode(node, depth = 0) {
+  if (!node || depth > 8) return null;
+  if (Array.isArray(node)) { for (const n of node) { const f = findRecipeNode(n, depth + 1); if (f) return f; } return null; }
+  if (typeof node !== "object") return null;
+  if (isRecipeType(node["@type"])) return node;
+  for (const k of ["@graph", "mainEntity", "mainEntityOfPage", "itemListElement", "item"]) {
+    if (node[k]) { const f = findRecipeNode(node[k], depth + 1); if (f) return f; }
+  }
+  return null;
+}
+function flattenInstructions(ins) {
+  // -> [{section: string|null, text}]
+  const out = [];
+  const walk = (n, section) => {
+    if (n == null) return;
+    if (typeof n === "string") { splitSteps(decoder(n)).forEach(t => out.push({ section, text: t })); return; }
+    if (Array.isArray(n)) { n.forEach(x => walk(x, section)); return; }
+    const type = [].concat(n["@type"] || []).join(" ");
+    if (/HowToSection/i.test(type) || (n.itemListElement && !n.text)) { walk(n.itemListElement, decoder(n.name) || section); return; }
+    const txt = n.text || n.description || n.name;
+    if (txt) splitSteps(decoder(txt)).forEach(t => out.push({ section, text: t }));
+  };
+  walk(ins, null);
+  return out.filter(s => s.text && s.text.length > 2);
+}
+function splitSteps(s) {
+  return String(s).split(/\n+|(?:^|\s)(?=Step\s*\d+[:.)])/i)
+    .map(x => x.replace(/^\s*(step\s*)?\d+\s*[:.)-]\s*/i, "").trim()).filter(Boolean);
+}
+function isoDur(s) {
+  const m = /P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?/i.exec(s || ""); if (!m) return "";
+  const d = +(m[1] || 0), h = +(m[2] || 0) + d * 24, mi = +(m[3] || 0);
+  if (!h && !mi) return "";
+  return [h ? h + " hr" : "", mi ? mi + " min" : ""].filter(Boolean).join(" ");
+}
+function extractRecipe(html, url) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  for (const sc of doc.querySelectorAll('script[type="application/ld+json"]')) {
+    let data; try { data = JSON.parse(sc.textContent.trim()); } catch { continue; }
+    const r = findRecipeNode(data);
+    if (r && r.recipeIngredient) {
+      const yieldv = [].concat(r.recipeYield || []).map(String).sort((a, b) => b.length - a.length)[0];
+      return {
+        title: decoder(r.name) || "Recipe",
+        yield: yieldv ? decoder(String(yieldv)) : "",
+        total: isoDur(r.totalTime), prep: isoDur(r.prepTime), cook: isoDur(r.cookTime),
+        ingredients: [].concat(r.recipeIngredient).map(decoder).filter(Boolean),
+        steps: flattenInstructions(r.recipeInstructions),
+        source: url || "",
+      };
+    }
+  }
+  // microdata fallback
+  const ings = [...doc.querySelectorAll('[itemprop="recipeIngredient"],[itemprop="ingredients"]')].map(e => decoder(e.textContent)).filter(Boolean);
+  if (ings.length) {
+    const insEl = [...doc.querySelectorAll('[itemprop="recipeInstructions"]')];
+    const steps = insEl.flatMap(e => { const lis = e.querySelectorAll("li"); return lis.length ? [...lis].map(l => decoder(l.textContent)) : splitSteps(e.innerText || e.textContent); })
+      .filter(Boolean).map(t => ({ section: null, text: t }));
+    const nm = doc.querySelector('[itemprop="name"]');
+    return { title: decoder(nm && nm.textContent) || decoder(doc.title) || "Recipe", yield: "", total: "", prep: "", cook: "", ingredients: ings, steps, source: url || "" };
+  }
+  return null;
+}
+function parsePlainText(txt) {
+  const lines = txt.split(/\r?\n/).map(l => l.replace(/^[\s•*\-–▢☐□]+/, "").trim());
+  let mode = null, title = "", ingredients = [], steps = [], section = null;
+  for (const l of lines) {
+    if (!l) continue;
+    if (/^ingredients?\b:?$/i.test(l)) { mode = "i"; section = null; continue; }
+    if (/^(instructions?|directions?|method|preparation|steps)\b:?$/i.test(l)) { mode = "s"; section = null; continue; }
+    if (!mode) { if (!title) title = l; continue; }
+    if (mode === "i") { if (/:$/.test(l)) continue; ingredients.push(l); }
+    else { if (/:$/.test(l) && l.length < 40) { section = l.replace(/:$/, ""); continue; }
+      splitSteps(l).forEach(t => steps.push({ section, text: t })); }
+  }
+  if (!ingredients.length) return null;
+  return { title: title || "Recipe", yield: "", total: "", prep: "", cook: "", ingredients, steps, source: "" };
+}
+
+/* ================= ingredient parsing ================= */
+const UNI = { "½": " 1/2", "⅓": " 1/3", "⅔": " 2/3", "¼": " 1/4", "¾": " 3/4", "⅛": " 1/8", "⅜": " 3/8", "⅝": " 5/8", "⅞": " 7/8", "⅕": " 1/5", "⅙": " 1/6" };
+const NUM = String.raw`(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?|\.\d+)`;
+const UNITS = [
+  ["cup", /^(cups?|c\.)(?=\s|$|\.)/i], ["tbsp", /^(tablespoons?|tbsps?\.?|tbs\.?|tbl\.?|T)(?=\s|$|\.)/],
+  ["tsp", /^(teaspoons?|tsps?\.?|t)(?=\s|$|\.)/], ["tbsp", /^(tbsp|tbs)\.?(?=\s|$)/i], ["tsp", /^(tsp)\.?(?=\s|$)/i],
+  ["fl oz", /^(fl\.?\s?oz\.?|fluid ounces?)(?=\s|$)/i], ["oz", /^(ounces?|oz\.?)(?=\s|$)/i],
+  ["lb", /^(pounds?|lbs?\.?)(?=\s|$)/i], ["kg", /^(kilograms?|kgs?)(?=\s|$)/i], ["g", /^(grams?|g|gr)(?=\s|$|\.)/i],
+  ["ml", /^(milliliters?|millilitres?|ml|mL)(?=\s|$)/i], ["l", /^(liters?|litres?|l)(?=\s|$)/i],
+  ["qt", /^(quarts?|qts?\.?)(?=\s|$)/i], ["pt", /^(pints?|pts?\.?)(?=\s|$)/i],
+  ["pinch", /^(pinch(es)?)(?=\s|$)/i], ["dash", /^(dash(es)?)(?=\s|$)/i],
+];
+function toNum(s) {
+  s = s.trim(); let m;
+  if ((m = /^(\d+)\s+(\d+)\/(\d+)$/.exec(s))) return +m[1] + m[2] / m[3];
+  if ((m = /^(\d+)\/(\d+)$/.exec(s))) return m[1] / m[2];
+  return parseFloat(s);
+}
+function parseIngredient(raw) {
+  let s = raw.replace(/[½⅓⅔¼¾⅛⅜⅝⅞⅕⅙]/g, c => UNI[c]).replace(/(\d)\s*-\s*(?=\d+\/)/, "$1 ").replace(/\s+/g, " ").trim();
+  const out = { raw, qty: null, qty2: null, unit: "", name: s, grams: null };
+  // explicit grams anywhere, e.g. "1 cup (120 g) flour" or "120g / 1 cup"
+  const gm = /(\d+(?:\.\d+)?)\s*(g|grams?|kg)\b(?![a-z])/i.exec(s);
+  let m = new RegExp("^(" + NUM + ")(?:\\s*(?:-|–|to)\\s*(" + NUM + "))?\\s*").exec(s);
+  let rest = s;
+  if (m) { out.qty = toNum(m[1]); if (m[2]) out.qty2 = toNum(m[2]); rest = s.slice(m[0].length); }
+  rest = rest.replace(/^(heaping|level|scant|rounded)\s+/i, "");
+  for (const [u, re] of UNITS) { const um = re.exec(rest); if (um) { out.unit = u; rest = rest.slice(um[0].length).trim(); break; } }
+  rest = rest.replace(/^of\s+/i, "").replace(/^\.\s*/, "");
+  // strip a leading parenthetical that only restates weight/volume
+  rest = rest.replace(/^\((?:[^()]*\d[^()]*)\)\s*/, "").trim();
+  out.name = rest || s;
+  if (gm && out.unit !== "g" && out.unit !== "kg") out.grams = parseFloat(gm[1]) * (/kg/i.test(gm[2]) ? 1000 : 1);
+  // clean grams/oz restatements out of the name
+  out.name = out.name.replace(/\(\s*\d+(?:\.\d+)?\s*(g|grams?|ml|oz)\s*\)/ig, "").replace(/\s{2,}/g, " ").replace(/^[,\s]+|[,\s]+$/g, "");
+  return out;
+}
+
+/* grams per US cup, matched in order (specific first) */
+const DENSITY = [
+  [/bread flour/, 127], [/cake flour|pastry flour/, 114], [/whole wheat flour|wholemeal/, 113], [/almond flour|almond meal/, 96],
+  [/flour/, 120], [/brown sugar/, 213], [/powdered sugar|confectioner|icing sugar/, 120], [/turbinado|raw sugar|demerara/, 180],
+  [/sugar/, 200], [/butter(?!milk)/, 227], [/buttermilk/, 242], [/heavy cream|whipping cream|half.and.half|cream(?! cheese)/, 238],
+  [/sour cream|yogh?urt/, 242], [/cream cheese/, 232], [/milk/, 242], [/water/, 237], [/olive oil/, 216],
+  [/oil|shortening/, 218], [/honey/, 340], [/maple syrup/, 312], [/molasses/, 337], [/corn syrup|golden syrup/, 328],
+  [/cocoa/, 85], [/rolled oats|old.fashioned oats|oats/, 90], [/cornmeal|polenta/, 138], [/cornstarch|corn starch/, 128],
+  [/baking soda|bicarbonate/, 221], [/baking powder/, 192], [/kosher salt/, 144], [/salt/, 288],
+  [/yeast/, 149], [/vanilla|extract/, 202], [/chocolate chip|chips/, 170], [/walnut|pecan/, 117], [/almond(?! flour| meal)/, 143],
+  [/raisin|cranberr(y|ies)/, 150], [/parmesan/, 100], [/cheese/, 113], [/peanut butter/, 270], [/rice/, 185],
+  [/broth|stock|wine|juice|vinegar/, 240], [/coconut/, 85], [/mayonnaise|mayo/, 220], [/ketchup|tomato sauce/, 245],
+];
+const PER_CUP = { cup: 1, tbsp: 1 / 16, tsp: 1 / 48, "fl oz": 1 / 8, ml: 1 / 236.6, l: 1000 / 236.6, qt: 4, pt: 2 };
+function gramsFor(p) {
+  if (p.grams) return p.grams;
+  if (p.qty == null) return null;
+  const q = p.qty2 != null ? (p.qty + p.qty2) / 2 : p.qty;
+  if (p.unit === "g") return q; if (p.unit === "kg") return q * 1000;
+  if (p.unit === "oz") return q * 28.35; if (p.unit === "lb") return q * 453.6;
+  if (p.unit === "ml" && /water|milk|broth|stock|juice/i.test(p.name)) return q;
+  if (PER_CUP[p.unit] != null) {
+    const n = p.name.toLowerCase();
+    for (const [re, g] of DENSITY) if (re.test(n)) return q * PER_CUP[p.unit] * g;
+  }
+  return null;
+}
+
+/* ================= formatting amounts ================= */
+function fracStr(x) {
+  if (x == null) return "";
+  const whole = Math.floor(x + 1e-9), f = x - whole;
+  const fr = [[0, ""], [1 / 8, "⅛"], [1 / 4, "¼"], [1 / 3, "⅓"], [3 / 8, "⅜"], [1 / 2, "½"], [5 / 8, "⅝"], [2 / 3, "⅔"], [3 / 4, "¾"], [7 / 8, "⅞"], [1, ""]];
+  let best = fr[0]; for (const c of fr) if (Math.abs(c[0] - f) < Math.abs(best[0] - f)) best = c;
+  if (Math.abs(best[0] - f) > 0.04) return String(+x.toFixed(2));
+  const w = best[0] === 1 ? whole + 1 : whole;
+  return (w ? String(w) : "") + best[1] || "0";
+}
+function gramStr(g) { return g >= 10 ? String(Math.round(g)) : g.toFixed(1); }
+function amountFor(p, scale, useGrams) {
+  if (useGrams) { const g = gramsFor(p); if (g != null) return gramStr(g * scale) + " g"; }
+  if (p.qty == null) return "";
+  const a = fracStr(p.qty * scale) + (p.qty2 != null ? "–" + fracStr(p.qty2 * scale) : "");
+  const u = p.unit === "g" ? " g" : p.unit ? " " + p.unit : "";
+  return a + u;
+}
+
+/* ================= staging ================= */
+const STOP = /\b(large|small|medium|extra|fresh|freshly|ripe|unsalted|salted|softened|melted|cold|warm|hot|room|temperature|packed|lightly|light|dark|finely|coarsely|roughly|chopped|minced|diced|sliced|grated|shredded|ground|whole|divided|optional|plus|more|for|to|taste|about|and|or|of|the|a|cup|cups|pure|good|quality|organic|large|beaten|sifted|cubed|peeled|toasted|raw|dried|frozen|thawed|boneless|skinless)\b/g;
+const GENERIC_FIRST = /^(baking|all|ground|dried|fresh|black|red|green|white|yellow|kosher|sea|table|granulated|vegetable|extra|heavy|instant|active|unsweetened|semisweet|bittersweet|sweetened|plain|self)$/;
+function keysFor(name) {
+  const n = name.toLowerCase().replace(/\(.*?\)/g, " ").split(",")[0].replace(/[^a-z\s-]/g, " ").replace(STOP, " ").replace(/\s+/g, " ").trim();
+  if (!n) return [];
+  const words = n.split(" ").filter(w => w.length > 2);
+  const sing = w => w.replace(/(ies)$/, "y").replace(/(oes|ches|shes)$/, m => m.slice(0, -2)).replace(/([^s])s$/, "$1");
+  const keys = [n];
+  if (words.length) { const last = words[words.length - 1]; keys.push(sing(last), last); }
+  if (words.length > 1 && !GENERIC_FIRST.test(words[0])) keys.push(sing(words[0]));
+  return [...new Set(keys.filter(k => k.length > 2))];
+}
+const CAT_RE = {
+  prep: /\b(preheat|grease|butter and flour|line (?:a|the|your)|spray (?:a|the)|set (?:an|the) oven|position a rack)/i,
+  rest: /\b(let (?:it |the dough |them )?(?:rise|rest|sit|stand|proof)|proof|rise until|rest for|refrigerate|chill|marinate|cover and let|overnight)/i,
+  cook: /\b(bake|roast|broil|grill|simmer|bring to a boil|boil|fry|saut[eé]|sear|cook|transfer to the oven|in the oven)/i,
+  finish: /\b(cool|serve|garnish|slice and|store|enjoy|let cool|unmold|remove from the pan)/i,
+};
+function classify(text) {
+  let best = "mix", at = Infinity;
+  for (const [cat, re] of Object.entries(CAT_RE)) { const m = re.exec(text); if (m && m.index < at) { at = m.index; best = cat; } }
+  return best;
+}
+function stageName(cat, steps) {
+  if (cat === "cook") return steps.some(s => /\bbake|oven\b/i.test(s.text)) ? "Bake" : "Cook";
+  return { prep: "Prep", mix: "Mix", rest: "Rest", finish: "Finish" }[cat];
+}
+function labelFor(text) {
+  const words = text.replace(/^(then|next|now|meanwhile|finally),?\s+/i, "").split(/\s+/);
+  let w = (words[0] || "").replace(/[^A-Za-z'-]/g, "");
+  if (/^(in|on|into|once|when|while|after|using|with)$/i.test(w)) {
+    const v = words.slice(1).find(x => /^(add|stir|whisk|mix|beat|fold|pour|bake|cook|cool|let|place|transfer|spread|combine|knead|shape|roll|cut|serve|remove)/i.test(x));
+    if (v) w = v.replace(/[^A-Za-z'-]/g, "");
+  }
+  return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+}
+function buildStages(rec) {
+  const parsed = rec.ingredients.map((r, i) => ({ ...parseIngredient(r), i }));
+  const steps = rec.steps.length ? rec.steps.map(s => ({ ...s, ings: [] })) : [{ section: null, text: "Combine as directed.", ings: [] }];
+  const low = steps.map(s => " " + s.text.toLowerCase() + " ");
+  const cats = steps.map(s => classify(s.text));
+  const unmatched = [];
+  for (const p of parsed) {
+    const keys = keysFor(p.name); let hit = -1;
+    for (const allowPrep of [false, true]) {
+      outer: for (const k of keys) {
+        const re = new RegExp("\\b" + k.replace(/[-]/g, "[- ]") + "(?:e?s)?\\b");
+        for (let j = 0; j < low.length; j++) {
+          if (!allowPrep && cats[j] === "prep") continue;
+          if (re.test(low[j])) { hit = j; break outer; }
+        }
+      }
+      if (hit >= 0) break;
+    }
+    if (hit >= 0) steps[hit].ings.push(p); else unmatched.push(p);
+  }
+  if (unmatched.length) {
+    let j = low.findIndex(t => /dry ingredients|remaining ingredients|all (?:of )?the ingredients|everything|combine|whisk together|mix together/.test(t));
+    if (j < 0) j = steps.findIndex(s => s.ings.length);
+    if (j < 0) j = 0;
+    steps[j].ings.push(...unmatched);
+  }
+  steps.forEach(s => s.ings.sort((a, b) => a.i - b.i));
+  // group into stages
+  const stages = [];
+  const hasSections = steps.some(s => s.section);
+  for (const s of steps) {
+    const key = hasSections ? (s.section || "") : classify(s.text);
+    const last = stages[stages.length - 1];
+    if (last && last.key === key) last.steps.push(s);
+    else stages.push({ key, steps: [s] });
+  }
+  stages.forEach(st => {
+    st.name = hasSections ? (st.key || "Start").replace(/^for (the )?/i, "").replace(/:$/, "") : stageName(st.key, st.steps);
+    st.name = st.name.charAt(0).toUpperCase() + st.name.slice(1);
+  });
+  return stages;
+}
+
+/* ================= bolding cues ================= */
+function esc(s) { return s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+const CUE_RES = [
+  /\d{2,3}\s?°\s?[FC]?(?:\s*\(\s*\d{2,3}\s?°\s?[FC]?\s*\))?/g,
+  /\b\d{3}\s?degrees(?:\s?(?:F|C|Fahrenheit|Celsius))?(?:\s*\([^)]*\))?/gi,
+  /\b\d+(?:[./]\d+)?(?:\s*(?:-|–|to)\s*\d+(?:[./]\d+)?)?\s*(?:minutes?|mins?|hours?|hrs?|seconds?|secs?)\b/gi,
+  /\b(?:low|medium(?:[- ](?:high|low))?|high)\s+(?:heat|speed)\b/gi,
+  /\bspeed\s+\d\b/gi,
+  /\buntil\s+[^,.;()]{3,60}/gi,
+  /\b(?:double[ds]? in size|doubled|golden brown|toothpick (?:inserted|comes out)[^,.;]*|springs back|set in the center|no longer pink)\b/gi,
+];
+function boldCues(text) {
+  text = text.replace(/\bminutes\b/gi, "min").replace(/\bminute\b/gi, "min");
+  const spans = [];
+  for (const re of CUE_RES) { re.lastIndex = 0; let m; while ((m = re.exec(text))) spans.push([m.index, m.index + m[0].length]); }
+  spans.sort((a, b) => a[0] - b[0]);
+  const merged = [];
+  for (const s of spans) { const l = merged[merged.length - 1]; if (l && s[0] <= l[1]) l[1] = Math.max(l[1], s[1]); else merged.push([...s]); }
+  let out = "", pos = 0;
+  for (const [a, b] of merged) { out += esc(text.slice(pos, a)) + "<b>" + esc(text.slice(a, b)) + "</b>"; pos = b; }
+  return out + esc(text.slice(pos));
+}
+
+/* ================= render ================= */
+const state = { rec: null, scale: 1, grams: true };
+const $ = id => document.getElementById(id);
+function render() {
+  const card = $("card"), rec = state.rec;
+  card.classList.remove("loading");
+  if (!rec) { card.innerHTML = '<div class="empty">Paste a recipe link above to make a card.</div>'; return; }
+  const stages = buildStages(rec);
+  const yieldNum = (/\d+/.exec(rec.yield || "") || [""])[0];
+  const scaledYield = yieldNum ? Math.round(yieldNum * state.scale * 10) / 10 : "";
+  const badge = scaledYield ? `<div class="badge" aria-label="Makes ${scaledYield}"><div><b>${scaledYield}</b>${esc(/loaf|loaves/i.test(rec.yield) ? "loaves" : /cookie/i.test(rec.yield) ? "cookies" : /muffin/i.test(rec.yield) ? "muffins" : "serves")}</div></div>` : "";
+  let host = ""; try { host = rec.source ? new URL(rec.source).hostname.replace(/^www\./, "") : ""; } catch {}
+  const meta = [rec.prep && "Prep " + rec.prep, rec.cook && "Cook " + rec.cook, rec.total && "Total " + rec.total, rec.yield && "Yield " + rec.yield + (state.scale !== 1 ? ` (×${state.scale === 0.5 ? "½" : state.scale})` : "")]
+    .filter(Boolean).map(esc);
+  let h = `<header class="card-head"><h2>${esc(rec.title)}</h2>${badge}</header>`;
+  if (meta.length || host) h += `<div class="meta">${meta.map(m => `<span>${m}</span>`).join("")}${host ? `<a href="${esc(rec.source)}" target="_blank" rel="noopener">${esc(host)}</a>` : ""}</div>`;
+  h += `<div class="cols"><span>Weigh / Add</span><span>Do / Look / Feel</span></div>`;
+  stages.forEach((st, si) => {
+    h += `<div class="stage-band"><span class="n">${String(si + 1).padStart(2, "0")}</span><span class="t">${esc(st.name)}.</span></div>`;
+    st.steps.forEach(s => {
+      let left;
+      if (s.ings.length) left = `<ul class="ing">${s.ings.map(p => `<li><span class="amt">${esc(amountFor(p, state.scale, state.grams))}</span><span class="nm">${esc(p.name)}</span></li>`).join("")}</ul>`;
+      else left = `<div class="label">${esc(labelFor(s.text))}</div>`;
+      h += `<div class="row"><div class="left">${left}</div><div class="right">${boldCues(s.text)}</div></div>`;
+    });
+  });
+  const conv = state.grams ? "Grams are converted from cup/spoon measures where the ingredient is known; others stay as written." : "Amounts as written by the source.";
+  h += `<footer class="foot"><span>${conv}</span>${host ? `<span>Source: ${esc(host)}</span>` : ""}</footer>`;
+  card.innerHTML = h;
+}
+
+/* ================= recent (this browser only) ================= */
+const RKEY = "recipeCardRecent.v1";
+function loadRecent() { try { return JSON.parse(localStorage.getItem(RKEY) || "[]"); } catch { return []; } }
+function saveRecent(rec) {
+  try { const list = loadRecent().filter(r => r.title !== rec.title || r.source !== rec.source); list.unshift(rec);
+    localStorage.setItem(RKEY, JSON.stringify(list.slice(0, 12))); } catch {}
+  drawRecent();
+}
+function drawRecent() {
+  const list = loadRecent(), el = $("recent"); el.innerHTML = "";
+  list.forEach(r => { const b = document.createElement("button"); b.type = "button"; b.textContent = r.title.slice(0, 40);
+    b.onclick = () => { state.rec = r; state.scale = 1; syncSeg(); render(); }; el.appendChild(b); });
+}
+
+/* ================= wiring ================= */
+function setStatus(msg, err) { const s = $("status"); s.textContent = msg || ""; s.classList.toggle("err", !!err); }
+function syncSeg() {
+  $("uGrams").setAttribute("aria-pressed", state.grams); $("uOrig").setAttribute("aria-pressed", !state.grams);
+  document.querySelectorAll("#scaleSeg button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.s === state.scale));
+}
+$("goForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const url = $("url").value.trim(); if (!url) return;
+  $("goBtn").disabled = true; $("card").classList.add("loading"); setStatus("Reading the recipe…");
+  try {
+    const rec = await fetchHtml(url);
+    state.rec = rec; state.scale = 1; syncSeg(); render(); saveRecent(rec);
+    setStatus(rec.steps.length ? "" : "Found ingredients but no directions on that page.");
+  } catch (err) {
+    $("card").classList.remove("loading");
+    setStatus("Couldn't read that page (" + (err.message || "blocked") + "). Try “Paste the recipe instead” below.", true);
+    document.querySelector("details.paste").open = true;
+  } finally { $("goBtn").disabled = false; }
+});
+$("pasteBtn").addEventListener("click", () => {
+  const t = $("pasteBox").value; if (!t.trim()) return;
+  const rec = /<\/?[a-z][\s\S]*>/i.test(t) ? (extractRecipe(t, "") || parsePlainText(new DOMParser().parseFromString(t, "text/html").body.innerText || "")) : parsePlainText(t);
+  if (!rec) { setStatus("Couldn't find an Ingredients list in that text. Make sure it has an “Ingredients” heading and a “Directions” heading.", true); return; }
+  state.rec = rec; state.scale = 1; syncSeg(); render(); saveRecent(rec); setStatus("");
+});
+$("uGrams").onclick = () => { state.grams = true; syncSeg(); render(); };
+$("uOrig").onclick = () => { state.grams = false; syncSeg(); render(); };
+document.querySelectorAll("#scaleSeg button").forEach(b => b.onclick = () => { state.scale = +b.dataset.s; syncSeg(); render(); });
+$("printBtn").onclick = () => window.print();
+
+/* example card so the page opens showing what it does */
+const EXAMPLE = {
+  title: "Banana Nut Bread (example)", yield: "1 loaf", total: "1 hr 20 min", prep: "15 min", cook: "55 min", source: "",
+  ingredients: ["2 large (250 g) ripe bananas", "6 tablespoons butter", "1 teaspoon vanilla extract", "2 large eggs",
+    "1 1/3 cups all-purpose flour", "2/3 cup sugar", "1/2 teaspoon baking soda", "1/4 teaspoon baking powder", "1/2 teaspoon salt", "1/2 cup chopped walnuts"],
+  steps: [
+    { section: null, text: "Preheat the oven to 350°F (175°C). Butter and flour a 9 x 5 inch loaf pan." },
+    { section: null, text: "Mash the bananas in a large bowl. Melt the butter and add it with the vanilla and lightly beaten eggs; mash until smooth." },
+    { section: null, text: "In a separate bowl, whisk together the flour, sugar, baking soda, baking powder and salt. Add the walnuts." },
+    { section: null, text: "Fold the dry ingredients into the banana mixture until no dry flour remains. Scrape into the pan." },
+    { section: null, text: "Bake 55 minutes, until a toothpick inserted in the center comes out clean." },
+    { section: null, text: "Cool 10 minutes in the pan, then turn out and cool completely on a wire rack." },
+  ],
+};
+const recent = loadRecent();
+state.rec = recent[0] || EXAMPLE;
+drawRecent(); render();
+window.app = { state, render, extractRecipe, parsePlainText };
+</script>
+</body>
+</html>

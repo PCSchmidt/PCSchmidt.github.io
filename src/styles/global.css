@@ -78,7 +78,7 @@ a:hover {
 }
 
 .section {
-  padding: 4rem 0;
+  padding-block: 4rem;
 }
 
 .section-title {
@@ -243,10 +243,23 @@ a:hover {
 
 /* Responsive */
 @media (max-width: 640px) {
+  /* Stack brand above links so the nav never exceeds phone width
+     (an over-wide nav widened the whole page and clipped the left edge). */
+  .nav-inner {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.6rem 1rem;
+    row-gap: 0.35rem;
+  }
   .nav-links {
-    gap: 1rem;
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .container {
+    padding: 0 1.25rem;
   }
   .section {
-    padding: 2.5rem 0;
+    padding-block: 2.5rem;
   }
 }

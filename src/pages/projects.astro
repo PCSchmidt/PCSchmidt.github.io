@@ -255,6 +255,27 @@ const projects = [
     paper: 'https://github.com/PCSchmidt/VERA/blob/main/docs/reviews/retrospective.md',
   },
   {
+    title: 'Darkwater - Shadow-Fleet Maritime Surveillance Where the Database Is the Application',
+    description:
+      'A simulated day of shipping traffic in the Singapore Strait and the Eastern OPL anchorage, watched for the behaviours analysts look for in sanctions-evasion cases: transponders going dark, spoofed positions, ship-to-ship rendezvous outside port limits, loitering, re-flagging, and ownership hidden behind shell companies. There is no backend and almost no application logic in JavaScript: SQLite runs in the browser through sql.js, and every rule, detector, score and simulation step is SQL. Every panel has an SQL button that shows the exact query behind it. All vessels, companies and events are fictional. Live on GitHub Pages.',
+    problem:
+      'Maritime-surveillance tools usually bury their rules in application code, so an analyst sees an alert or a risk score but cannot see, question or change the logic that produced it. Shadow-fleet cases also hinge on things a flat table hides: an owner several shell companies away, a gap in transponder reports whose meaning depends on where the ship was, a rendezvous that is only suspicious outside port limits.',
+    approach:
+      'Put the logic where it can be inspected: in the database. Constraints validate data (IMO check digit, MMSI format, allowed alert kinds). AFTER INSERT triggers on every position report run the detectors for gaps, impossible jumps, ship-to-ship proximity, loitering and re-flagging, with zone lookups suppressing false positives at anchorages and coverage edges and a unique index de-duplicating alerts. A recursive CTE multiplies ownership stakes along every path, cycle-safe, and an explainable view combines ownership, exponentially decayed behaviour and vessel profile into a score. Position reports are append-only by trigger, and every triage decision is written to an audit log. The simulator keeps ground truth in a table the detectors never read, so the UI can show the gap between what transponders report and what is really happening. The same SQL runs unchanged in any SQLite 3.35+ build.',
+    impact:
+      'Run headless over 24 simulated hours (144 ticks, about one second), the scenario raises 18 alerts: every scripted event that should alert does: the 01:50Z and 14:00Z ship-to-ship rendezvous, the mid-voyage re-flag, the 50-minute spoofed position, and the nine-hour AIS gap that ends in the 14:00Z meeting. AURORA SPIRIT ranks first at 84, its sanctioned beneficial owner reached by two separate ownership paths that sum to 80% exposure. The console lets a reader try to break the database (a bad IMO number or an edited position report is refused) and re-rank every score by delisting the sanctioned parent. Not shown: any real AIS data, detection accuracy against anything but the one scripted scenario (the thresholds were set to that scenario), or an automated test suite; the loitering detector also fires repeatedly on the two vessels the scenario parks in the anchorage.',
+    tags: ['SQLite', 'SQL', 'sql.js', 'Maritime Intelligence', 'Anomaly Detection', 'JavaScript'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Oct 2026',
+    metrics: ['Live demo: pcschmidt.github.io/darkwater', 'Logic is SQL: 6 triggers, 5 views, 1 recursive CTE; an SQL button on every panel', 'Scripted scenario: 18 alerts in 24 simulated hours; top risk score 84, 80% sanctioned exposure'],
+    github: 'https://github.com/PCSchmidt/darkwater',
+    demo: 'https://pcschmidt.github.io/darkwater/',
+    demoLabel: 'Live',
+    evidence: 'https://github.com/PCSchmidt/darkwater#where-the-logic-lives',
+    guide: 'https://github.com/PCSchmidt/darkwater#develop',
+  },
+  {
     title: 'geo-eval-gate - Satellite Change Detection Where an AI May Label a Change but Cannot Approve One',
     description:
       'A two-stage change detector for pairs of satellite images: a cheap deterministic screen (NDVI and structural-similarity change, cloud masking, morphology) proposes candidate boxes, and a vision-language model may only label a candidate, behind a gate that checks its reply against a strict schema, a confidence floor and an actionable-class list. Evaluated on real Sentinel-2 imagery with human labels (OSCD, 24 city pairs) under a protocol pushed before any result existed, with the test split run once. An extension tests whether a calibrated text-only judge (TypeSafe Jev) fixes the models\' unusable self-reported confidence.',

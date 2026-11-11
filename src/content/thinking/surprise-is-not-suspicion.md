@@ -11,6 +11,8 @@ That ship is the best summary I have of what I learned building [Latent Wake](ht
 
 ## The bet
 
+I started this project because I wanted to understand world models: systems that learn how an environment responds to actions, so they can predict what happens next. Reading papers only takes you so far. I wanted to build one on real, messy data and see where it broke. That meant finding a domain where I could check whether the model had actually learned the dynamics, and ship tracks gave me one.
+
 AIS is the radio beacon large ships use to broadcast who they are, where they are, and how fast and in what direction they are going. It underpins port safety, insurance, and sanctions enforcement, and it is easy to abuse. Transponders get switched off. Positions get spoofed. Honest transponders report ships loitering where they have no business, or leaving their route to meet another vessel. The machine-learning problem is that there are almost no labeled incidents to learn from.
 
 A world model sidesteps the labels. Train it only on normal traffic to predict what a ship does next, and treat a bad prediction as a signal. The particular kind I used, a joint-embedding predictive architecture (JEPA), makes that prediction in a learned internal representation instead of in raw coordinates. [LeWorldModel](https://arxiv.org/abs/2603.19312), published this year, showed a JEPA can be trained stably end to end with a single regularizer. It also showed that the model's surprise spikes when an object in a scene teleports. A ship that jumps across the bay is the maritime version of that teleporting cube, so the idea felt worth a real test.
@@ -40,6 +42,18 @@ So the useful idea was the *objective*: predict the next move from what the ship
 Each one makes sense once you know the bay. Pilot launches run out to big ships and match their speed alongside. Dredges creep back and forth in the channels. A fishing boat working its nets circles in ways no cargo ship does. None of that is suspicious. All of it is unlike the training data. The model learned what normal traffic looks like, and it is right that these vessels are not that. But "not like what I saw" is a statement about the model's experience, not about the vessel's intent.
 
 This is the problem with every learned anomaly detector, and it is easy to forget. The base rate of benign weirdness is enormous. A real deployment would need to know where the pilot stations, anchorages, and dredging operations are, or it will spend its alert budget on the people keeping the port running.
+
+## What it taught me about world models
+
+Anomaly detection was the test, but I came for the model. Taking the headline aside, the ablations answered most of what I wanted to know.
+
+**The recipe traveled.** LeWorldModel's claim is that one regularizer, SIGReg, is enough to train a JEPA stably, with none of the usual tricks: no EMA target network, no stop-gradient. I used its published defaults on vessel tracks instead of video, and all three seeds trained without trouble. With the regularizer switched off, the latent space collapsed to under three effective dimensions out of 192. Across a fifteenfold range of its weight, the results barely moved. A claim made on robot-arm and block-pushing tasks held on ships in the Chesapeake.
+
+**The actions do the work.** What makes a world model a world model is that it predicts what happens *given an action*. Here, the action is what the ship reports it will do next. Without those reports the model's prediction error rose about thirtyfold. It had learned how reported speed and course translate into motion. The same skill had a cost: on the smallest spoofs, the reports let the model explain a small position error away.
+
+**A latent space is a trade, not a free lunch.** The JEPA compresses 16 minutes of motion into one vector. That compression is why it was the best loitering detector, and also why it was near chance on the smallest position spoofs. The same predictor working on raw positions was worse on loitering and far better on spoofs.
+
+**I only tested the narrowest use.** Latent Wake used its world model for one-step surprise and nothing else. LeWorldModel's main result is planning: it rolls candidate action sequences through the predictor and picks the one whose imagined outcome lands closest to a goal. Imagining several steps ahead, asking what a ship would have done if it had turned, and planning are what make world models matter. None of them were tested here. They are the questions I want to explore next.
 
 ## The bug that looked like success
 

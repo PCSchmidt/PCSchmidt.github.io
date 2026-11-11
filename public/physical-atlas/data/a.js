@@ -1,0 +1,146 @@
+/* Band A — Bedrock. Each topic: [term, definition written in the context of its region]. */
+window.ATLAS = window.ATLAS || [];
+window.ATLAS.push(
+{ref:"A1",band:"A",name:"Kinematics, Dynamics & Geometry",sum:"Describing where a robot is, how it can move and what forces produce motion.",deps:[],
+ overview:"A robot is a physical mechanism whose pose and motion must be described precisely. This region covers coordinate frames and rigid-body transforms, rotation representations, forward and inverse kinematics for arms and mobile bases, and the dynamics that link forces and torques to acceleration.",
+ why:"Every planner, controller and learned policy ultimately commands a physical body. Errors in frames, rotations or dynamics models cause the failures that are hardest to diagnose, from drifting maps to unstable controllers.",
+ subs:[
+ ["Frames & transforms","where things are",[
+  ["Coordinate frames","Reference systems attached to the world, the robot, each link and each sensor. Nearly every bug in robotics is a frame mix-up."],
+  ["Rigid-body transform","A rotation plus a translation that maps points between frames. The basic unit of pose in robotics."],
+  ["Homogeneous transformation matrix","A 4×4 matrix combining rotation and translation so transforms chain by matrix multiplication. Used throughout kinematics and SLAM."],
+  ["SE(3) and SO(3)","The mathematical groups of 3D rigid motions and 3D rotations. They give a correct way to interpolate, average and differentiate poses."],
+  ["Transform trees","A graph of frames with known relative poses, as in ROS tf. Lets any point be expressed in any frame."],
+  ["Extrinsic calibration","Determining the fixed transform between two sensors or a sensor and the body. Poor calibration limits sensor fusion accuracy."],
+  ["Time and frame consistency","Transforms must be applied at the right timestamp as the robot moves. Ignoring latency yields smeared point clouds."]]],
+ ["Rotation representations","describing orientation",[
+  ["Euler angles & gimbal lock","Three sequential rotation angles that are intuitive but have singularities where an axis is lost. Unsuitable for continuous control."],
+  ["Rotation matrices","3×3 orthogonal matrices with no singularities but redundant parameters. Standard for composition."],
+  ["Quaternions","Four-number representation of rotation that avoids gimbal lock and interpolates smoothly. Dominant in flight control and graphics."],
+  ["Axis–angle & rotation vectors","A rotation described by an axis and an angle. A compact minimal form used in optimization."],
+  ["Lie algebra & exponential map","Maps small rotations or motions to and from the group. Enables correct gradient updates on poses."],
+  ["Interpolation (SLERP)","Smooth blending between orientations along the shortest arc. Used for trajectories and animation."],
+  ["Learning with rotations","Neural networks predicting orientation need continuous representations such as 6D. Naive Euler or quaternion outputs train poorly."]]],
+ ["Kinematics","motion without forces",[
+  ["Degrees of freedom & configuration space","The number of independent variables that fix a robot's pose, and the space of all such configurations. Planning happens in this space."],
+  ["Forward kinematics","Compute the pose of the end effector from joint values. Straightforward and always unique."],
+  ["Inverse kinematics","Find joint values that achieve a desired end-effector pose. May have no solution, many solutions or singularities."],
+  ["Denavit–Hartenberg parameters","A convention for describing the link geometry of serial arms. Standard way to define arm kinematics."],
+  ["Jacobian","Matrix relating joint velocities to end-effector velocity. Central to velocity control, singularity analysis and force mapping."],
+  ["Singularities & redundancy","Configurations where motion in some direction is lost, and arms with more joints than needed. Redundancy offers room to avoid obstacles and singularities."],
+  ["Mobile base kinematics","Differential drive, Ackermann and omnidirectional models relating wheel speeds to body motion. Include nonholonomic constraints such as no sideways slip."],
+  ["Parallel & closed-chain mechanisms","Mechanisms like Stewart platforms and delta robots. Faster and stiffer but with harder kinematics."]]],
+ ["Dynamics","forces and motion",[
+  ["Rigid-body dynamics","Equations relating forces and torques to accelerations of linked bodies. Foundation of simulation and model-based control."],
+  ["Newton–Euler & Lagrangian formulations","Two ways to derive the equations of motion, by forces on each body or by energy. Equivalent results, different convenience."],
+  ["Mass matrix, Coriolis & gravity terms","Components of the manipulator equation M(q)q̈ + C(q,q̇)q̇ + g(q) = τ. Compensating them is the basis of computed-torque control."],
+  ["Inverse & forward dynamics","Compute torques needed for a motion, or accelerations resulting from torques. Used in control and simulation respectively."],
+  ["Contact & friction models","Forces when a robot touches the world, including Coulomb friction and impacts. Contact is where models are least accurate."],
+  ["Underactuation","Systems with fewer actuators than degrees of freedom, such as legged robots and quadrotors. Require dynamic planning rather than direct commands."],
+  ["System identification","Estimate mass, inertia and friction from experiments. Improves model accuracy for control."],
+  ["Flexibility & actuator dynamics","Joint elasticity, backlash and motor lag. Ignoring them can destabilize high-gain controllers."]]],
+ ["Vehicles & flying machines","specialized models",[
+  ["Bicycle & Ackermann models","Simple car models relating steering to turning. The workhorse of autonomous driving planning."],
+  ["Quadrotor dynamics","Thrust and torques from four rotors produce lift and rotation. A common platform for control research."],
+  ["Fixed-wing flight dynamics","Lift, drag and control surfaces with aerodynamic models. Different regime from multirotors."],
+  ["Marine vehicle dynamics","Hydrodynamics, added mass and drag for ships and underwater vehicles. Slow, damped and strongly affected by currents."],
+  ["Legged locomotion models","Inverted pendulum and centroidal dynamics as simplified models of walking. Make planning tractable."],
+  ["Soft & continuum robots","Flexible bodies without discrete joints. Need different modeling tools."],
+  ["Spacecraft attitude & orbital basics","Rotation dynamics and orbital mechanics. Underpin autonomy in space."]]]
+ ]},
+
+{ref:"A2",band:"A",name:"Sensors, Actuators & Hardware",sum:"The physical components that let a machine sense and act, and their imperfections.",deps:[],
+ overview:"Autonomous systems depend on what their hardware can measure and do. This region covers the main sensing modalities, how actuators produce motion, onboard computers and communication buses, and the noise, delay and calibration issues that algorithms must tolerate.",
+ why:"Software assumptions meet physical limits here. Choosing and understanding sensors and actuators determines achievable accuracy, cost, power and robustness, and many perception failures trace back to sensor physics.",
+ subs:[
+ ["Proprioceptive sensors","sensing the body",[
+  ["Encoders","Measure joint or wheel rotation. Provide precise position and velocity for control and odometry."],
+  ["Inertial measurement unit (IMU)","Accelerometers and gyroscopes measuring acceleration and rotation rate. High-rate but drifts when integrated."],
+  ["Magnetometer & barometer","Heading from the magnetic field and altitude from pressure. Useful but affected by interference and weather."],
+  ["Force–torque & tactile sensors","Measure contact forces and touch. Essential for compliant manipulation."],
+  ["Current & temperature sensing","Motor current reveals load, and temperature guards against overheating. Used for protection and estimating torque."],
+  ["Odometry & dead reckoning","Estimate motion by integrating wheel or inertial data. Errors accumulate without outside correction."],
+  ["Sensor noise, bias & drift","Random error, constant offset and slow wander. Must be modeled for estimation."]]],
+ ["Exteroceptive sensors","sensing the world",[
+  ["Cameras (monocular, stereo, RGB-D)","Capture images; stereo and depth cameras give distance. Rich and cheap but sensitive to lighting."],
+  ["Event cameras","Report per-pixel brightness changes asynchronously. Very high speed and dynamic range, with different algorithms needed."],
+  ["LiDAR","Measures distance with laser pulses to build 3D point clouds. Precise geometry but costly and affected by weather and reflective surfaces."],
+  ["Radar","Radio waves measure range and radial velocity through rain and fog. Lower resolution than LiDAR but robust."],
+  ["Sonar & ultrasonic","Acoustic ranging, standard underwater and for short-range sensing. Slow and wide-beamed."],
+  ["GNSS (GPS) & RTK","Satellite positioning with meter accuracy, or centimeter accuracy with correction. Unavailable indoors and vulnerable to jamming."],
+  ["Thermal & multispectral imaging","Sense beyond visible light. Used for night operation, inspection and agriculture."],
+  ["Microphones & audio arrays","Capture sound and its direction. Used for interaction and event detection."]]],
+ ["Actuators","producing motion",[
+  ["Electric motors (brushed, BLDC, stepper)","The most common actuators, converting current to torque. Brushless motors dominate for efficiency and life."],
+  ["Servo & motor drives","Electronics regulating current, speed or position. Inner control loops often run at kilohertz rates."],
+  ["Gearboxes & transmissions","Trade speed for torque and affect backlash and backdrivability. A design tradeoff central to robot arms and legs."],
+  ["Series elastic & quasi-direct drive","Designs that add compliance or low gearing for safe, force-controllable joints. Common in legged and collaborative robots."],
+  ["Hydraulic & pneumatic actuators","Fluid power giving high force density. Powerful but complex and leak-prone."],
+  ["Propulsors (propellers, thrusters, wheels)","Devices producing thrust or traction. Characteristics strongly shape vehicle dynamics."],
+  ["Grippers & end effectors","Tools for grasping, from parallel jaws to dexterous hands and suction. Often the limiting factor in manipulation."],
+  ["Actuator saturation & limits","Maximum torque, speed and rate. Controllers must respect them to avoid windup and instability."]]],
+ ["Compute & communication","the onboard brain and nerves",[
+  ["Embedded processors (MCU, SoC)","From microcontrollers for real-time loops to systems-on-chip for perception. Chosen for power, cost and determinism."],
+  ["GPUs & AI accelerators on edge","Modules such as NVIDIA Jetson or NPUs for neural inference. Balance throughput against power and heat."],
+  ["FPGAs & ASICs","Reconfigurable or custom hardware for low-latency processing. Used in sensors, vision pipelines and safety systems."],
+  ["Buses & protocols (CAN, SPI, I2C, Ethernet)","Links connecting sensors, drives and computers. Differ in speed, determinism and wiring."],
+  ["Time synchronization (PTP, hardware triggers)","Aligning clocks across sensors and computers. Required for accurate fusion."],
+  ["Power systems & batteries","Energy storage and distribution. Define endurance and constrain compute."],
+  ["Wireless links & latency","Radio, cellular and satellite communication with limited bandwidth and dropouts. Autonomy must tolerate disconnection."]]],
+ ["Calibration & sensor models","making measurements usable",[
+  ["Camera intrinsics & distortion","Focal length, principal point and lens distortion parameters. Needed to relate pixels to rays."],
+  ["Hand–eye calibration","Find the transform between a camera and a robot arm or body. Required for vision-guided manipulation."],
+  ["LiDAR–camera calibration","Align point clouds and images. Enables colored 3D and fused detection."],
+  ["IMU calibration","Estimate bias, scale and axis misalignment. Improves inertial navigation."],
+  ["Noise models","Statistical descriptions of sensor error such as Gaussian or heavy-tailed. Feed estimators with correct uncertainty."],
+  ["Sensor failure modes","Glare, dust, multipath, saturation and dropout. Perception systems need detection and fallback."],
+  ["Online calibration & self-diagnosis","Adjust parameters during operation and detect degradation. Valuable over long deployments."]]]
+ ]},
+
+{ref:"A3",band:"A",name:"Control Fundamentals",sum:"Using feedback to make a physical system do what you want, stably.",deps:["A1"],
+ overview:"Control turns desired behavior into commands that keep a system on track despite disturbances and model error. This region covers feedback and stability, classical PID design, state-space and optimal control, model predictive control, and force and impedance control for contact.",
+ why:"Learned policies and planners ultimately run inside control loops. Understanding stability, delay and saturation explains why a clever policy can still shake, drift or crash.",
+ subs:[
+ ["Feedback & stability","the core ideas",[
+  ["Open-loop vs. closed-loop","Open loop sends commands without checking results; closed loop corrects using measurements. Feedback is what handles disturbance and uncertainty."],
+  ["Stability","Whether a system returns to equilibrium after a disturbance. The first requirement of any controller."],
+  ["Time response (rise time, overshoot, settling)","Measures of how a system reacts to a command. Used to specify and tune controllers."],
+  ["Transfer functions & frequency response","Describe linear systems in the frequency domain. Bode plots show gain and phase across frequency."],
+  ["Gain & phase margin","How much error a loop tolerates before going unstable. A standard robustness measure."],
+  ["Delay & bandwidth limits","Latency and sensor rate cap how fast a loop can be. Delay is a common cause of oscillation."],
+  ["Disturbance rejection & noise tradeoff","High gain rejects disturbances but amplifies sensor noise. Tuning balances the two."]]],
+ ["Classical control","PID and friends",[
+  ["PID control","Combines proportional, integral and derivative terms on error. Ubiquitous in motors, drones and industrial processes."],
+  ["Tuning methods (Ziegler–Nichols, auto-tune)","Procedures for choosing gains. Practical starting points that refine by testing."],
+  ["Integral windup & anti-windup","The integral term accumulating while an actuator is saturated. Anti-windup logic prevents large overshoot."],
+  ["Feedforward control","Add a command computed from the desired motion to reduce tracking error. Often combined with feedback."],
+  ["Cascade control","Nested loops, such as position outside velocity outside current. Standard in motor drives and flight controllers."],
+  ["Lead–lag compensation","Shape frequency response to improve stability or speed. Classical design tool."],
+  ["Gain scheduling","Switch controller gains by operating point. Handles mild nonlinearity."]]],
+ ["State-space & optimal control","modern methods",[
+  ["State-space models","Describe dynamics with state, input and output equations. Handle multi-input, multi-output systems naturally."],
+  ["Controllability & observability","Whether inputs can steer the state and outputs reveal it. Preconditions for control and estimation."],
+  ["Pole placement & full-state feedback","Choose feedback gains to set closed-loop dynamics. Possible when the system is controllable."],
+  ["Linear quadratic regulator (LQR)","Optimal feedback minimizing a quadratic cost for linear systems. Solved via a Riccati equation."],
+  ["Linearization","Approximate a nonlinear system near an operating point. Basis of most practical design."],
+  ["Lyapunov stability","Prove stability with an energy-like function. Applies to nonlinear systems and learned controllers."],
+  ["Robust & adaptive control","Design for model uncertainty or adjust parameters online. Handle payload changes and wear."],
+  ["Sliding mode & nonlinear control","Techniques for strongly nonlinear systems. Robust but can cause chattering."]]],
+ ["Model predictive control","optimizing ahead",[
+  ["Receding-horizon optimization","Solve for the best input sequence over a short horizon, apply the first step, then repeat. Handles constraints directly."],
+  ["Constraints on states & inputs","Limits on speed, torque and obstacles built into the optimization. A key advantage of MPC."],
+  ["Nonlinear MPC","Uses the full nonlinear model. More capable but computationally heavier."],
+  ["Real-time optimization solvers","Fast QP and nonlinear solvers embedded in controllers. Make MPC feasible at kilohertz rates."],
+  ["Terminal cost & recursive feasibility","Design choices ensuring the optimization stays solvable and stable. Part of MPC theory."],
+  ["Learning-based MPC","Combine learned models or costs with MPC. A bridge between control and machine learning."],
+  ["Trajectory tracking vs. regulation","Following a time-varying path versus holding a point. Different formulations."]]],
+ ["Force, impedance & whole-body control","interacting with the world",[
+  ["Impedance & admittance control","Make a robot behave like a spring–damper at contact. Provides safe, compliant interaction."],
+  ["Hybrid force–position control","Control force along some directions and position along others. Used for tasks like polishing or insertion."],
+  ["Operational-space control","Control task-space motion while handling the robot's dynamics. Standard for manipulators."],
+  ["Whole-body control","Coordinate all joints for multiple tasks and contacts under constraints. Key for humanoids and legged robots."],
+  ["Compliance & safety","Soft, backdrivable behavior limits impact forces. Central to collaborative robots."],
+  ["Visual servoing","Use image features directly in the control loop. Reduces reliance on exact calibration."],
+  ["Teleoperation & haptics","Remote control with force feedback. Enables human-guided tasks and demonstration collection."]]]
+ ]}
+);

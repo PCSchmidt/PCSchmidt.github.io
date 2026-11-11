@@ -256,6 +256,9 @@ a:hover {
     justify-content: space-between;
     gap: 0.5rem;
   }
+  .nav-links a {
+    font-size: 0.8rem;
+  }
   .container {
     padding: 0 1.25rem;
   }

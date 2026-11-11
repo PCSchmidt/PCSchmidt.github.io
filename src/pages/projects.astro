@@ -255,6 +255,28 @@ const projects = [
     paper: 'https://github.com/PCSchmidt/VERA/blob/main/docs/reviews/retrospective.md',
   },
   {
+    title: 'Latent Wake - Can a World Model Spot Unusual Ship Behaviour Better Than a Kalman Filter?',
+    description:
+      'A JEPA world model in the LeWorldModel style, adapted from video frames to vessel tracks and trained on one laptop GPU, that predicts what a ship does next from what its AIS transponder says it is doing, and flags windows it cannot predict. Trained on three months of real NOAA AIS for Chesapeake Bay and Hampton Roads (43.9M reports, narrowed to 21.9M from about 2,400 commercial vessels) and benchmarked against seven other detectors under success criteria written down before any real data was touched. Scoped as a 12-week plan, built and shipped in a week under my Meridian harness, with the code written by an AI coding agent and every gate approved by me. Live panel in Darkwater on real, anonymized tracks.',
+    problem:
+      'AIS is how ships say who and where they are, and it is easy to abuse: transponders go dark, positions are spoofed, and honest transponders report ships loitering or leaving their routes. There are almost no labelled incidents to learn from. A world model trained only on normal traffic needs no labels: when its prediction fails, something unusual happened. The open question was whether a JEPA, the self-supervised approach behind recent video and robotics world models, finds these better than classical tracking.',
+    approach:
+      'An 8-step chunk encoder and a causal predictor conditioned on the ship\'s next reported speed, course and heading, never its next displacement, so a position that contradicts the reports surprises it; trained with prediction loss plus SIGReg, no EMA or stop-gradient. Five anomaly kinds (spoof, teleport, AIS gap, route deviation, loitering) injected at graded severities into real held-out tracks; a test set frozen by checksum before training and scored exactly once; every architecture, ablation and baseline setting chosen on validation only; every detector calibrated the same way per vessel class and motion state; confidence intervals from a bootstrap over vessels, not windows. Two contract amendments, both before scoring, are logged with reasons; the second made the JEPA look worse and was adopted anyway.',
+    impact:
+      'Pre-registered verdict: 3 of 8 criteria met. Next-step predictors beat the Kalman filter on behavioural anomalies by a real but modest margin: JEPA +0.070 AUROC (95% CI 0.032 to 0.115), TrAISformer-style forecaster +0.079; neither cleared the 0.10 I committed to. Predicting in latent space was not the secret ingredient: the JEPA and the simpler forecaster tie on behaviour (+0.009, CI -0.027 to +0.042). The JEPA is the best loitering detector (0.938 AUROC) and near chance on the smallest spoofs, where a Kalman filter reading reported velocity is nearly perfect. A 1% validation alert budget became 2-5% on new vessels; four vessels (a moored cargo ship, a fishing boat, a harbour pilot boat and a dredge) raise 85% of the JEPA\'s false alarms. Nine ablations: without SIGReg the encoder collapses to rank 2.6 of 192. Not shown: real (rather than injected) anomalies, any region but one bay, or the equation-grounded benchmark evaluation.',
+    tags: ['PyTorch', 'World Models', 'JEPA', 'Anomaly Detection', 'Pre-registration', 'Maritime Intelligence', 'Python'],
+    status: 'featured' as const,
+    tier: 'supporting' as const,
+    timeframe: 'Nov 2026',
+    metrics: ['Pre-registered: 3 of 8 criteria met, reported as found', 'JEPA beats Kalman on behaviour by +0.070 AUROC; ties a simpler forecaster', 'Live panel on real, anonymized Chesapeake AIS'],
+    github: 'https://github.com/PCSchmidt/latent-wake',
+    demo: 'https://pcschmidt.github.io/darkwater/latent-wake.html',
+    demoLabel: 'Live',
+    evidence: 'https://github.com/PCSchmidt/latent-wake/blob/main/EVAL_RESULTS.md',
+    guide: 'https://github.com/PCSchmidt/latent-wake/blob/main/docs/REPRODUCE.md',
+    paper: 'https://github.com/PCSchmidt/latent-wake/blob/main/docs/WRITEUP.md',
+  },
+  {
     title: 'Darkwater - Shadow-Fleet Maritime Surveillance Where the Database Is the Application',
     description:
       'A simulated day of shipping traffic in the Singapore Strait and the Eastern OPL anchorage, watched for the behaviours analysts look for in sanctions-evasion cases: transponders going dark, spoofed positions, ship-to-ship rendezvous outside port limits, loitering, re-flagging, and ownership hidden behind shell companies. There is no backend and almost no application logic in JavaScript: SQLite runs in the browser through sql.js, and every rule, detector, score and simulation step is SQL. Every panel has an SQL button that shows the exact query behind it. All vessels, companies and events are fictional. Live on GitHub Pages.',
@@ -263,7 +285,7 @@ const projects = [
     approach:
       'Put the logic where it can be inspected: in the database. Constraints validate data (IMO check digit, MMSI format, allowed alert kinds). AFTER INSERT triggers on every position report run the detectors for gaps, impossible jumps, ship-to-ship proximity, loitering and re-flagging, with zone lookups suppressing false positives at anchorages and coverage edges and a unique index de-duplicating alerts. A recursive CTE multiplies ownership stakes along every path, cycle-safe, and an explainable view combines ownership, exponentially decayed behaviour and vessel profile into a score. Position reports are append-only by trigger, and every triage decision is written to an audit log. The simulator keeps ground truth in a table the detectors never read, so the UI can show the gap between what transponders report and what is really happening. The same SQL runs unchanged in any SQLite 3.35+ build.',
     impact:
-      'Run headless over 24 simulated hours (144 ticks, about one second), the scenario raises 18 alerts: every scripted event that should alert does: the 01:50Z and 14:00Z ship-to-ship rendezvous, the mid-voyage re-flag, the 50-minute spoofed position, and the nine-hour AIS gap that ends in the 14:00Z meeting. AURORA SPIRIT ranks first at 84, its sanctioned beneficial owner reached by two separate ownership paths that sum to 80% exposure. The console lets a reader try to break the database (a bad IMO number or an edited position report is refused) and re-rank every score by delisting the sanctioned parent. Not shown: any real AIS data, detection accuracy against anything but the one scripted scenario (the thresholds were set to that scenario), or an automated test suite; the loitering detector also fires repeatedly on the two vessels the scenario parks in the anchorage.',
+      'Run headless over 24 simulated hours (144 ticks, about one second), the scenario raises 18 alerts: every scripted event that should alert does: the 01:50Z and 14:00Z ship-to-ship rendezvous, the mid-voyage re-flag, the 50-minute spoofed position, and the nine-hour AIS gap that ends in the 14:00Z meeting. AURORA SPIRIT ranks first at 84, its sanctioned beneficial owner reached by two separate ownership paths that sum to 80% exposure. The console lets a reader try to break the database (a bad IMO number or an edited position report is refused) and re-rank every score by delisting the sanctioned parent. Not shown on this page: any real AIS data (the companion Latent Wake page runs learned detectors on real, anonymized Chesapeake tracks), detection accuracy against anything but the one scripted scenario (the thresholds were set to that scenario), or an automated test suite; the loitering detector also fires repeatedly on the two vessels the scenario parks in the anchorage.',
     tags: ['SQLite', 'SQL', 'sql.js', 'Maritime Intelligence', 'Anomaly Detection', 'JavaScript'],
     status: 'featured' as const,
     tier: 'supporting' as const,
@@ -574,7 +596,7 @@ const more = projects.filter((p) => p.tier === 'more');
         <div class="tier-head">
           <h2 class="tier-title">Selected work</h2>
           <p class="tier-note">The same discipline in many settings: computer vision safety
-            monitoring, geospatial change detection, entity resolution, factuality checking,
+            monitoring, world-model anomaly detection on ship tracks, geospatial change detection, entity resolution, factuality checking,
             code linting, edge language models, multi-camera tracking, calibration, agent
             evaluation, a live intelligence product, and verifiable research agents.</p>
         </div>

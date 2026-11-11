@@ -1,0 +1,147 @@
+/* Band E — Settlements. Each topic: [term, definition written in the context of its region]. */
+window.ATLAS = window.ATLAS || [];
+window.ATLAS.push(
+{ref:"E1",band:"E",name:"Compute & Infrastructure",sum:"The hardware and engineering that make AI run.",deps:["C2"],
+ overview:"Modern AI is limited as much by compute, memory, power and data plumbing as by algorithms. This region covers the chips that do the arithmetic, the systems that train large models across thousands of them, the techniques that make inference cheap and fast, the lifecycle tooling that keeps models reproducible and monitored, and the data infrastructure that feeds everything.",
+ why:"Cost, latency, availability and security of an AI system are mostly decided here. A model that cannot be served within budget, or cannot run inside the customer's network, is not a product.",
+ subs:[
+ ["Hardware","where the math happens",[
+  ["CPUs","General-purpose processors that run a few complex threads very well. In AI they handle data preparation, orchestration and small-model inference, but are far slower than accelerators at large matrix arithmetic."],
+  ["GPUs","Processors with thousands of simple cores built for parallel arithmetic, originally for graphics. Their strength at matrix multiplication made them the default hardware for training and serving neural networks."],
+  ["TPUs & custom accelerators","Chips designed specifically for tensor operations, such as Google's TPUs or other vendors' AI accelerators. They trade flexibility for efficiency on the workloads deep learning actually runs."],
+  ["High-bandwidth memory","Stacked memory placed next to the processor to feed it data quickly. Large models are often limited by how fast weights can be read, not by arithmetic speed, so memory bandwidth and capacity set practical model size."],
+  ["Interconnects (NVLink, InfiniBand)","Fast links between chips within a server and between servers. When a model is split over many devices, communication speed decides how much of the hardware is doing useful work."],
+  ["Neuromorphic chips","Processors that imitate neurons and spikes, computing only when signals arrive. They promise very low power for sensing and edge tasks, but need different algorithms and remain niche."],
+  ["Edge devices","Phones, cameras, vehicles and embedded boards that run models locally. Limited power, memory and cooling force small, efficient models, in exchange for low latency and data staying on the device."]]],
+ ["Training systems","at scale",[
+  ["Data parallelism","Copying the model onto many devices, giving each a different slice of the batch and averaging gradients. It is the simplest way to scale training, until the model no longer fits on one device."],
+  ["Tensor & pipeline parallelism","Splitting a single model across devices, either by dividing each layer's matrices (tensor) or by assigning consecutive layers to different devices (pipeline). Needed when a model is too large for one accelerator."],
+  ["FSDP & ZeRO","Techniques that shard optimizer state, gradients and parameters across devices instead of replicating them, gathering pieces only when needed. They let very large models train with far less memory per device."],
+  ["Cluster scheduling","Allocating jobs to shared GPU clusters, with queues, priorities and placement near fast links. Good scheduling decides how much expensive hardware sits idle."],
+  ["Checkpointing","Saving model and optimizer state periodically so a run can resume after a failure. At thousands of devices, failures are routine, so recovery speed matters."],
+  ["Data pipelines","The loading, shuffling, decoding and batching steps that keep accelerators fed. A slow pipeline leaves GPUs waiting and is a common hidden bottleneck."],
+  ["Datacenter power & cooling","The electricity and heat-removal capacity that bound how much compute can be deployed in one place. Power availability is now a primary constraint on frontier training runs."]]],
+ ["Inference","serving models",[
+  ["Quantization","Storing weights and activations in fewer bits, such as 8-bit or 4-bit, to cut memory and speed up inference. It usually costs a small amount of quality, which must be measured for the task."],
+  ["Pruning & distillation","Pruning removes weights that matter little; distillation trains a small student model to mimic a large teacher. Both shrink a model for cheaper serving."],
+  ["KV caching","Remembering the attention keys and values of earlier tokens so a language model does not recompute them at every step. It speeds generation but consumes memory that grows with context length."],
+  ["FlashAttention","An exact attention algorithm reorganized to minimize reads and writes to slow memory. It makes long contexts faster and cheaper without changing the result."],
+  ["Speculative decoding","A small draft model proposes several tokens and the large model verifies them in one pass. When the draft is right, generation is faster with identical output quality."],
+  ["Batching","Processing many requests together so the hardware stays busy. Continuous batching adds and removes requests on the fly, trading a little latency for much higher throughput."],
+  ["Edge & on-device inference","Running a model on the device where data is produced. It removes network delay and keeps data local, but demands compact models and careful power budgets."],
+  ["Cost per token","The serving cost of generating or reading one token. It combines hardware price, utilization and model size, and shapes which models and features are economical to offer."]]],
+ ["MLOps & platforms","lifecycle engineering",[
+  ["Experiment tracking","Recording the code version, data, parameters and results of each training run. It makes results comparable and reproducible instead of lost in notebooks."],
+  ["Model registry","A catalog of trained models with versions, metadata and approval status. It is the handoff point between training and deployment and supports audit and rollback."],
+  ["CI/CD for ML","Automated testing and release pipelines extended to cover data checks, model evaluation and gated deployment, not only code."],
+  ["Feature stores","Shared systems that compute and serve model inputs consistently for training and for live prediction. They prevent training–serving skew, where the two use different calculations."],
+  ["Monitoring & drift","Watching live inputs and outputs for changes in data or accuracy. Models decay as the world changes, so degradation has to be caught and trigger retraining or review."],
+  ["Cloud ML platforms","Managed services that bundle storage, training, deployment and monitoring, such as SageMaker, Vertex AI or Azure ML. They trade some control for speed of setup."],
+  ["Government & air-gapped clouds","Isolated environments, such as AWS GovCloud or networks with no internet link, used for sensitive data. Tooling, model weights and updates must be brought in through controlled processes, which shapes every architecture choice."],
+  ["LLMOps & observability","Operational practice for language-model applications: tracing prompts, tools and retrievals, tracking cost and latency, and evaluating outputs over time. Needed because behavior depends on prompts and context as much as on weights."]]],
+ ["Data infrastructure","feeding the models",[
+  ["Data lakes & warehouses","Large stores for raw files (lakes) or structured, query-ready tables (warehouses). Most AI projects begin by getting data out of one or both and into a usable shape."],
+  ["Streaming (Kafka, Kinesis)","Systems that move events continuously instead of in batches. They let models react to live data such as sensor feeds, transactions or vessel positions."],
+  ["Vector databases","Stores that index embeddings for fast nearest-neighbor search. They provide the retrieval step behind semantic search and retrieval-augmented generation."],
+  ["Data governance","Policies and controls for who may use which data, for what, and how long it is kept. In AI it covers consent, classification levels, retention and access auditing."],
+  ["Lineage & provenance","Tracking where data came from and every transformation applied. It lets a team explain a model's behavior, reproduce a dataset and trace a problem to its source."],
+  ["ETL & orchestration","Extracting, transforming and loading data on a schedule, coordinated by workflow tools. Reliable pipelines are what keep models fed with fresh, correct data."]]]
+ ]},
+
+{ref:"E2",band:"E",name:"Applications & Industry",sum:"Where AI creates value, and the constraints each sector adds.",deps:["D1","D2","D3","E1"],
+ overview:"The same methods behave differently in different settings. Each sector brings its own data, error costs, regulation and definition of success. This region samples the main application areas, with emphasis on how the domain changes what a good system looks like.",
+ why:"Technical skill transfers across domains, but deployment success depends on domain constraints: who bears the cost of a wrong answer, what data can be used, and what evidence a buyer or regulator will accept.",
+ subs:[
+ ["Defense & intelligence","high-stakes, constrained",[
+  ["Intelligence analysis & OSINT","Using AI to collect, filter and summarize open-source information such as news, social media and public data feeds. The value is triaging volume so analysts see what matters, with sourcing kept visible."],
+  ["Maritime domain awareness","Building a picture of activity at sea from vessel tracking, satellite imagery and other sensors. AI flags anomalies such as loitering, dark transits and unusual routes for human review."],
+  ["Predictive maintenance","Forecasting equipment failure from sensor and maintenance records so parts are serviced before they break. In military fleets it raises readiness and reduces unplanned downtime."],
+  ["Decision support","Tools that organize evidence, options and risks for a human commander or analyst. The aim is faster, better-informed human decisions rather than automated ones."],
+  ["Autonomous systems","Uncrewed vehicles and software that act with limited human control. Fielding them raises questions of reliability, rules of engagement and operator trust."],
+  ["Targeting & ISR processing","Using computer vision and sensor fusion to sort intelligence, surveillance and reconnaissance data into detections. Human review and accountability for any resulting action are central requirements."],
+  ["Data modernization","Consolidating legacy, siloed records into governed, queryable platforms. For large programs this is usually the prerequisite for any analytics or AI to work at all."],
+  ["Assured AI & test & evaluation","Evidence that an AI system performs reliably in its intended conditions and fails safely outside them. It extends traditional test and evaluation to models that learn and drift."]]],
+ ["Science & health","discovery and care",[
+  ["Protein structure (AlphaFold)","Deep-learning systems that predict a protein's 3D shape from its amino-acid sequence with experimental-level accuracy in many cases. They sped up biology by making structures cheap to obtain."],
+  ["Drug discovery","Using models to propose molecules, predict their properties and prioritize experiments. AI shortens early search, but clinical validation still decides what works."],
+  ["Medical imaging","Models that detect or measure findings in X-rays, CT, MRI and pathology slides. Performance must hold across hospitals, devices and patient groups, and regulators expect clinical evidence."],
+  ["Clinical decision support","Systems that surface risk scores, alerts or suggestions to clinicians. Success depends on workflow fit and avoiding alert fatigue as much as on model accuracy."],
+  ["Genomics","Applying learning to DNA and RNA data, for example predicting variant effects or gene regulation. High-dimensional data with few samples makes validation and privacy especially important."],
+  ["Weather & climate","Learned models that forecast atmosphere and ocean states, often far faster than physics-based simulation. They complement physical models rather than replace the science behind them."],
+  ["Materials discovery","Searching chemical and structural spaces for materials with target properties using predictive models and automated experiments. Candidates still have to be synthesized and tested."],
+  ["AI for mathematics","Models that search for proofs, conjectures and constructions, often paired with formal proof checkers. The checker guarantees correctness, so the model can be creative and imperfect."]]],
+ ["Finance & commerce","money and markets",[
+  ["Fraud detection","Spotting suspicious transactions or accounts in real time. Fraud is rare and adversarial, so systems balance missed fraud against blocking legitimate customers, and must keep adapting."],
+  ["Credit risk","Estimating the likelihood a borrower will repay. It is heavily regulated, so models must be explainable and auditable for fairness."],
+  ["Algorithmic trading","Using models to generate and execute trades. Signals are weak and decay as others exploit them, which makes overfitting and honest backtesting the central difficulties."],
+  ["Recommendation systems","Suggesting products, videos or content a person is likely to want. They shape what people see at scale, so objectives such as engagement versus satisfaction matter."],
+  ["Search & ranking","Ordering results by relevance for a query using learned signals. Quality is judged through human ratings and click behavior, and has to be fast enough for live use."],
+  ["Demand forecasting","Predicting future sales or usage to plan inventory, staffing and capacity. Accuracy at the level of each product and place, and handling of promotions and shocks, drive the value."],
+  ["Pricing","Setting prices dynamically from demand, competition and customer behavior. It combines forecasting with optimization and raises fairness and regulatory questions."]]],
+ ["Industry & infrastructure","the physical economy",[
+  ["Manufacturing & quality inspection","Using vision models to spot defects on production lines. Very high accuracy at line speed and few examples of rare defects make data collection the main challenge."],
+  ["Logistics & supply chain","Optimizing routes, warehouses and inventory across networks. It leans on classical optimization alongside forecasting, since constraints and costs are explicit."],
+  ["Energy grid optimization","Balancing supply and demand as renewable output and consumption vary. Forecasting and scheduling models help integrate variable sources while keeping the grid stable."],
+  ["Agriculture","Using imagery, sensors and models to guide planting, irrigation and harvest, and to detect disease or weeds. Conditions vary by field and season, so models must adapt to local data."],
+  ["Construction & inspection","Applying drones, cameras and models to track progress, check work and find defects in structures. Automating inspection reduces risk to workers and improves record-keeping."],
+  ["Transportation & aviation","Using AI for traffic prediction, route planning, flight operations and maintenance. Safety certification is strict, which slows deployment of learned components in critical functions."]]],
+ ["Knowledge work & creativity","people's daily tools",[
+  ["Coding assistants","Language-model tools that complete, explain, test and increasingly write and revise code across a repository. They speed up routine work, while review and testing remain the developer's responsibility."],
+  ["Writing & summarization","Drafting, editing and condensing text. Quality depends on grounding in source material, since models can state unsupported details with confidence."],
+  ["Customer support","Assistants that answer questions and resolve tickets using company knowledge. Good systems know when to hand a case to a person."],
+  ["Education & tutoring","Personalized explanation, practice and feedback at scale. Evidence of learning gains, not engagement, is the right test, and tools should prompt thinking instead of replacing it."],
+  ["Design & media generation","Generating images, audio, video and layouts from prompts or sketches. It speeds exploration and raises questions about authorship, licensing and misuse."],
+  ["Legal & document review","Finding relevant clauses, precedents and facts across large document sets. Accuracy, citation of sources and confidentiality matter more than fluency."],
+  ["Research assistants","Agents that search literature, run analyses and draft reports. Their output has to be checked against sources, since polished writing can hide weak evidence."]]]
+ ]},
+
+{ref:"E3",band:"E",name:"Safety, Ethics & Governance",sum:"Making AI systems reliable, fair, secure and accountable to the people they affect.",deps:["C2","D1","D3"],
+ overview:"As AI systems make or shape consequential decisions, they need to behave reliably, do what their operators actually intend, treat people fairly, protect the data they learn from, resist attackers, and be governed by clear rules and records. This region covers the technical methods and the policy frameworks for each of those goals.",
+ why:"These are now deployment requirements. Regulation, contracts and defense policy expect evidence of testing, oversight and accountability, and failures here can stop a program or cause real harm.",
+ subs:[
+ ["Reliability & robustness","holding up",[
+  ["Distribution shift","When deployment data differs from training data, for example new sensors, seasons or user behavior. Accuracy measured in the lab can drop sharply, so monitoring for shift is part of safe operation."],
+  ["Adversarial examples","Inputs altered, often imperceptibly, to make a model err. They show that high accuracy on normal data does not imply resistance to deliberate manipulation."],
+  ["Out-of-distribution detection","Recognizing inputs unlike anything seen in training so the system can abstain or escalate to a human instead of guessing."],
+  ["Uncertainty & calibration","A calibrated model's stated confidence matches how often it is right. Reliable uncertainty lets people decide when to trust an output."],
+  ["Hallucination mitigation","Reducing confident but unsupported output from generative models, through grounding in sources, citation, verification and abstention. Complete elimination is not currently possible."],
+  ["Stress testing","Probing a system with extreme, rare or adversarial cases before release. It targets failure modes that average-case metrics hide."],
+  ["Test & evaluation","Structured evidence that a system meets requirements in realistic conditions, including operational testing and ongoing re-evaluation as models and data change."]]],
+ ["Alignment","systems that do what we mean",[
+  ["Specification gaming","A system satisfies the literal objective in a way its designers did not intend. It illustrates how hard it is to state goals precisely."],
+  ["Reward hacking","An agent finds shortcuts that maximize its reward signal without achieving the real aim, such as exploiting a bug in a simulator or fooling an evaluator."],
+  ["Scalable oversight","Methods for supervising systems whose work is too complex or voluminous for a person to check directly, such as using AI assistance, debate or decomposition."],
+  ["Honesty & deception","Whether a model's statements reflect what it actually represents about the world, and whether it ever misleads its overseers. Evaluations test for sycophancy, hidden goals and strategic dishonesty."],
+  ["Interpretability","Methods for understanding what a model computes internally, from feature attribution to circuit-level analysis. It supports debugging, auditing and checking for hidden behavior."],
+  ["AI control","Safeguards that limit harm even if a model is not fully trustworthy, such as monitoring, restricted permissions and independent review of risky actions."],
+  ["Dangerous-capability evaluations","Tests for abilities that could enable serious harm, for instance in cyber operations or biology. Results inform release decisions and safeguards."],
+  ["Corrigibility","The property of a system accepting correction, shutdown or modification by its overseers rather than resisting. It is a design goal for increasingly capable agents."]]],
+ ["Fairness & privacy","impact on people",[
+  ["Bias sources","Where unfairness enters: unrepresentative samples, historical bias in labels, biased measurement, proxy features and deployment context."],
+  ["Fairness metrics","Formal criteria such as demographic parity or equalized odds. They can conflict with each other, so picking one is a policy choice for the specific use, not only a technical one."],
+  ["Differential privacy","A mathematical guarantee that a model's output barely depends on any single person's data, usually by adding calibrated noise. It limits what can be learned about individuals."],
+  ["Membership inference","An attack that tests whether a particular record was in the training set. It reveals when a model memorizes and leaks private data."],
+  ["Machine unlearning","Removing the influence of specific data from a trained model without retraining from scratch. It supports deletion rights, and is hard to do and verify for large models."],
+  ["Consent & data rights","Legal and ethical questions about collecting, using and retaining personal data for training, including notice, opt-out and purpose limits."],
+  ["Explainability","Providing reasons for a decision in terms a person can evaluate. Affected people and regulators often have a right to an explanation, which shapes model choice."]]],
+ ["Security","attacks on and with AI",[
+  ["Data poisoning","Corrupting training data so a model learns wrong or harmful behavior. It matters most where data is scraped or crowdsourced from untrusted sources."],
+  ["Backdoors","Hidden triggers planted in a model so it behaves normally except when a specific pattern appears. They can arrive through poisoned data or tampered pretrained weights."],
+  ["Model extraction","Reconstructing a model's behavior by querying it. It threatens intellectual property and can enable follow-on attacks."],
+  ["Prompt injection","Instructions hidden in content a language model reads, such as a web page or email, that hijack its behavior. It is especially serious for agents with tools and access."],
+  ["Jailbreaks","Prompts crafted to get a model to ignore its safety rules. Defenses layer training, filtering and monitoring, and the contest is ongoing."],
+  ["Supply-chain risk","Danger from compromised components: datasets, pretrained models, libraries or hardware. Provenance checks and scanning are the main mitigations."],
+  ["AI-enabled cyber operations","Using AI to find vulnerabilities, write exploits or automate attacks, and equally to defend. Capability evaluations track how quickly this is changing."],
+  ["Red-teaming","Having a team deliberately try to break or misuse a system to find weaknesses before real adversaries do. It covers technical attacks, misuse and harmful outputs."]]],
+ ["Governance & society","rules and consequences",[
+  ["EU AI Act","European legislation that sorts AI systems by risk level and sets obligations for each, including documentation, oversight and bans on certain practices. It applies to systems offered in the EU."],
+  ["NIST AI RMF","A voluntary U.S. framework for identifying, measuring and managing AI risks across the lifecycle. Many organizations use it as a common vocabulary for AI assurance."],
+  ["DoD Responsible AI principles","U.S. Department of Defense principles calling for AI that is responsible, equitable, traceable, reliable and governable. They guide how defense programs document and test AI."],
+  ["Export controls","Government limits on exporting advanced chips, model weights or related technology for security reasons. They shape who can build and access frontier AI and have changed access to specific models."],
+  ["Model cards & audits","Standard documents describing a model's intended use, data, performance and limits, and independent reviews of those claims. They make accountability concrete."],
+  ["Human-in-the-loop design","Structuring a system so a person reviews, approves or can override key decisions. It only works if the person has the information, time and authority to intervene."],
+  ["Labor & economic effects","How AI changes tasks, jobs, productivity and bargaining power. It is studied empirically and shapes policy on training and transition support."],
+  ["Copyright & training data","Open legal questions about whether and how copyrighted works may be used to train models, and who owns outputs. Courts and legislatures are still deciding."],
+  ["Autonomous weapons policy","Debate and rules about weapon systems that select and engage targets with limited human control. Central issues are meaningful human control, accountability and international law."]]]
+ ]}
+);

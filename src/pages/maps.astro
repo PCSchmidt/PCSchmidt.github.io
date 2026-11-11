@@ -1,0 +1,228 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Each atlas keeps its own accent (matching the atlas itself); band colors inside stay shared.
+const maps = [
+  {
+    group: 'Foundations',
+    items: [
+      {
+        slug: 'math-atlas',
+        title: 'Atlas of Applied Mathematics',
+        desc: 'Linear algebra, probability, statistics, optimization and numerical methods, defined as they are used in AI.',
+        terms: 496,
+        accent: '#1c6e8c',
+      },
+      {
+        slug: 'ml-atlas',
+        title: 'Atlas of Machine Learning',
+        desc: 'From math foundations through classical and deep learning to MLOps and responsible AI.',
+        terms: 548,
+        accent: '#0d6b72',
+      },
+      {
+        slug: 'dl-atlas',
+        title: 'Atlas of Deep Learning Foundations',
+        desc: 'Networks, training dynamics, architectures from CNNs to transformers, and generative models.',
+        terms: 514,
+        accent: '#7b2fbe',
+      },
+    ],
+  },
+  {
+    group: 'Acting in the world',
+    items: [
+      {
+        slug: 'rl-atlas',
+        title: 'Atlas of Reinforcement Learning & Decision-Making',
+        desc: 'MDPs through modern policy methods, offline and model-based RL, imitation, RLHF and RL from verifiable rewards.',
+        terms: 525,
+        accent: '#b0223f',
+      },
+      {
+        slug: 'agentic-atlas',
+        title: 'Atlas of Agentic Systems',
+        desc: 'LLM agents, tool use, memory, planning, orchestration, evaluation and the safety of autonomous software.',
+        terms: 529,
+        accent: '#0b7a5b',
+      },
+      {
+        slug: 'physical-atlas',
+        title: 'Atlas of Physical, Autonomous & Edge AI',
+        desc: 'Robotics fundamentals, SLAM, learned control, vision-language-action models, edge deployment and safety assurance.',
+        terms: 531,
+        accent: '#a15c07',
+      },
+    ],
+  },
+  {
+    group: 'The whole field, and production',
+    items: [
+      {
+        slug: 'ai-atlas',
+        title: 'Atlas of Artificial Intelligence',
+        desc: 'The whole field on one page: learning, reasoning, language, vision, agents, systems and the questions of safety and society.',
+        terms: 452,
+        accent: '#b8410f',
+      },
+      {
+        slug: 'systems-atlas',
+        title: 'Atlas of AI Systems Engineering',
+        desc: 'Data pipelines, training and serving at scale, MLOps and LLMOps, cost and latency engineering, reliability patterns.',
+        terms: 532,
+        accent: '#0e7490',
+      },
+    ],
+  },
+];
+
+const total = maps.reduce((n, g) => n + g.items.length, 0);
+const termTotal = maps.reduce((n, g) => n + g.items.reduce((m, i) => m + i.terms, 0), 0);
+---
+
+<Layout
+  title="Maps — Chris Schmidt"
+  description="Interactive study maps of AI: eight atlases of 15 regions each, with context-specific definitions for about 4,000 terms across machine learning, deep learning, math, agents, reinforcement learning, robotics and production systems."
+>
+  <section class="container section">
+    <h1 class="section-title">Maps</h1>
+    <p class="section-intro">
+      Interactive study maps I built to organize what an AI engineer needs to know. Each atlas has
+      15 regions on five elevation bands, from bedrock foundations up to the research frontier.
+      Hover or tap any term for a definition written for the region it sits in, search across all
+      of them, and toggle bands to focus.
+    </p>
+
+    <p class="maps-stat">
+      <strong>{total}</strong> atlases · <strong>{total * 15}</strong> regions · <strong>~{(Math.round(termTotal / 100) * 100).toLocaleString('en-US')}</strong> defined terms
+    </p>
+
+    {maps.map((g) => (
+      <section class="map-group" aria-labelledby={`g-${g.group}`}>
+        <h2 class="group-title" id={`g-${g.group}`}>{g.group}</h2>
+        <div class="map-grid">
+          {g.items.map((m) => (
+            <a href={`/${m.slug}/`} class="map-card" style={`--map-accent:${m.accent}`}>
+              <span class="map-bar" aria-hidden="true"></span>
+              <h3 class="map-title">{m.title}</h3>
+              <p class="map-desc">{m.desc}</p>
+              <div class="map-foot">
+                <span class="tag">15 regions</span>
+                <span class="tag">{m.terms} terms</span>
+                <span class="map-open">Open map →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <aside class="route-note">
+      <h2 class="group-title">Where to start</h2>
+      <p>
+        New to the field: <a href="/ai-atlas/">AI</a> → <a href="/ml-atlas/">ML</a> →
+        <a href="/dl-atlas/">Deep Learning</a>, with <a href="/math-atlas/">Applied Math</a> alongside.
+        Building agents: <a href="/dl-atlas/">Deep Learning</a> → <a href="/agentic-atlas/">Agentic Systems</a> →
+        <a href="/systems-atlas/">Systems Engineering</a>. Robots and autonomy:
+        <a href="/rl-atlas/">Reinforcement Learning</a> → <a href="/physical-atlas/">Physical AI</a>.
+      </p>
+    </aside>
+  </section>
+</Layout>
+
+<style>
+  .maps-stat {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin: -1.25rem 0 2.25rem;
+  }
+  .maps-stat strong {
+    color: var(--color-text);
+  }
+  .map-group {
+    margin-bottom: 2.5rem;
+  }
+  .group-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-bottom: 0.9rem;
+  }
+  .map-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .map-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem 1.5rem 1.25rem;
+    text-decoration: none;
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  .map-card:hover,
+  .map-card:focus-visible {
+    border-color: var(--map-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .map-card:focus-visible {
+    outline: 2px solid var(--map-accent);
+    outline-offset: 2px;
+  }
+  .map-bar {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--map-accent);
+  }
+  .map-title {
+    font-size: 1.05rem;
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+  .map-desc {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    margin: 0 0 1rem;
+    flex: 1;
+  }
+  .map-foot {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .map-open {
+    margin-left: auto;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--map-accent);
+  }
+  .route-note {
+    margin-top: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-accent-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  .route-note p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .map-card { transition: none; }
+    .map-card:hover { transform: none; }
+  }
+</style>
